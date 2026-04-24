@@ -34,6 +34,14 @@ deactivate
 One main goal is to generate a dataset of German folk tales with annotated spatial information. The dataset will be created by scraping German folk tales from the web and manually annotating them with vague spatial information. 
 The dataset contains tagged spatial information as "forest", "castle".
 
+## Spacy
+For using spacy with uv run in console:
+
+```uv add pip```
+
+```uv run -- spacy download de_core_news_sm```
+
+
 ## Label Studio
 Open-Source tool for data labeling: https://labelstud.io/
 Quickstart: https://labelstud.io/quick-start/
