@@ -59,3 +59,14 @@ label-studio
 ```
 
 To use local data in Label Studio, create a directory named `data` or `label-studio-data` in the project root and place your data files there. 
+
+### Labeling Interface
+
+```
+<View>  
+  <Labels name="label" toName="text">
+    <Label value="FUZZY_LOC" background="#FFA39E"/>
+  </Labels>
+  <Text name="text" value="$text"/>
+</View>
+```
