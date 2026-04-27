@@ -37,9 +37,17 @@ The dataset contains tagged spatial information as "forest", "castle".
 ## Spacy
 For using spacy with uv run in console:
 
-```uv add pip```
+```bash
+uv add pip
+```
 
-```uv run -- spacy download de_core_news_sm```
+```bash
+uv run -- spacy download de_core_news_sm
+```
+
+If you're not using uv, you can simply import it in the Python script after installing it:
+
+```import de_core_news_sm```
 
 
 ## Label Studio
