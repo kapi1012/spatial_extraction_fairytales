@@ -1,0 +1,117 @@
+{
+  "data": {
+    "text": "Ein Brüderchen und ein Schwesterchen spielten an einem Brunnen, und wie sie so spielten, plumpten sie beide hinein. Da war unten eine Wassernixe, die sprach „jetzt hab ich euch, jetzt sollt ihr mir brav arbeiten,“ und führte sie mit sich fort. Dem Mädchen gab sie verwirrten garstigen Flachs zu spinnen, und es mußte Wasser in ein hohles Faß schleppen, der Junge aber sollte einen Baum mit einer stumpfen Axt hauen; und nichts zu essen bekamen sie als steinharte Klöße. Da wurden zuletzt die Kinder so ungeduldig, daß sie warteten, bis eines Sonntags die Nixe in der Kirche war, da entflohen sie. Und als die Kirche vorbei war, sah die Nixe daß die Vögel ausgeflogen waren, und setzte ihnen mit großen Sprüngen nach. Die Kinder erblickten sie aber von weitem, und das Mädchen warf eine Bürste hinter sich, das gab einen großen Bürstenberg, mit tausend und tausend Stacheln, über den die Nixe mit großer Müh klettern mußte; endlich aber kam sie doch hinüber. Wie das die Kinder sahen, warf der Knabe einen Kamm hinter sich, das gab einen großen Kammberg mit tausendmal tausend Zinken, aber die Nixe wußte sich daran fest zu halten und kam zuletzt doch drüber. Da warf das Mädchen einen Spiegel hinterwärts, welches einen Spiegelberg gab, der war so glatt, so glatt, daß sie unmöglich drüber konnte. Da dachte sie „ich will geschwind nach Haus gehen und meine Axt holen und den Spiegelberg entzwei hauen.“ Bis sie aber wieder kam, und das Glas aufgehauen hatte, waren die Kinder längst weit entflohen, und die Wassernixe mußte sich wieder in ihren Brunnen trollen."
+  },
+  "annotations": [
+    {
+      "result": [
+        {
+          "from_name": "label",
+          "to_name": "text",
+          "type": "labels",
+          "value": {
+            "start": 49,
+            "end": 62,
+            "text": "einem Brunnen",
+            "labels": [
+              "FUZZY_LOC"
+            ]
+          }
+        },
+        {
+          "from_name": "label",
+          "to_name": "text",
+          "type": "labels",
+          "value": {
+            "start": 46,
+            "end": 62,
+            "text": "an einem Brunnen",
+            "labels": [
+              "FUZZY_LOC"
+            ]
+          }
+        },
+        {
+          "from_name": "label",
+          "to_name": "text",
+          "type": "labels",
+          "value": {
+            "start": 375,
+            "end": 385,
+            "text": "einen Baum",
+            "labels": [
+              "FUZZY_LOC"
+            ]
+          }
+        },
+        {
+          "from_name": "label",
+          "to_name": "text",
+          "type": "labels",
+          "value": {
+            "start": 563,
+            "end": 573,
+            "text": "der Kirche",
+            "labels": [
+              "FUZZY_LOC"
+            ]
+          }
+        },
+        {
+          "from_name": "label",
+          "to_name": "text",
+          "type": "labels",
+          "value": {
+            "start": 560,
+            "end": 573,
+            "text": "in der Kirche",
+            "labels": [
+              "FUZZY_LOC"
+            ]
+          }
+        },
+        {
+          "from_name": "label",
+          "to_name": "text",
+          "type": "labels",
+          "value": {
+            "start": 605,
+            "end": 615,
+            "text": "die Kirche",
+            "labels": [
+              "FUZZY_LOC"
+            ]
+          }
+        },
+        {
+          "from_name": "label",
+          "to_name": "text",
+          "type": "labels",
+          "value": {
+            "start": 1540,
+            "end": 1553,
+            "text": "ihren Brunnen",
+            "labels": [
+              "FUZZY_LOC"
+            ]
+          }
+        },
+        {
+          "from_name": "label",
+          "to_name": "text",
+          "type": "labels",
+          "value": {
+            "start": 1537,
+            "end": 1553,
+            "text": "in ihren Brunnen",
+            "labels": [
+              "FUZZY_LOC"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "khm": 79,
+  "title": "Die Wassernixe"
+}

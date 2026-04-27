@@ -1,0 +1,143 @@
+{
+  "data": {
+    "text": "Drei Frauen waren verwandelt in Blumen, die auf dem Felde standen, doch deren eine durfte des Nachts in ihrem Hause sein. Da sprach sie auf eine Zeit zu ihrem Mann, als sich der Tag nahete und sie wiederum zu ihren Gespielen auf das Feld gehen und eine Blume werden mußte, „so du heute Vormittag kommst und mich abbrichst, werde ich erlöst und fürder bei dir bleiben;“ als dann auch geschah. Nun ist die Frage, wie sie ihr Mann erkannt habe, so die Blumen ganz gleich und ohne Unterschied waren? Antwort, „dieweil sie die Nacht in ihrem Haus und nicht auf dem Feld war, fiel der Thau nicht auf sie, als auf die andern zwei, dabei sie der Mann erkannte.“"
+  },
+  "annotations": [
+    {
+      "result": [
+        {
+          "from_name": "label",
+          "to_name": "text",
+          "type": "labels",
+          "value": {
+            "start": 48,
+            "end": 57,
+            "text": "dem Felde",
+            "labels": [
+              "FUZZY_LOC"
+            ]
+          }
+        },
+        {
+          "from_name": "label",
+          "to_name": "text",
+          "type": "labels",
+          "value": {
+            "start": 44,
+            "end": 57,
+            "text": "auf dem Felde",
+            "labels": [
+              "FUZZY_LOC"
+            ]
+          }
+        },
+        {
+          "from_name": "label",
+          "to_name": "text",
+          "type": "labels",
+          "value": {
+            "start": 104,
+            "end": 115,
+            "text": "ihrem Hause",
+            "labels": [
+              "FUZZY_LOC"
+            ]
+          }
+        },
+        {
+          "from_name": "label",
+          "to_name": "text",
+          "type": "labels",
+          "value": {
+            "start": 101,
+            "end": 115,
+            "text": "in ihrem Hause",
+            "labels": [
+              "FUZZY_LOC"
+            ]
+          }
+        },
+        {
+          "from_name": "label",
+          "to_name": "text",
+          "type": "labels",
+          "value": {
+            "start": 229,
+            "end": 237,
+            "text": "das Feld",
+            "labels": [
+              "FUZZY_LOC"
+            ]
+          }
+        },
+        {
+          "from_name": "label",
+          "to_name": "text",
+          "type": "labels",
+          "value": {
+            "start": 225,
+            "end": 237,
+            "text": "auf das Feld",
+            "labels": [
+              "FUZZY_LOC"
+            ]
+          }
+        },
+        {
+          "from_name": "label",
+          "to_name": "text",
+          "type": "labels",
+          "value": {
+            "start": 531,
+            "end": 541,
+            "text": "ihrem Haus",
+            "labels": [
+              "FUZZY_LOC"
+            ]
+          }
+        },
+        {
+          "from_name": "label",
+          "to_name": "text",
+          "type": "labels",
+          "value": {
+            "start": 528,
+            "end": 541,
+            "text": "in ihrem Haus",
+            "labels": [
+              "FUZZY_LOC"
+            ]
+          }
+        },
+        {
+          "from_name": "label",
+          "to_name": "text",
+          "type": "labels",
+          "value": {
+            "start": 556,
+            "end": 564,
+            "text": "dem Feld",
+            "labels": [
+              "FUZZY_LOC"
+            ]
+          }
+        },
+        {
+          "from_name": "label",
+          "to_name": "text",
+          "type": "labels",
+          "value": {
+            "start": 552,
+            "end": 564,
+            "text": "auf dem Feld",
+            "labels": [
+              "FUZZY_LOC"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "khm": 160,
+  "title": "Räthselmärchen"
+}

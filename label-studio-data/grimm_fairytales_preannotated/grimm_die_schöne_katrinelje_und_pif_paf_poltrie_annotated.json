@@ -1,0 +1,91 @@
+{
+  "data": {
+    "text": "„Guten Tag, Vater Hollenthe.“ „Großen Dank, Pif Paf Poltrie.“ „Könnt ich wohl eure Tochter kriegen?“ „O ja, wenns die Mutter Malcho (Melk-Kuh), der Bruder Hohenstolz, die Schwester Käsetraut und die schöne Katrinelje will, so kanns geschehen.“\n \n „Wo ist dann die Mutter Malcho?“\n „Sie ist im Stall und melkt die Kuh.“\n \n „Guten Tag, Mutter Malcho.“ „Großen Dank, Pif Paf Poltrie.“ „Könnt ich wohl eure Tochter kriegen?“ „O ja, wenns der Vater Hollenthe, der Bruder Hohenstolz, die Schwester Käsetraut und die schöne Katrinelje will, so kanns geschehen.“\n \n „Wo ist dann der Bruder Hohenstolz?“\n „Er ist in der Kammer und hackt das Holz.“\n \n „Guten Tag, Bruder Hohenstolz.“ „Großen Dank, Pif Paf Poltrie.“ „Könnt ich wohl eure Schwester kriegen?“ „O ja, wenns der Vater Hollenthe, die Mutter Malcho, die Schwester Käsetraut und die schöne Katrinelje will, so kanns geschehen.“\n \n „Wo ist dann die Schwester Käsetraut?“\n „Sie ist im Garten und schneidet das Kraut.“\n \n „Guten Tag, Schwester Käsetraut.“ „Großen Dank, Pif Paf Poltrie.“ „Könnt ich wohl eure Schwester kriegen?“ „O ja, wenns der Vater Hollenthe, die Mutter Malcho, der Bruder Hohenstolz und die schöne Katrinelje will, so kanns geschehen.“\n \n „Wo ist dann die schöne Katrinelje?“\n „Sie ist in der Kammer und zählt ihre Pfennige.“\n \n „Guten Tag, schöne Katrinelje.“ „Großen Dank, Pif Paf Poltrie.“ „Willst du wohl mein Schatz sein?“ „O ja, wenns der Vater Hollenthe, die Mutter Malcho, der Bruder Hohenstolz, die Schwester Käsetraut will, so kanns geschehen.“\n \n „Schön Katrinelje, wie viel hast du an Brautschatz?“ „Vierzehn Pfennige baares Geld, drittehalb Groschen Schuld, ein halb Pfund Hutzeln, eine Hand voll Prutzeln, eine Hand voll Wurzelen,\n \n un so der watt:\n is dat nig en guden Brutschatt?“\n \n „Pif Paf Poltrie, was kannst du für ein Handwerk? bist du ein Schneider?“ „Noch viel besser.“ „Ein Schuster?“ „Noch viel besser.“ „Ein Ackersmann?“ „Noch viel besser.“ „Ein Schreiner?“ „Noch viel besser.“ „Ein Schmied?“ „Noch viel besser.“ „Ein Müller?“ „Noch viel besser.“ „Vielleicht ein Besenbinder?“ „Ja, das bin ich: ist das nicht ein schönes Handwerk?“"
+  },
+  "annotations": [
+    {
+      "result": [
+        {
+          "from_name": "label",
+          "to_name": "text",
+          "type": "labels",
+          "value": {
+            "start": 290,
+            "end": 298,
+            "text": "im Stall",
+            "labels": [
+              "FUZZY_LOC"
+            ]
+          }
+        },
+        {
+          "from_name": "label",
+          "to_name": "text",
+          "type": "labels",
+          "value": {
+            "start": 607,
+            "end": 617,
+            "text": "der Kammer",
+            "labels": [
+              "FUZZY_LOC"
+            ]
+          }
+        },
+        {
+          "from_name": "label",
+          "to_name": "text",
+          "type": "labels",
+          "value": {
+            "start": 604,
+            "end": 617,
+            "text": "in der Kammer",
+            "labels": [
+              "FUZZY_LOC"
+            ]
+          }
+        },
+        {
+          "from_name": "label",
+          "to_name": "text",
+          "type": "labels",
+          "value": {
+            "start": 929,
+            "end": 938,
+            "text": "im Garten",
+            "labels": [
+              "FUZZY_LOC"
+            ]
+          }
+        },
+        {
+          "from_name": "label",
+          "to_name": "text",
+          "type": "labels",
+          "value": {
+            "start": 1256,
+            "end": 1266,
+            "text": "der Kammer",
+            "labels": [
+              "FUZZY_LOC"
+            ]
+          }
+        },
+        {
+          "from_name": "label",
+          "to_name": "text",
+          "type": "labels",
+          "value": {
+            "start": 1253,
+            "end": 1266,
+            "text": "in der Kammer",
+            "labels": [
+              "FUZZY_LOC"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "khm": 131,
+  "title": "Die schöne Katrinelje und Pif Paf Poltrie"
+}

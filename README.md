@@ -57,3 +57,5 @@ To launch Label Studio, run:
 ```bash
 label-studio
 ```
+
+To use local data in Label Studio, create a directory named `data` or `label-studio-data` in the project root and place your data files there. 

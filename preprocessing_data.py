@@ -3,9 +3,10 @@ import json
 import spacy
 
 from spacy.matcher import Matcher
+from spacy.lookups import Lookups
 
 INPUT_DIR = "./data/grimm_fairytales_json"
-OUTPUT_DIR = "./data/grimm_fairytales_preannotated"
+OUTPUT_DIR = "./label-studio-data/grimm_fairytales_preannotated"
 
 def load_fairytales(directory):
     fairytales = []
@@ -16,7 +17,18 @@ def load_fairytales(directory):
 
 fairytales = load_fairytales(INPUT_DIR)
 nlp = spacy.load("de_core_news_sm")
-#doc = nlp(fairytales[1]['text'])
+
+
+# Lookups for old spelling
+lookups = Lookups()
+lookups.add_table("lemma_lookup", {
+    "Thal": "Tal",
+    "Schloß": "Schloss",
+    "Thor": "Tor",
+    "Tahl": "Tal",
+    "rothe": "rote",
+    "Wirthshaus": "Wirtshaus",
+})
 
 # Design Matcher to find vague locations & prepositions
 # initialize Matcher
@@ -24,15 +36,24 @@ matcher = Matcher(nlp.vocab)
 
 # pattern: preposition + optional determiner, adjective, adverb + lemma
 # second pattern: indefinite article + optional adjective, adverb + lemma
-FUZZY_LOCATIONS = ["Wald", "Straße", "Schloss", "Dorf", "Weide", "Wiese", "Herberge", "Haus", "Kirche", "Scheune", "Erde", "Daheim", "Grund", "Fluss", "See", "Wasser"]
+FUZZY_LOCATIONS = ["Wald", "Straße", "Weg", "Schloss", "Dorf", "Weide", "Wiese", "Herberge", "Haus", "Kirche", "Scheune",
+                   "Erde", "Daheim", "Grund", "Fluss", "See", "Wasser", "Haselbaum", "Baum", "Grab", "Friedhof", "Galgen",
+                   "Brunnen", "Boden", "Gasthof", "Brücke", "Berg", "Hügel", "Tal", "Hain", "Garten", "Hof", "Feld",
+                   "Burg", "Gefängnis", "Kerker", "Tor", "Schmiede", "Hütte", "Scheune", "Wirtshaus", "Küche", "Kammer",
+                   "Keller", "Treppe", "Bett", "Palast", "Mühle", "Stube", "Stall", "Kutsche", "Acker",
+                   ]
 pattern = [
     [
-    {"LOWER": {"IN": ["im", "in", "am", "auf", "bei", "beim", "durch", "zu", "zur", "unter", "über", "vor", "hinter", "zwischen"]}},
+    {"LOWER": {"IN": ["im", "in", "ins", "am", "an", "auf", "bei", "beim", "durch", "zu", "zur", "zum", "unter",
+                      "über", "vor", "hinter", "zwischen"]}},
      {"POS": {"IN": ["DET", "ADJ", "ADV"]}, "OP": "*"},
      {"LEMMA": {"IN": FUZZY_LOCATIONS}}
     ],
     [
-        {"LEMMA": "ein"},
+        {
+            "POS": "DET",
+            "LEMMA": {"IN": ["ein", "mein", "dein", "sein", "ihr", "unser", "der"]}
+        },
         {"POS": {"IN": ["ADV", "ADJ"]}, "OP": "*"},
         {"LEMMA": {"IN": FUZZY_LOCATIONS}}
     ]
@@ -43,8 +64,8 @@ matcher.add("FUZZY_LOC", pattern)
 
 def to_labelstudio(text, spans):
     return {
-        "data": {"text": text},
-        "predictions": [
+        "data": {"text": text},        # Top-level data field
+        "annotations": [               # Changed from "predictions" to "annotations"
             {
                 "result": [
                     {
@@ -64,7 +85,6 @@ def to_labelstudio(text, spans):
         ]
     }
 
-
 for idx, fairytale in enumerate(fairytales):
     doc = nlp(fairytale['text'])
     matches = matcher(doc)
@@ -80,12 +100,30 @@ for idx, fairytale in enumerate(fairytales):
             "label": "FUZZY_LOC"
         })
 
-    # Create output structure with original metadata
+    # Create output structure - data and annotations at top level
     output_data = {
+        "data": {"text": fairytale['text']},
+        "annotations": [
+            {
+                "result": [
+                    {
+                        "from_name": "label",
+                        "to_name": "text",
+                        "type": "labels",
+                        "value": {
+                            "start": s["start"],
+                            "end": s["end"],
+                            "text": s["text"],
+                            "labels": [s["label"]]
+                        }
+                    }
+                    for s in all_spans
+                ]
+            }
+        ],
+        # Optional: keep metadata separate if needed
         "khm": fairytale['khm'],
-        "title": fairytale['title'],
-        "text": fairytale['text'],
-        "annotations": to_labelstudio(fairytale['text'], all_spans)
+        "title": fairytale['title']
     }
 
     # Save with original filename
