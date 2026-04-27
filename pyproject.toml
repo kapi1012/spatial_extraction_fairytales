@@ -1,0 +1,9 @@
+[project]
+name = "spatial-extraction-fairytales"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "label-studio<=1.23",
+    "pip>=26.0.1",
+    "spacy>=3.8.14",
+]
