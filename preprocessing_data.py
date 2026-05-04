@@ -62,32 +62,10 @@ pattern = [
 matcher.add("FUZZY_LOC", pattern)
 
 
-def to_labelstudio(text, spans):
-    return {
-        "data": {"text": text},        # Top-level data field
-        "annotations": [               # Changed from "predictions" to "annotations"
-            {
-                "result": [
-                    {
-                        "from_name": "label",
-                        "to_name": "text",
-                        "type": "labels",
-                        "value": {
-                            "start": s["start"],
-                            "end": s["end"],
-                            "text": s["text"],
-                            "labels": [s["label"]]
-                        }
-                    }
-                    for s in spans
-                ]
-            }
-        ]
-    }
-
 for idx, fairytale in enumerate(fairytales):
     doc = nlp(fairytale['text'])
     matches = matcher(doc)
+
 
     # Extract spans from matches
     all_spans = []
@@ -102,8 +80,12 @@ for idx, fairytale in enumerate(fairytales):
 
     # Create output structure - data and annotations at top level
     output_data = {
-        "data": {"text": fairytale['text']},
-        "annotations": [
+        "data": {"text": fairytale['text'],
+                 # Metadata
+                 "khm": fairytale['khm'],
+                 "title": fairytale['title']
+                 },
+        "predictions": [    # predictions for pre-annotation
             {
                 "result": [
                     {
@@ -121,9 +103,6 @@ for idx, fairytale in enumerate(fairytales):
                 ]
             }
         ],
-        # Optional: keep metadata separate if needed
-        "khm": fairytale['khm'],
-        "title": fairytale['title']
     }
 
     # Save with original filename
