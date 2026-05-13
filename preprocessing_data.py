@@ -28,6 +28,9 @@ lookups.add_table("lemma_lookup", {
     "Tahl": "Tal",
     "rothe": "rote",
     "Wirthshaus": "Wirtshaus",
+    "Thurm": "Turm",
+    "Walde": "Wald"
+
 })
 
 # Design Matcher to find vague locations & prepositions
