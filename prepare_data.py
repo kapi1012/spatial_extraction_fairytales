@@ -5,7 +5,7 @@ INPUT_DIR = "data/grimm_fairytales/"
 OUTPUT_DIR = "data/grimm_fairytales_json/"
 
 # List with fairytales not in standard german, but a dialect
-KHM_NON_STANDARD_GERMAN = [19, 47, 66, 68, 82, 91, 95, 96, 113, 126, 137, 138, 139, 140, 143, 165, 167, 187, 190, 196, 201]
+KHM_NON_STANDARD_GERMAN = [19, 47, 66, 68, 82, 91, 95, 96, 113, 126, 137, 138, 139, 140, 143, 165, 167, 187, 190, 196, 203]
 
 def convert_fairytale(input_dir, output_dir):
 # Convert txt fairytale to json
