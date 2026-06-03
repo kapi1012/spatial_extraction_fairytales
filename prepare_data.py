@@ -19,6 +19,8 @@ def convert_fairytale(input_dir, output_dir):
         khm_number = int(khm_number)
 
         title = text[0].replace(".", "").strip()
+        #if 'ß' in title:
+        #    title = title.replace('ß' , 'ss')
         text = ' '.join(text[1:]).strip() # combine all lines other than title to one string
 
         fairytale = {'khm': khm_number, 'title': title, 'text': text}
