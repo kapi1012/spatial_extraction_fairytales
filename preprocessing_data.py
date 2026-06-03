@@ -43,12 +43,12 @@ FUZZY_LOCATIONS = ["Wald", "Straße", "Weg", "Schloss", "Dorf", "Weide", "Wiese"
                    "Erde", "Daheim", "Grund", "Fluss", "See", "Wasser", "Haselbaum", "Baum", "Grab", "Friedhof", "Galgen",
                    "Brunnen", "Boden", "Gasthof", "Brücke", "Berg", "Hügel", "Tal", "Hain", "Garten", "Hof", "Feld",
                    "Burg", "Gefängnis", "Kerker", "Tor", "Schmiede", "Hütte", "Scheune", "Wirtshaus", "Küche", "Kammer",
-                   "Keller", "Treppe", "Bett", "Palast", "Mühle", "Stube", "Stall", "Kutsche", "Acker",
+                   "Keller", "Treppe", "Bett", "Palast", "Mühle", "Stube", "Stall", "Kutsche", "Acker", "Insel",
                    ]
 pattern = [
     [
-    {"LOWER": {"IN": ["im", "in", "ins", "am", "an", "auf", "bei", "beim", "durch", "zu", "zur", "zum", "unter",
-                      "über", "vor", "hinter", "zwischen"]}},
+    {"LOWER": {"IN": ["im", "in", "ins", "am", "an", "auf", "aus", "bei", "beim", "durch", "zu", "zur", "zum", "unter",
+                      "über", "vor", "hinter", "zwischen", "um", "ums", "neben"]}},
      {"POS": {"IN": ["DET", "ADJ", "ADV"]}, "OP": "*"},
      {"LEMMA": {"IN": FUZZY_LOCATIONS}}
     ],

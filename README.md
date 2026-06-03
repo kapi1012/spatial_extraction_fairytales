@@ -70,3 +70,20 @@ To use local data in Label Studio, create a directory named `data` or `label-stu
   <Text name="text" value="$text"/>
 </View>
 ```
+
+## Setup for IAA
+
+- Hetzner Server
+  - 2 VCPU
+  - 4 GB RAM
+  - 40 GB
+  - 4,75 € / month
+- Login to the server via SSH:
+
+``ssh root@62.238.6.54``
+
+``cd label-studio``
+
+``docker compose up -d``
+
+- using subdomain ``https://ortsreferenzen-annotation.lektorat-kasper.de/``
