@@ -25,8 +25,6 @@ lookups.add_table("lemma_lookup", {
     "Thal": "Tal",
     "Schloß": "Schloss",
     "Thor": "Tor",
-    "Tahl": "Tal",
-    "rothe": "rote",
     "Wirthshaus": "Wirtshaus",
     "Thurm": "Turm",
     "Walde": "Wald"
@@ -43,7 +41,7 @@ matcher = Matcher(nlp.vocab)
 # pattern: preposition + optional determiner, adjective, adverb + lemma
 # second pattern: indefinite article + optional adjective, adverb + lemma
 FUZZY_LOCATIONS = ["Wald", "Straße", "Weg", "Schloss", "Dorf", "Weide", "Wiese", "Herberge", "Haus", "Kirche", "Scheune",
-                   "Erde", "Daheim", "Grund", "Fluss", "See", "Wasser", "Haselbaum", "Baum", "Grab", "Friedhof", "Galgen",
+                   "Erde", "Grund", "Fluss", "See", "Wasser", "Haselbaum", "Baum", "Grab", "Friedhof", "Galgen",
                    "Brunnen", "Boden", "Gasthof", "Brücke", "Berg", "Hügel", "Tal", "Hain", "Garten", "Hof", "Feld",
                    "Burg", "Gefängnis", "Kerker", "Tor", "Schmiede", "Hütte", "Scheune", "Wirtshaus", "Küche", "Kammer",
                    "Keller", "Treppe", "Bett", "Palast", "Mühle", "Stube", "Stall", "Kutsche", "Acker", "Insel",
