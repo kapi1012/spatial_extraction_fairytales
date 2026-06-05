@@ -33,6 +33,9 @@ lookups.add_table("lemma_lookup", {
 
 })
 
+nlp.vocab.lookups.add_table("lemma_lookup")
+nlp.vocab.lookups.set_table("lemma_lookup", lookups.get_table("lemma_lookup"))
+
 # Design Matcher to find vague locations & prepositions
 # initialize Matcher
 matcher = Matcher(nlp.vocab)
