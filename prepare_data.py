@@ -25,8 +25,15 @@ def convert_fairytale(input_dir, output_dir):
 
         fairytale = {'khm': khm_number, 'title': title, 'text': text}
 
+    # keeping only the title as filename
+    output_filename = f"grimm_{fairytale['title'].lower().replace(',', '').replace(' ', '_')}.json"
+
+    umlaute = str.maketrans({"ß": "ss", "ä": "ae", "ö": "oe", "ü": "ue"})
+    output_filename = output_filename.translate(umlaute)
+
     # utf encoding for Umlaute
-    with open(output_dir, "w", encoding='utf-8') as outfile:
+    output_path = os.path.join(output_dir, output_filename)
+    with open(output_path, "w", encoding='utf-8') as outfile:
         json.dump(fairytale, outfile, indent=3)
 
 def delete_non_standard_german(directory, khm_list):
@@ -43,8 +50,6 @@ def delete_non_standard_german(directory, khm_list):
 
 for f in os.listdir(INPUT_DIR):
     input_dir = os.path.join(INPUT_DIR, f)
-    output_dir = os.path.join(OUTPUT_DIR, f)
-    output_dir =output_dir.replace(".txt", ".json")
-    convert_fairytale(input_dir, output_dir)
+    convert_fairytale(input_dir, OUTPUT_DIR)
 
 delete_non_standard_german(OUTPUT_DIR, KHM_NON_STANDARD_GERMAN)
