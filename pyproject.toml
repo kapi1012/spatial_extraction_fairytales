@@ -6,4 +6,5 @@ dependencies = [
     "label-studio<=1.23",
     "pip>=26.0.1",
     "spacy>=3.8.14",
+    "torch>=2.12.1",
 ]
