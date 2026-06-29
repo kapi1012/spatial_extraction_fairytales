@@ -1,8 +1,12 @@
 import json
+import spacy
 
 from dataclasses import dataclass, field
 from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
+
+from spacy.tokenizer import Tokenizer
+from spacy.lang.de import German
 
 # https://www.geeksforgeeks.org/deep-learning/how-do-you-use-pytorchs-dataset-and-dataloader-classes-for-custom-data/
 
@@ -88,6 +92,8 @@ class FairytaleDataset:
                 ]
             )
             fairytales.append(fairytale)
+        # sort fairytales by khm-number for debugging
+        fairytales.sort(key=lambda x: x.khm)
         return cls(fairytales=fairytales)
 
 @dataclass
@@ -119,5 +125,22 @@ DATA_PATH = "data/grimm_fairytales_annotated/fuzzy_loc_25.06.json"
 with open(DATA_PATH, "r", encoding="utf-8") as f:
     fairytale_annotated = json.load(f)
 
-dataset = FairytaleDataset.from_json(fairytale_annotated)
+data = FairytaleDataset.from_json(fairytale_annotated)
+
+# Bi-LSTM Preparation
+# SpaCy Tokenizer for text in every fairytale
+nlp = German() # contains tokenizer, no other SpaCy Pipeline Components
+
+texts = (fairytale.text for fairytale in data.fairytales)
+for fairytale, doc in zip(data.fairytales, nlp.pipe(texts)): # pipe() using all docs
+    #Todo map offset characters to tokens
+    ...
+    # token.idx zu spacys Doc.char_span()
+    # start = data.fairytales[idx].spans[idx].start
+
+
+
+# BIO-Label
+
+# Bi-LSTM Dataclass
 
