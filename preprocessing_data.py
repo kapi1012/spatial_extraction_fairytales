@@ -6,7 +6,7 @@ from spacy.matcher import Matcher
 from spacy.lookups import Lookups
 
 INPUT_DIR = "./data/grimm_fairytales_json"
-OUTPUT_DIR = "./label-studio-data/grimm_fairytales_preannotated"
+OUTPUT_DIR = "label-studio-data_old/grimm_fairytales_preannotated"
 
 def load_fairytales(directory):
     fairytales = []
