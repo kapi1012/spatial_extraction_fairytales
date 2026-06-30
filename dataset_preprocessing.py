@@ -5,7 +5,6 @@ from dataclasses import dataclass, field
 from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
 
-from spacy.tokenizer import Tokenizer
 from spacy.lang.de import German
 
 # https://www.geeksforgeeks.org/deep-learning/how-do-you-use-pytorchs-dataset-and-dataloader-classes-for-custom-data/
@@ -57,7 +56,7 @@ class Span:
 
     @property
     def label(self) -> str | None:
-        return self.labels[0] if self.labels else None
+        return self.labels[0] if self.labels else None # There is always only one Label per Span
 
 @dataclass
 class Fairytale:
@@ -130,17 +129,16 @@ data = FairytaleDataset.from_json(fairytale_annotated)
 # Bi-LSTM Preparation
 # SpaCy Tokenizer for text in every fairytale
 nlp = German() # contains tokenizer, no other SpaCy Pipeline Components
-
 texts = (fairytale.text for fairytale in data.fairytales)
+
 for fairytale, doc in zip(data.fairytales, nlp.pipe(texts)): # pipe() using all docs
-    #Todo map offset characters to tokens
-    ...
-    # token.idx zu spacys Doc.char_span()
-    # start = data.fairytales[idx].spans[idx].start
+    for annotation in fairytale.spans: # Label-Studio Annotations
+        spacy_span = doc.char_span(annotation.start, annotation.end) # Maps to SpaCy-Spans
+        if spacy_span is None:
+            continue
+        label = annotation.label
 
-
-
-# BIO-Label
+# IOB-Label
 
 # Bi-LSTM Dataclass
 
