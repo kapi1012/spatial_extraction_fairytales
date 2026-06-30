@@ -1,5 +1,4 @@
 import json
-import spacy
 
 from dataclasses import dataclass, field
 from torch.utils.data import Dataset
@@ -39,7 +38,7 @@ SpaCyPreprocessor           HuggingFace Tokenizer
  │                                  │
  ▼                                  ▼
 BiLSTMBuilder              TransformerBuilder
-- BIO-Labels
+- IO(B)-Labels
  │                                 │
  ▼                                 ▼
 TorchDataset                   TorchDataset
@@ -131,14 +130,25 @@ data = FairytaleDataset.from_json(fairytale_annotated)
 nlp = German() # contains tokenizer, no other SpaCy Pipeline Components
 texts = (fairytale.text for fairytale in data.fairytales)
 
+
 for fairytale, doc in zip(data.fairytales, nlp.pipe(texts)): # pipe() using all docs
+    spacy_spans = []
     for annotation in fairytale.spans: # Label-Studio Annotations
-        spacy_span = doc.char_span(annotation.start, annotation.end) # Maps to SpaCy-Spans
+        spacy_span = doc.char_span(annotation.start, annotation.end, label=annotation.label) # Maps to SpaCy-Spans
         if spacy_span is None:
             continue
-        label = annotation.label
 
-# IOB-Label
+        # check if spans are correctly assigned:
+        assert spacy_span is not None
+        assert spacy_span.text == annotation.text
+
+        spacy_spans.append(spacy_span)
+        # IOB-Tag
+    doc.ents = spacy_spans
+
+    for token in doc[:20]:
+        print(token.text, token.ent_iob_, token.ent_type_)
+
 
 # Bi-LSTM Dataclass
 
