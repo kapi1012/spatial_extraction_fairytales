@@ -158,18 +158,31 @@ data = FairytaleDataset.from_json(fairytale_annotated)
 nlp = German() # contains tokenizer, no other SpaCy Pipeline Components
 texts = (fairytale.text for fairytale in data.fairytales)
 
+errors = []
 
 for fairytale, doc in zip(data.fairytales, nlp.pipe(texts)): # pipe() using all docs
     resolved_spans = fairytale.resolve_nested_spans()
     spacy_spans = []
+
     for annotation in resolved_spans: # Label-Studio Annotations
         spacy_span = doc.char_span(annotation.start, annotation.end, label=annotation.label) # Maps to SpaCy-Spans
+
         if spacy_span is None:
-            raise ValueError(
-                f"KHM {fairytale.khm}: "
+            errors.append(
+                f"KHM {fairytale.khm} ({fairytale.title}): "
                 f"Could not map span '{annotation.text}' "
-                f"({annotation.start}, {annotation.end}) to token boundaries."
+                f"[{annotation.start}, {annotation.end}]"
             )
+            continue
+
+        if spacy_span.text != annotation.text:
+            errors.append(
+                f"KHM {fairytale.khm} ({fairytale.title}): "
+                f"Span mismatch\n"
+                f"JSON : {annotation.text!r}\n"
+                f"spaCy: {spacy_span.text!r}"
+            )
+            continue
 
         # check if spans are correctly assigned:
         assert spacy_span.text == annotation.text
@@ -181,6 +194,13 @@ for fairytale, doc in zip(data.fairytales, nlp.pipe(texts)): # pipe() using all 
     for token in doc[:20]:
         print(token.text, token.ent_iob_, token.ent_type_)
 
+if errors:
+    print(f"\nFound {len(errors)} errors:\n")
+
+    for error in errors:
+        print(error)
+else:
+    print("No errors found.")
 
 # Bi-LSTM Dataclass
 
