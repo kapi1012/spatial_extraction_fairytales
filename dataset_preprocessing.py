@@ -146,7 +146,7 @@ class TokenDocument:
 
 
 
-DATA_PATH = "data/grimm_fairytales_annotated/fuzzy_loc_25.06.json"
+DATA_PATH = "data/grimm_fairytales_annotated/fuzzy_loc_3.7.26.json"
 
 with open(DATA_PATH, "r", encoding="utf-8") as f:
     fairytale_annotated = json.load(f)

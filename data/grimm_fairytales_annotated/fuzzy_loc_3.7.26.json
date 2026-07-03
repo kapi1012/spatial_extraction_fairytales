@@ -25836,14 +25836,6 @@
       ]
     },
     {
-      "start": 4870,
-      "end": 4879,
-      "text": "im Walde ",
-      "labels": [
-        "FUZZY_LOC"
-      ]
-    },
-    {
       "start": 5497,
       "end": 5520,
       "text": "auf das kleine Häuschen",
@@ -26122,13 +26114,21 @@
       "labels": [
         "FUZZY_LOC"
       ]
+    },
+    {
+      "start": 4870,
+      "end": 4878,
+      "text": "im Walde",
+      "labels": [
+        "FUZZY_LOC"
+      ]
     }
   ],
   "annotator": 1,
   "annotation_id": 224,
   "created_at": "2026-05-12T13:38:34.457907Z",
-  "updated_at": "2026-06-25T08:39:48.358101Z",
-  "lead_time": 1754.497
+  "updated_at": "2026-07-03T13:19:43.549821Z",
+  "lead_time": 1777.751
 },
 {
   "text": "Es war einmal ein armer Mann, der konnte seinen einzigen Sohn nicht mehr ernähren. Da sprach der Sohn „lieber Vater, es geht euch so kümmerlich, ich falle euch zur Last, lieber will ich selbst fortgehen und sehen wie ich mein Brot verdiene.“ Da gab ihm der Vater seinen Segen und nahm mit großer Trauer von ihm Abschied. Zu dieser Zeit führte der König eines mächtigen Reichs Krieg, der Jüngling nahm Dienste bei ihm und zog mit ins Feld. Und als er vor den Feind kam, so ward eine Schlacht geliefert, und es war große Gefahr, und regnete blaue Bohnen, daß seine Kameraden von allen Seiten niederfielen. Und als auch der Anführer blieb, so wollten die übrigen die Flucht ergreifen, aber der Jüngling trat heraus, sprach ihnen Muth zu und rief „wir wollen unser Vaterland nicht zu Grunde gehen lassen.“ Da folgten ihm die andern, und er drang ein und schlug den Feind. Der König, als er hörte daß er ihm allein den Sieg zu danken habe, erhob ihn über alle andern, gab ihm große Schätze und machte ihn zum ersten in seinem Reich.\n \n Der König hatte eine Tochter, die war sehr schön, aber sie war auch sehr wunderlich. Sie hatte das Gelübde gethan, keinen zum Herrn und Gemahl zu nehmen, der nicht verspräche, wenn sie zuerst stürbe, sich lebendig mit ihr begraben zu lassen. „Hat er mich von Herzen lieb,“ sagte sie, „wozu dient ihm dann noch das Leben?“ Dagegen wollte sie ein Gleiches thun, und wenn er zuerst stürbe, mit ihm in das Grab steigen. Dieses seltsame Gelübde hatte bis jetzt alle Freier abgeschreckt, aber der Jüngling wurde von ihrer Schönheit so eingenommen, daß er auf nichts achtete, sondern bei ihrem Vater um sie anhielt. „Weißt du auch,“ sprach der König, „was du versprechen mußt?“ „Ich muß mit ihr in das Grab gehen,“ antwortete er, „wenn ich sie überlebe, aber meine Liebe ist so groß, daß ich der Gefahr nicht achte.“ Da willigte der König ein, und die Hochzeit ward mit großer Pracht gefeiert.\n \n Nun lebten sie eine Zeitlang glücklich und vergnügt mit einander, da geschah es, daß die junge Königin in eine schwere Krankheit fiel, und kein Arzt ihr helfen konnte. Und als sie todt da lag, da erinnerte sich der junge König was er hatte versprechen müssen, und es grauste ihm davor, sich lebendig in das Grab zu legen, aber es war kein Ausweg: der König hatte alle Thore mit Wachen besetzen lassen, und es war nicht möglich dem Schicksal zu entgehen. Als der Tag kam, wo die Leiche in das königliche Gewölbe beigesetzt wurde, da ward er mit hinabgeführt, und dann das Thor verriegelt und verschlossen.\n \n Neben dem Sarg stand ein Tisch, darauf vier Lichter, vier Laibe Brot und vier Flaschen Wein. Sobald dieser Vorrath zu Ende gieng, mußte er verschmachten. Nun saß er da voll Schmerz und Trauer, aß jeden Tag nur ein Bißlein Brot, trank nur einen Schluck Wein, und sah doch wie der Tod immer näher rückte. Indem er so vor sich hinstarrte, sah er aus der Ecke des Gewölbes eine Schlange hervor kriechen, die sich der Leiche näherte. Und weil er dachte sie käme um daran zu nagen, zog er sein Schwert und sprach „so lange ich lebe sollst du sie nicht anrühren,“ und hieb sie in drei Stücke. Über ein Weilchen kroch eine zweite Schlange aus der Ecke hervor, als sie aber die andere todt und zerstückt liegen sah, gieng sie zurück, kam bald wieder und hatte drei grüne Blätter im Munde. Dann nahm sie die drei Stücke von der Schlange, legte sie, wie sie zusammen gehörten, und that auf jede Wunde eins von den Blättern. Alsbald fügte sich das Getrennte an einander, die Schlange regte sich und ward wieder lebendig, und beide eilten mit einander fort. Die Blätter blieben auf der Erde liegen, und dem Unglücklichen, der alles mit angesehen hatte, kam es in die Gedanken, ob nicht die wunderbare Kraft der Blätter, welche die Schlange wieder lebendig gemacht hatte, auch einem Menschen helfen könnte. Er hob also die Blätter auf und legte eins davon auf den Mund der Todten, die beiden andern auf ihre Augen. Und kaum war es geschehen, so bewegte sich das Blut in den Adern, stieg in das bleiche Angesicht und röthete es wieder. Da zog sie Athem, schlug die Augen auf und sprach „ach, Gott, wo bin ich?“ „Du bist bei mir, liebe Frau,“ antwortete er, und erzählte ihr wie alles gekommen war und er sie wieder ins Leben erweckt hatte. Dann reichte er ihr etwas Wein und Brot, und als sie wieder zu Kräften gekommen war, erhob sie sich, und sie giengen zu der Thüre, und klopften und riefen so laut daß es die Wachen hörten und dem König meldeten. Der König kam selbst herab und öffnete die Thüre, da fand er beide frisch und gesund, und freute sich mit ihnen daß nun alle Noth überstanden war. Die drei Schlangenblätter aber nahm der junge König mit, gab sie einem Diener und sprach „verwahr sie mir sorgfältig, und trag sie zu jeder Zeit bei dir, wer weiß in welcher Noth sie uns noch helfen können.“\n \n Es war aber in der Frau, nachdem sie wieder ins Leben war erweckt worden, eine Veränderung vorgegangen: es war als ob alle Liebe zu ihrem Manne aus ihrem Herzen gewichen wäre. Als er nach einiger Zeit eine Fahrt zu seinem alten Vater über das Meer machen wollte und sie auf ein Schiff gestiegen waren, so vergaß sie die große Liebe und Treue, die er ihr bewiesen und womit er sie vom Tode gerettet hatte, und faßte eine böse Neigung zu dem Schiffer. Und als der junge König einmal da lag und schlief, rief sie den Schiffer herbei, und faßte den schlafenden am Kopfe, und der Schiffer mußte ihn an den Füßen fassen, und so warfen sie ihn hinab ins Meer. Als die Schandthat vollbracht war, sprach sie zu ihm „nun laß uns heimkehren und sagen er sei unterwegs gestorben. Ich will dich schon bei meinem Vater so herausstreichen und rühmen, daß er mich mit dir vermählt und dich zum Erben seiner Krone einsetzt.“ Aber der treue Diener, der alles mit angesehen hatte, machte unbemerkt ein kleines Schifflein von dem großen los, setzte sich hinein, schiffte seinem Herrn nach, und ließ die Verräther fortfahren. Er fischte den Todten wieder auf, und mit Hilfe der drei Schlangenblätter, die er bei sich trug, und auf die Augen und den Mund legte, brachte er ihn glücklich wieder ins Leben.\n \n Sie ruderten beide aus allen Kräften Tag und Nacht, und ihr kleines Schiff flog so schnell dahin daß sie früher als das andere bei dem alten Könige anlangten. Er verwunderte sich als er sie allein kommen sah und fragte was ihnen begegnet wäre. Als er die Bosheit seiner Tochter vernahm, sprach er „ich kanns nicht glauben, daß sie so schlecht gehandelt hat, aber die Wahrheit wird bald an den Tag kommen,“ und hieß beide in eine verborgene Kammer gehen und sich vor jedermann heimlich halten. Bald hernach kam das große Schiff herangefahren, und die gottlose Frau erschien vor ihrem Vater mit einer betrübten Miene. Er sprach „warum kehrst du allein zurück? wo ist dein Mann?“ „Ach, lieber Vater,“ antwortete sie, „ich komme in großer Trauer wieder heim, mein Mann ist während der Fahrt plötzlich erkrankt und gestorben, und wenn der gute Schiffer mir nicht Beistand geleistet hätte, so wäre es mir schlimm ergangen; er ist bei seinem Tode zugegen gewesen und kann euch alles erzählen.“ Der König sprach „ich will den Todten wieder lebendig machen“ und öffnete die Kammer, und hieß die beiden heraus gehen. Die Frau, als sie ihren Mann erblickte, war wie vom Donner gerührt, sank auf die Knie und bat um Gnade. Der König sprach „da ist keine Gnade, er war bereit mit dir zu sterben und hat dir dein Leben wieder gegeben, du aber hast ihn im Schlaf umgebracht, und sollst deinen verdienten Lohn empfangen.“ Da ward sie mit ihrem Helfershelfer in ein durchlöchertes Schiff gesetzt und hinaus ins Meer getrieben, wo sie bald in den Wellen versanken.",
@@ -36000,14 +36000,6 @@
       ]
     },
     {
-      "start": 3804,
-      "end": 3815,
-      "text": "das Zimmer ",
-      "labels": [
-        "FUZZY_LOC"
-      ]
-    },
-    {
       "start": 4285,
       "end": 4313,
       "text": "zu dem verwünschten Häuschen",
@@ -36166,13 +36158,21 @@
       "labels": [
         "METAPHORIC_LOC"
       ]
+    },
+    {
+      "start": 3804,
+      "end": 3814,
+      "text": "das Zimmer",
+      "labels": [
+        "FUZZY_LOC"
+      ]
     }
   ],
   "annotator": 1,
   "annotation_id": 220,
   "created_at": "2026-05-12T13:09:46.468708Z",
-  "updated_at": "2026-06-19T12:27:27.194805Z",
-  "lead_time": 1153.624
+  "updated_at": "2026-07-03T13:16:50.831849Z",
+  "lead_time": 1214.631
 },
 {
   "text": "Zwölf Knechte, die den ganzen Tag nichts gethan hatten, wollten sich am Abend nicht noch anstrengen, sondern legten sich ins Gras und rühmten sich ihrer Faulheit. Der erste sprach „was geht mich eure Faulheit an, ich habe mit meiner eigenen zu thun. Die Sorge für den Leib ist meine Hauptarbeit: ich esse nicht wenig und trinke desto mehr. Wenn ich vier Mahlzeiten gehalten habe, so faste ich eine kurze Zeit bis ich wieder Hunger empfinde, das bekommt mir am besten. Früh aufstehn ist nicht meine Sache, wenn es gegen Mittag geht, so suche ich mir schon einen Ruheplatz aus. Ruft der Herr, so thue ich als hätte ich es nicht gehört, und ruft er zum zweitenmal, so warte ich noch eine Zeitlang bis ich mich erhebe und gehe auch dann recht langsam. So läßt sich das Leben ertragen.“ Der zweite sprach „ich habe ein Pferd zu besorgen, aber ich lasse ihm das Gebiß im Maul, und wenn ich nicht will, so gebe ich ihm kein Futter und sage es habe schon gefressen. Dafür lege ich mich in den Haferkasten und schlafe vier Stunden. Hernach strecke ich wohl einen Fuß heraus und fahre damit dem Pferd ein paarmal über den Leib, so ist es gestriegelt und geputzt; wer wird da viel Umstände machen? Aber der Dienst ist mir doch noch zu beschwerlich.“ Der dritte sprach „wozu sich mit Arbeit plagen? dabei kommt nichts heraus. Ich legte mich in die Sonne und schlief. Es fieng an zu tröpfeln, aber weshalb aufstehen? ich ließ es in Gottes Namen fortregnen. Zuletzt kam ein Platzregen und zwar so heftig, daß er mir die Haare vom Kopf ausriß und wegschwemmte, und ich ein Loch in den Schädel bekam. Ich legte ein Pflaster darauf und damit wars gut. Schaden der Art habe ich schon mehr gehabt.“ Der vierte sprach „soll ich eine Arbeit angreifen, so dämmere ich erst eine Stunde herum, damit ich meine Kräfte spare. Hernach fange ich ganz gemächlich an und frage ob nicht andere da wären, die mir helfen könnten. Die lasse ich dann die Hauptarbeit thun, und sehe eigentlich nur zu: aber das ist mir auch noch zu viel.“ Der fünfte sprach „was will das sagen! denkt euch, ich soll den Mist aus dem Pferdestall fortschaffen und auf den Wagen laden. Ich lasse es langsam angehen, und habe ich etwas auf die Gabel genommen, so hebe ich es nur halb in die Höhe und ruhe erst eine Viertelstunde bis ich es vollends hinauf werfe. Es ist übrig genug, wenn ich des Tags ein Fuder hinaus fahre. Ich habe keine Lust mich todt zu arbeiten.“ Der sechste sprach „schämt euch, ich erschrecke vor keiner Arbeit, aber ich lege mich drei Wochen hin und ziehe nicht einmal meine Kleider aus. Wozu Schnallen an die Schuhe? die können mir immerhin von den Füßen abfallen, es schadet nichts. Will ich eine Treppe ersteigen, so ziehe ich einen Fuß nach dem andern langsam auf die erste Stufe herauf, dann zähle ich die übrigen, damit ich weiß wo ich ruhen muß.“ Der siebente sprach „bei mir geht das nicht: mein Herr sieht auf meine Arbeit, nur ist er den ganzen Tag nicht zu Haus. Doch versäume ich nichts, ich laufe so viel das möglich ist, wenn man schleicht. Soll ich fortkommen, so müßten mich vier stämmige Männer mit allen Kräften fortschieben. Ich kam dahin, wo auf einer Pritsche sechs neben einander lagen und schliefen: ich legte mich zu ihnen und schlief auch. Ich war nicht wieder zu wecken, und wollten sie mich heim haben, so mußten sie mich wegtragen.“ Der achte sprach „ich sehe wohl daß ich allein ein munterer Kerl bin, liegt ein Stein vor mir, so gebe ich mir nicht die Mühe meine Beine aufzuheben und darüber hinweg zu schreiten, ich lege mich auf die Erde nieder, und bin ich naß, voll Koth und Schmutz, so bleibe ich liegen bis mich die Sonne wieder ausgetrocknet hat: höchstens drehe ich mich so, daß sie auf mich scheinen kann.“ Der neunte sprach „das ist was rechts! heute lag das Brot vor mir, aber ich war zu faul danach zu greifen, und wäre fast Hungers gestorben. Auch ein Krug stand dabei, aber so groß und schwer daß ich ihn nicht in die Höhe heben mochte und lieber Durst litt. Mich nur umzudrehen, war mir zu viel, ich blieb den ganzen Tag liegen wie ein Stock.“ Der zehnte sprach „mir hat die Faulheit Schaden gebracht, ein gebrochenes Bein und geschwollene Waden. Unser drei lagen auf einem Fahrweg und ich hatte die Beine ausgestreckt. Da kam jemand mit einem Wagen und die Räder giengen mir darüber. Ich hätte die Beine freilich zurückziehen können, aber ich hörte den Wagen nicht kommen: die Mücken summten mir um die Ohren, krochen mir zu der Nase herein und zu dem Mund wieder heraus; wer will sich die Mühe geben das Geschmeis weg zu jagen.“ Der elfte sprach „gestern habe ich meinen Dienst aufgesagt. Ich hatte keine Lust meinem Herrn die schweren Bücher noch länger herbei zu holen und wieder weg zu tragen: das nahm den ganzen Tag kein Ende. Aber die Wahrheit zu sagen, er gab mir den Abschied und wollte mich auch nicht länger behalten, denn seine Kleider, die ich im Staub liegen ließ, waren von den Motten zerfressen; und das war recht.“ Der zwölfte sprach „heute mußte ich mit dem Wagen über Feld fahren, ich machte mir ein Lager von Stroh darauf und schlief richtig ein. Die Zügel rutschten mir aus der Hand, und als ich erwachte, hatte sich das Pferd beinahe los gerissen, das Geschirr war weg, das Rückenseil, Kummet, Zaum und Gebiß. Es war einer vorbei gekommen, der hatte alles fortgetragen. Dazu war der Wagen in eine Pfütze gerathen und stand fest. Ich ließ ihn stehen und streckte mich wieder aufs Stroh. Der Herr kam endlich selbst und schob den Wagen heraus, und wäre er nicht gekommen, so läge ich nicht hier, sondern dort und schliefe in guter Ruh.“",
@@ -39259,14 +39259,6 @@
       ]
     },
     {
-      "start": 304,
-      "end": 313,
-      "text": "im Bette ",
-      "labels": [
-        "FUZZY_LOC"
-      ]
-    },
-    {
       "start": 943,
       "end": 951,
       "text": "im Walde",
@@ -39625,13 +39617,21 @@
       "labels": [
         "FUZZY_LOC"
       ]
+    },
+    {
+      "start": 304,
+      "end": 312,
+      "text": "im Bette",
+      "labels": [
+        "FUZZY_LOC"
+      ]
     }
   ],
   "annotator": 1,
   "annotation_id": 226,
   "created_at": "2026-05-12T13:52:07.670943Z",
-  "updated_at": "2026-06-25T08:58:20.991031Z",
-  "lead_time": 1998.252
+  "updated_at": "2026-07-03T13:21:17.027481Z",
+  "lead_time": 2030.893
 },
 {
   "text": "Es war einmal ein altes Schloß mitten in einem großen dicken Wald, darinnen wohnte eine alte Frau ganz allein, das war eine Erzzauberin. Am Tage machte sie sich zur Katze oder zur Nachteule, des Abends aber wurde sie wieder ordentlich wie ein Mensch gestaltet. Sie konnte das Wild und die Vögel herbei locken, und dann schlachtete sie, kochte und briet es. Wenn Jemand auf hundert Schritte dem Schloß nahe kam, so mußte er stille stehen und konnte sich nicht von der Stelle bewegen, bis sie ihn los sprach: wenn aber eine keusche Jungfrau in diesen Kreiß kam, so verwandelte sie dieselbe in einen Vogel, und sperrte sie dann in einen Korb ein, und trug den Korb in eine Kammer des Schlosses. Sie hatte wohl sieben tausend solcher Körbe mit so raren Vögeln im Schlosse.\n \n Nun war einmal eine Jungfrau, die hieß Jorinde: sie war schöner als alle andere Mädchen. Die, und dann ein gar schöner Jüngling, Namens Joringel, hatten sich zusammen versprochen. Sie waren in den Brauttagen und sie hatten ihr größtes Vergnügen eins am andern. Damit sie nun einsmalen vertraut zusammen reden könnten, giengen sie in den Wald spazieren. „Hüte dich,“ sagte Joringel, „daß du nicht so nahe ans Schloß kommst.“ Es war ein schöner Abend, die Sonne schien zwischen den Stämmen der Bäume hell ins dunkle Grün des Waldes, und die Turteltaube sang kläglich auf den alten Maibuchen.\n \n Jorinde weinte zuweilen, setzte sich hin im Sonnenschein und klagte; Joringel klagte auch. Sie waren so bestürzt, als wenn sie hätten sterben sollen: sie sahen sich um, waren irre und wußten nicht wohin sie nach Hause gehen sollten. Noch halb stand die Sonne über dem Berg und halb war sie unter. Joringel sah durchs Gebüsch und sah die alte Mauer des Schlosses nah bei sich; er erschrack und wurde todtbang. Jorinde sang\n \n „mein Vöglein mit dem Ringlein roth\n singt Leide, Leide, Leide:\n es singt dem Täubelein seinen Tod,\n singt Leide, Lei– zucküth, zicküth, zicküth.“\n \n Joringel sah nach Jorinde. Jorinde war in eine Nachtigall verwandelt, die sang „zicküth, zicküth.“ Eine Nachteule mit glühenden Augen flog dreimal um sie herum und schrie dreimal „schu, hu, hu, hu.“ Joringel konnte sich nicht regen: er stand da wie ein Stein, konnte nicht weinen, nicht reden, nicht Hand noch Fuß regen. Nun war die Sonne unter: die Eule flog in einen Strauch, und gleich darauf kam eine alte krumme Frau aus diesem hervor, gelb und mager: große rothe Augen, krumme Nase, die mit der Spitze ans Kinn reichte. Sie murmelte, fieng die Nachtigall und trug sie auf der Hand fort. Joringel konnte nichts sagen, nicht von der Stelle kommen; die Nachtigall war fort. Endlich kam das Weib wieder und sagte mit dumpfer Stimme „grüß dich, Zachiel, wenns Möndel ins Körbel scheint, bind los, Zachiel, zu guter Stund.“ Da wurde Joringel los. Er fiel vor dem Weib auf die Knie und bat sie möchte ihm seine Jorinde wieder geben, aber sie sagte er sollte sie nie wieder haben, und gieng fort. Er rief, er weinte, er jammerte, aber alles umsonst. „Uu, was soll mir geschehen?“ Joringel gieng fort und kam endlich in ein fremdes Dorf: da hütete er die Schafe lange Zeit. Oft gieng er rund um das Schloß herum, aber nicht zu nahe dabei. Endlich träumte er einmal des Nachts er fände eine blutrothe Blume, in deren Mitte eine schöne große Perle war. Die Blume brach er ab, gieng damit zum Schlosse: alles, was er mit der Blume berührte, ward von der Zauberei frei: auch träumte er, er hätte seine Jorinde dadurch wieder bekommen. Des Morgens, als er erwachte, fieng er an durch Berg und Thal zu suchen ob er eine solche Blume fände: er suchte bis an den neunten Tag, da fand er die blutrothe Blume am Morgen früh. In der Mitte war ein großer Thautropfe, so groß wie die schönste Perle. Diese Blume trug er Tag und Nacht bis zum Schloß. Wie er auf hundert Schritt nahe bis zum Schloß kam, da ward er nicht fest, sondern gieng fort bis ans Thor. Joringel freute sich hoch, berührte die Pforte mit der Blume, und sie sprang auf. Er gieng hinein, durch den Hof, horchte wo er die vielen Vögel vernähme: endlich hörte ers. Er gieng und fand den Saal, darauf war die Zauberin und fütterte die Vögel in den sieben tausend Körben. Wie sie den Joringel sah, ward sie bös, sehr bös, schalt, spie Gift und Galle gegen ihn aus, aber sie konnte auf zwei Schritte nicht an ihn kommen. Er kehrte sich nicht an sie und gieng, besah die Körbe mit den Vögeln; da waren aber viele hundert Nachtigallen, wie sollte er nun seine Jorinde wieder finden? Indem er so zusah, daß die Alte heimlich ein Körbchen mit einem Vogel wegnahm und damit nach der Thüre gieng. Flugs sprang er hinzu, berührte das Körbchen mit der Blume und auch das alte Weib: nun konnte sie nichts mehr zaubern, und Jorinde stand da, hatte ihn um den Hals gefaßt, so schön wie sie ehemals war. Da machte er auch alle die andern Vögel wieder zu Jungfrauen, und da gieng er mit seiner Jorinde nach Hause, und sie lebten lange vergnügt zusammen.",
