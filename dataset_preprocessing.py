@@ -57,12 +57,40 @@ class Span:
     def label(self) -> str | None:
         return self.labels[0] if self.labels else None # There is always only one Label per Span
 
+    @property
+    def length(self) -> int:
+        return self.end - self.start
+
+
 @dataclass
 class Fairytale:
     khm: int
     title: str
     text: str
     spans: list[Span] = field(default_factory=list) # rename from JSON "label" for clarity
+
+    def resolve_nested_spans(self) -> list[Span]:
+        """
+        Resolves nested and overlapping spans and keeps the longest overlapping span.
+        Nested Spans can not be used for IOB-Format Bi-LSTMs and Transformers.
+        Returns a list of Spans without modifying the original Spans.
+
+        """
+        # Sort spans by start offset; for equal start offsets keep the longest span first.
+        sorted_spans = sorted(self.spans, key=lambda span: (span.start, -span.length))
+        resolved_spans = []
+
+        for span in sorted_spans:
+            overlap = False
+            for kept_span in resolved_spans:
+                # check if span lies in another span and discard it
+                if span.start < kept_span.end and kept_span.start < span.end:
+                    overlap = True
+                    break
+            if not overlap:
+                resolved_spans.append(span)
+
+        return resolved_spans
 
 
 @dataclass
@@ -132,14 +160,18 @@ texts = (fairytale.text for fairytale in data.fairytales)
 
 
 for fairytale, doc in zip(data.fairytales, nlp.pipe(texts)): # pipe() using all docs
+    resolved_spans = fairytale.resolve_nested_spans()
     spacy_spans = []
-    for annotation in fairytale.spans: # Label-Studio Annotations
+    for annotation in resolved_spans: # Label-Studio Annotations
         spacy_span = doc.char_span(annotation.start, annotation.end, label=annotation.label) # Maps to SpaCy-Spans
         if spacy_span is None:
-            continue
+            raise ValueError(
+                f"KHM {fairytale.khm}: "
+                f"Could not map span '{annotation.text}' "
+                f"({annotation.start}, {annotation.end}) to token boundaries."
+            )
 
         # check if spans are correctly assigned:
-        assert spacy_span is not None
         assert spacy_span.text == annotation.text
 
         spacy_spans.append(spacy_span)
