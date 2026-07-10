@@ -1,10 +1,14 @@
 import json
 
 from dataclasses import dataclass, field
+from ftplib import all_errors
+
+import torch
 from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
 
 from spacy.lang.de import German
+from spacy.tokens import Doc, Span
 
 # https://www.geeksforgeeks.org/deep-learning/how-do-you-use-pytorchs-dataset-and-dataloader-classes-for-custom-data/
 
@@ -129,43 +133,33 @@ class TokenDocument:
     offsets: list[tuple[int, int]]
     labels: list[str]
 
-#class FairytaleSequenceTaggingDataset(Dataset):
-#    """
-#    PyTorch Dataset for sequence tagging tasks.
-#    Builds Tokens & BIO Labels
-#    """
-#
-#    def __init__(self, dataset: FairytaleDataset):
-#        self.dataset = dataset
-#
-#    def __len__(self):
-#        return len(self.dataset.fairytales)
-#
-#    def __getitem__(self, idx):
-#        pass
+class FairytaleSequenceTaggingDataset(Dataset):
+    """
+    PyTorch Dataset for sequence tagging tasks.
+    """
+
+    def __init__(self, dataset: FairytaleDataset):
+        self.dataset = dataset
+
+    def __len__(self):
+        return len(self.dataset.fairytales)
+
+    def __getitem__(self, idx):
+        return torch.tensor(self.dataset.fairytales[idx])
 
 
+def load_dataset(datapath: str) -> FairytaleDataset:
+    with open(datapath, "r", encoding="utf-8") as f:
+        fairytale_annotated = json.load(f)
+    return FairytaleDataset.from_json(fairytale_annotated)
 
-DATA_PATH = "data/grimm_fairytales_annotated/fuzzy_loc_3.7.26.json"
-
-with open(DATA_PATH, "r", encoding="utf-8") as f:
-    fairytale_annotated = json.load(f)
-
-data = FairytaleDataset.from_json(fairytale_annotated)
-
-# Bi-LSTM Preparation
-# SpaCy Tokenizer for text in every fairytale
-nlp = German() # contains tokenizer, no other SpaCy Pipeline Components
-texts = (fairytale.text for fairytale in data.fairytales)
-
-errors = []
-
-for fairytale, doc in zip(data.fairytales, nlp.pipe(texts)): # pipe() using all docs
+def build_spacy_spans(fairytale: Fairytale, doc: Doc) -> tuple[list[Span], list[str]]:
     resolved_spans = fairytale.resolve_nested_spans()
     spacy_spans = []
+    errors = []
 
-    for annotation in resolved_spans: # Label-Studio Annotations
-        spacy_span = doc.char_span(annotation.start, annotation.end, label=annotation.label) # Maps to SpaCy-Spans
+    for annotation in resolved_spans:  # Label-Studio Annotations
+        spacy_span = doc.char_span(annotation.start, annotation.end, label=annotation.label)  # Maps to SpaCy-Spans
 
         if spacy_span is None:
             errors.append(
@@ -188,19 +182,43 @@ for fairytale, doc in zip(data.fairytales, nlp.pipe(texts)): # pipe() using all 
         assert spacy_span.text == annotation.text
 
         spacy_spans.append(spacy_span)
-        # IOB-Tag
-    doc.ents = spacy_spans
 
-    for token in doc[:20]:
-        print(token.text, token.ent_iob_, token.ent_type_)
+    return spacy_spans, errors
+
+    #for token in doc[:20]:
+    #    print(token.text, token.ent_iob_, token.ent_type_)
+
+def annotate_dataset(dataset: FairytaleDataset,) -> tuple[list[Doc], list[str]]:
+
+    # SpaCy Tokenizer for text in every fairytale
+    nlp = German()  # contains tokenizer, no other SpaCy Pipeline Components
+
+    texts = (fairytale.text for fairytale in dataset.fairytales)
+
+    docs = []
+    all_errors = []
+
+
+    for fairytale, doc in zip(dataset.fairytales, nlp.pipe(texts)): # pipe() using all docs
+        spacy_spans, errors = build_spacy_spans(fairytale, doc)
+        doc.ents = spacy_spans
+
+        docs.append(doc)
+        all_errors.extend(errors)
+
+    return docs, all_errors
+
+
+DATA_PATH = "data/grimm_fairytales_annotated/fuzzy_loc_3.7.26.json"
+dataset = load_dataset(DATA_PATH)
+
+docs, errors = annotate_dataset(dataset)
 
 if errors:
     print(f"\nFound {len(errors)} errors:\n")
-
     for error in errors:
         print(error)
 else:
     print("No errors found.")
 
-# Bi-LSTM Dataclass
 
