@@ -10,6 +10,8 @@ from torch.utils.data import DataLoader
 from spacy.lang.de import German
 from spacy.tokens import Doc, Span
 
+from constants import LABEL2ID
+
 # https://www.geeksforgeeks.org/deep-learning/how-do-you-use-pytorchs-dataset-and-dataloader-classes-for-custom-data/
 
 """
@@ -43,6 +45,10 @@ SpaCyPreprocessor           HuggingFace Tokenizer
  ▼                                  ▼
 BiLSTMBuilder              TransformerBuilder
 - IO(B)-Labels
+- Token Documents
+- Vocabulary
+- FairytaleSequenceTaggingDataset
+- Collate_fn for Sequence Padding + Masking
  │                                 │
  ▼                                 ▼
 TorchDataset                   TorchDataset
@@ -131,15 +137,18 @@ class TokenDocument:
     text: str
     tokens: list[str]
     offsets: list[tuple[int, int]]
-    labels: list[str]
+    label: list[str]
 
 class FairytaleSequenceTaggingDataset(Dataset):
     """
     PyTorch Dataset for sequence tagging tasks.
     """
 
-    def __init__(self, dataset: FairytaleDataset):
+    def __init__(self, dataset: FairytaleDataset, token_documents: list[TokenDocument], word2id, label2id):
         self.dataset = dataset
+        self.documents = token_documents
+        self.word2id = word2id
+        self.label2id = label2id
 
     def __len__(self):
         return len(self.dataset.fairytales)
@@ -221,4 +230,37 @@ if errors:
 else:
     print("No errors found.")
 
+def doc_to_token_document(doc: Doc) -> TokenDocument:
+    tokens = []
+    offsets = []
+    labels = []
+    for token in doc:
+        tokens.append(token.text)
+        offsets.append(token.idx, token.idx + len(token))
+        if token.ent_iob_ == "O":
+            labels.append("O")
+        else:
+            labels.append(f"{token.ent_iob_}-{token.ent_type_}")
 
+def create_token_documents(docs: list[Doc]) -> list[TokenDocument]:
+    return [doc_to_token_document(doc) for doc in docs]
+
+def build_vocabulary(token_documents):
+    word2id = {
+        "<PAD>": 0,
+        "<UNK>": 1,
+    }
+
+    for doc in token_documents:
+        for token in doc.tokens:
+            if token not in word2id:
+                word2id[token] = len(word2id)
+
+    id2word = {v: k for k, v in word2id.items()}
+    return word2id, id2word
+
+
+token_documents = create_token_documents(docs)
+word2id, id2word = build_vocabulary(token_documents)
+
+dataset = FairytaleSequenceTaggingDataset(token_documents, word2id, label2id=LABEL2ID)
