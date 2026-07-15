@@ -1,7 +1,6 @@
 import json
 
 from dataclasses import dataclass, field
-from ftplib import all_errors
 
 import torch
 from torch.utils.data import Dataset
@@ -137,24 +136,37 @@ class TokenDocument:
     text: str
     tokens: list[str]
     offsets: list[tuple[int, int]]
-    label: list[str]
+    labels: list[str]
 
 class FairytaleSequenceTaggingDataset(Dataset):
     """
     PyTorch Dataset for sequence tagging tasks.
     """
 
-    def __init__(self, dataset: FairytaleDataset, token_documents: list[TokenDocument], word2id, label2id):
-        self.dataset = dataset
+    def __init__(self, token_documents: list[TokenDocument], word2id, label2id):
         self.documents = token_documents
         self.word2id = word2id
         self.label2id = label2id
 
     def __len__(self):
-        return len(self.dataset.fairytales)
+        return len(self.documents)
 
-    def __getitem__(self, idx):
-        return torch.tensor(self.dataset.fairytales[idx])
+    # Documents to pytorch Tensors
+    def __getitem__(self, idx: int):
+        token_document = self.documents[idx]
+        input_ids = []
+        tag_ids = []
+
+        for token in token_document.tokens:
+            input_ids.append(self.word2id.get(token, self.word2id["<UNK>"]))
+
+        for label in token_document.labels:
+            tag_ids.append(self.label2id[label])
+
+        input_ids = torch.tensor(input_ids, dtype=torch.long)
+        tag_ids = torch.tensor(tag_ids, dtype=torch.long)
+
+        return {"input_ids": input_ids, "tags": tag_ids,}
 
 
 def load_dataset(datapath: str) -> FairytaleDataset:
@@ -236,11 +248,18 @@ def doc_to_token_document(doc: Doc) -> TokenDocument:
     labels = []
     for token in doc:
         tokens.append(token.text)
-        offsets.append(token.idx, token.idx + len(token))
+        offsets.append((token.idx, token.idx + len(token)))
         if token.ent_iob_ == "O":
             labels.append("O")
         else:
             labels.append(f"{token.ent_iob_}-{token.ent_type_}")
+
+    return TokenDocument(
+        text=doc.text,
+        tokens=tokens,
+        offsets=offsets,
+        labels=labels,
+    )
 
 def create_token_documents(docs: list[Doc]) -> list[TokenDocument]:
     return [doc_to_token_document(doc) for doc in docs]
