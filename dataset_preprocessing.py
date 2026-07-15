@@ -4,7 +4,8 @@ from dataclasses import dataclass, field
 
 import torch
 from torch.utils.data import Dataset
-from torch.utils.data import DataLoader
+from torch.nn.utils.rnn import pad_sequence
+from torch import Tensor
 
 from spacy.lang.de import German
 from spacy.tokens import Doc, Span
@@ -283,3 +284,30 @@ token_documents = create_token_documents(docs)
 word2id, id2word = build_vocabulary(token_documents)
 
 dataset = FairytaleSequenceTaggingDataset(token_documents, word2id, label2id=LABEL2ID)
+
+def collate_fn(batch: list[dict[str, Tensor]]):
+    """"
+    For padding & masking all Tensors from Datasets.
+    Padding -> same size in each batch
+    Masking -> defines which tokens are real, which are padding
+    Used by Pytorch DataLoader.
+    """
+    input_ids = []
+    tags = []
+
+    for sample in batch:
+        input_ids.append(sample["input_ids"])
+        tags.append(sample["tags"])
+
+    input_ids = pad_sequence(input_ids, batch_first=True) # Output: Batch x Length  -> to match BiLSTM batch_first=True
+    tags = pad_sequence(tags, batch_first=True)
+
+    # Masking via: != elementwise pytorch operation
+    mask = input_ids != 0
+
+    padded = {
+        "input_ids": input_ids,
+        "tags": tags,
+        "mask": mask
+        }
+    return padded
