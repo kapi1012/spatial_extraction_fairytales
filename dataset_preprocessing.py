@@ -1,4 +1,5 @@
 import json
+import statistics
 
 from dataclasses import dataclass, field
 
@@ -9,6 +10,9 @@ from torch import Tensor
 
 from spacy.lang.de import German
 from spacy.tokens import Doc, Span
+
+from flair.embeddings import WordEmbeddings, FlairEmbeddings, StackedEmbeddings
+from flair.data import Sentence
 
 from constants import LABEL2ID
 
@@ -36,22 +40,23 @@ JSON
 FairytaleDataset
 - Python Dataclass
  │
- ├──────────────────────────────────┐
- ▼                                  ▼
-SpaCyPreprocessor           HuggingFace Tokenizer
-- Tokenizer                   - offset_mapping
-- Character Offsets                 │ 
- │                                  │
- ▼                                  ▼
-BiLSTMBuilder              TransformerBuilder
+ ├───────────────────────────────────────────────────┐
+ ▼                                                   ▼
+SpaCyPreprocessor                           HuggingFace Tokenizer
+- Tokenizer                                  - offset_mapping
+- Character Offsets
+- Sentence Boundaries                                │ 
+ │                                                   │
+ ▼                                                   ▼
+BiLSTMBuilder                               TransformerBuilder
 - IO(B)-Labels
 - Token Documents
-- Vocabulary
+- Flair Embeddings
 - FairytaleSequenceTaggingDataset
 - Collate_fn for Sequence Padding + Masking
- │                                 │
- ▼                                 ▼
-TorchDataset                   TorchDataset
+ │                                                   │
+ ▼                                                   ▼
+TorchDataset                                  TorchDataset
       
 """
 
@@ -138,15 +143,16 @@ class TokenDocument:
     tokens: list[str]
     offsets: list[tuple[int, int]]
     labels: list[str]
+    sentence_boundaries: list[tuple[int, int]] # Boundaries for SpaCy Sentenizer
+    embeddings: torch.Tensor | None = None # FLAIR Embeddings
 
 class FairytaleSequenceTaggingDataset(Dataset):
     """
     PyTorch Dataset for sequence tagging tasks.
     """
 
-    def __init__(self, token_documents: list[TokenDocument], word2id, label2id):
+    def __init__(self, token_documents: list[TokenDocument], label2id):
         self.documents = token_documents
-        self.word2id = word2id
         self.label2id = label2id
 
     def __len__(self):
@@ -155,19 +161,12 @@ class FairytaleSequenceTaggingDataset(Dataset):
     # Documents to pytorch Tensors
     def __getitem__(self, idx: int):
         token_document = self.documents[idx]
-        input_ids = []
-        tag_ids = []
+        tag_ids = [self.label2id[label] for label in token_document.labels]
 
-        for token in token_document.tokens:
-            input_ids.append(self.word2id.get(token, self.word2id["<UNK>"]))
-
-        for label in token_document.labels:
-            tag_ids.append(self.label2id[label])
-
-        input_ids = torch.tensor(input_ids, dtype=torch.long)
-        tag_ids = torch.tensor(tag_ids, dtype=torch.long)
-
-        return {"input_ids": input_ids, "tags": tag_ids,}
+        return {
+            "embeddings": token_document.embeddings,
+            "tags": torch.tensor(tag_ids)
+        }
 
 
 def load_dataset(datapath: str) -> FairytaleDataset:
@@ -214,6 +213,7 @@ def annotate_dataset(dataset: FairytaleDataset,) -> tuple[list[Doc], list[str]]:
 
     # SpaCy Tokenizer for text in every fairytale
     nlp = German()  # contains tokenizer, no other SpaCy Pipeline Components
+    nlp.add_pipe("sentencizer") # add segmentation by sentence for FLAIR Embeddings
 
     texts = (fairytale.text for fairytale in dataset.fairytales)
 
@@ -244,9 +244,18 @@ else:
     print("No errors found.")
 
 def doc_to_token_document(doc: Doc) -> TokenDocument:
+
+    sentence_boundaries = []
+
+    # Save sentence boundaries for FLAIR
+    for sent in doc.sents:
+        sentence_boundaries.append((sent.start, sent.end))
+
+
     tokens = []
     offsets = []
     labels = []
+
     for token in doc:
         tokens.append(token.text)
         offsets.append((token.idx, token.idx + len(token)))
@@ -260,30 +269,41 @@ def doc_to_token_document(doc: Doc) -> TokenDocument:
         tokens=tokens,
         offsets=offsets,
         labels=labels,
+        sentence_boundaries=sentence_boundaries,
     )
 
 def create_token_documents(docs: list[Doc]) -> list[TokenDocument]:
     return [doc_to_token_document(doc) for doc in docs]
 
-def build_vocabulary(token_documents):
-    word2id = {
-        "<PAD>": 0,
-        "<UNK>": 1,
-    }
+
+def flair_embedding(token_documents: list[TokenDocument]) -> None:
+
+    stacked_embeddings = StackedEmbeddings([
+        WordEmbeddings('de-crawl'), # FastText for Subword Information
+        FlairEmbeddings('de-historic-rw-forward'),
+        FlairEmbeddings('de-historic-rw-backward'),
+    ])
 
     for doc in token_documents:
-        for token in doc.tokens:
-            if token not in word2id:
-                word2id[token] = len(word2id)
 
-    id2word = {v: k for k, v in word2id.items()}
-    return word2id, id2word
+        all_embeddings = []
+
+        for start, end in doc.sentence_boundaries:
+            sentence = Sentence(doc.tokens[start:end])
+            with torch.no_grad():
+                stacked_embeddings.embed(sentence)
+            sentence_embedding = torch.stack([token.embedding.cpu() for token in sentence])
+
+            all_embeddings.append(sentence_embedding)
+
+        doc.embeddings = torch.cat(all_embeddings, dim=0)
+
+    torch.save(token_documents, "data/flair_embeddings/embeddings.pt")
 
 
 token_documents = create_token_documents(docs)
-word2id, id2word = build_vocabulary(token_documents)
-
-dataset = FairytaleSequenceTaggingDataset(token_documents, word2id, label2id=LABEL2ID)
+flair_embedding(token_documents)
+dataset = FairytaleSequenceTaggingDataset(token_documents, label2id=LABEL2ID)
 
 def collate_fn(batch: list[dict[str, Tensor]]):
     """"
@@ -292,22 +312,40 @@ def collate_fn(batch: list[dict[str, Tensor]]):
     Masking -> defines which tokens are real, which are padding
     Used by Pytorch DataLoader.
     """
-    input_ids = []
-    tags = []
+    embeddings = [sample["embeddings"] for sample in batch]
+    tags = [sample["tags"] for sample in batch]
 
-    for sample in batch:
-        input_ids.append(sample["input_ids"])
-        tags.append(sample["tags"])
+    # Padding for a batch
+    lengths = [e.size(0) for e in embeddings]
 
-    input_ids = pad_sequence(input_ids, batch_first=True) # Output: Batch x Length  -> to match BiLSTM batch_first=True
+    embeddings = pad_sequence(embeddings, batch_first=True)
+
     tags = pad_sequence(tags, batch_first=True)
 
-    # Masking via: != elementwise pytorch operation
-    mask = input_ids != 0
+    # Bool mask for FLAIR Embedding
+    mask = torch.zeros(len(batch), embeddings.size(1), dtype=torch.bool)
 
-    padded = {
-        "input_ids": input_ids,
+    for i, length in enumerate(lengths):
+        mask[i, :length] = True
+
+    return {
+        "embeddings": embeddings,
         "tags": tags,
-        "mask": mask
-        }
-    return padded
+        "mask": mask,
+    }
+
+# Looking at length and distributions:
+lengths = [
+    len(doc.tokens)
+    for doc in token_documents
+]
+
+print(max(lengths))
+print(sum(lengths)/len(lengths))
+print(statistics.median(lengths))
+
+# max: 9200
+    # mean: 1482,8
+# median: 1222,5
+# Todo: Chunking long fairytales
+# Todo: Bucketing -> Märchen sortieren nach Länge

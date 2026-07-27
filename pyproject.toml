@@ -3,6 +3,7 @@ name = "spatial-extraction-fairytales"
 version = "0.1.0"
 requires-python = ">=3.13"
 dependencies = [
+    "flair[word-embeddings]>=0.15.1",
     "label-studio<=1.23",
     "pip>=26.0.1",
     "pytorch-crf>=0.7.2",
