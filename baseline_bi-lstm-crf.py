@@ -2,12 +2,13 @@ import torch
 import torch.nn as nn
 import numpy as np
 
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, Dataset, random_split
 from torchcrf import CRF
 
 from constants import LABEL2ID, ID2LABEL
 from dataset_preprocessing import collate_fn, FairytaleSequenceTaggingDataset
 
+from sklearn import datasets
 from sklearn.metrics import accuracy_score, precision_recall_fscore_support, classification_report, confusion_matrix
 """
 Number of possible label tags = 5
@@ -74,10 +75,14 @@ print(f"mean length fairytale:{np.mean(lengths)}")
 print(f"Embedding Shape:{token_documents[0].embeddings.shape}")
 print(f"max Embedding Shape:{max(doc.embeddings.size(0) for doc in token_documents)}")
 
-# Dataloader
-train_dataloader = DataLoader(dataset=dataset, batch_size=8, shuffle=True, num_workers=0, pin_memory=True, collate_fn=collate_fn) # pin_memory only for training on GPU
-#test_dataloader = DataLoader(test_data, batch_size=64, shuffle=True, num_workers=4, pin_memory=True)
+# Train-Val-Test-Split
+# Small Dataset, so 80 % train
+train_dataset, val_dataset, test_dataset = torch.utils.data.random_split(dataset, [0.8, 0.1, 0.1])
 
+# Dataloader
+train_dataloader = DataLoader(dataset=train_dataset, batch_size=8, shuffle=True, num_workers=0, pin_memory=True, collate_fn=collate_fn) # pin_memory only for training on GPU
+val_dataloader = DataLoader(dataset=val_dataset, batch_size=8, shuffle=True, num_workers=0, pin_memory=True, collate_fn=collate_fn)
+test_dataloader = DataLoader(dataset=test_dataset, batch_size=8, shuffle=True, num_workers=0, pin_memory=True, collate_fn=collate_fn)
 
 # Training
 EMBEDDING_DIM = token_documents[0].embeddings.size(1)
@@ -104,7 +109,7 @@ for batch in train_dataloader:
     mask = batch["mask"].to(device)
 
     loss = model.compute_loss(embeddings, tags, mask)
-    print(loss.item())
+    #print(loss.item())
 
     loss.backward()
 
@@ -118,11 +123,7 @@ emissions = model(batch["embeddings"].to(device))
 print(emissions.shape)
 
 
-
 # Evaluation
-#predictions = model(input_ids, mask)
-#dataset.ID2LABEL[tag]
-#predicted_labels = [ID2LABEL[i] for i in prediction]
 model.eval()
 
 all_predictions = []
@@ -130,7 +131,7 @@ all_true_tags = []
 
 with torch.no_grad():
 
-    for batch in train_dataloader:
+    for batch in test_dataloader:
 
         embeddings = batch["embeddings"].to(device)
         tags = batch["tags"].to(device)
@@ -145,11 +146,4 @@ with torch.no_grad():
             all_predictions.extend(pred)
             all_true_tags.extend(gold[:length].cpu().tolist())
 
-accuracy = accuracy_score(all_true_tags, all_predictions)
-
-precision, recall, f1, _ = precision_recall_fscore_support(all_true_tags, all_predictions, average="macro")
-
-print(f"Accuracy : {accuracy:.4f}")
-print(f"Precision: {precision:.4f}")
-print(f"Recall   : {recall:.4f}")
-print(f"F1       : {f1:.4f}")
+print(classification_report(all_true_tags, all_predictions, target_names=LABEL2ID.keys()))
