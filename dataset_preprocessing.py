@@ -146,6 +146,12 @@ class TokenDocument:
     sentence_boundaries: list[tuple[int, int]] # Boundaries for SpaCy Sentenizer
     embeddings: torch.Tensor | None = None # FLAIR Embeddings
 
+@dataclass
+class SentenceDocument:
+    tokens: list[str]
+    labels: list[str]
+    embeddings: torch.Tensor | None = None
+
 class FairytaleSequenceTaggingDataset(Dataset):
     """
     PyTorch Dataset for sequence tagging tasks.
@@ -277,6 +283,9 @@ def create_token_documents(docs: list[Doc]) -> list[TokenDocument]:
 
 
 def flair_embedding(token_documents: list[TokenDocument]) -> None:
+    """
+    Embeds the Fairytale-Texts on sentence-level for BiLSTM.
+    """
 
     stacked_embeddings = StackedEmbeddings([
         WordEmbeddings('de-crawl'), # FastText for Subword Information
@@ -284,9 +293,9 @@ def flair_embedding(token_documents: list[TokenDocument]) -> None:
         FlairEmbeddings('de-historic-rw-backward'),
     ])
 
-    for doc in token_documents:
+    sentence_documents = []
 
-        all_embeddings = []
+    for doc in token_documents:
 
         for start, end in doc.sentence_boundaries:
             sentence = Sentence(doc.tokens[start:end])
@@ -294,11 +303,15 @@ def flair_embedding(token_documents: list[TokenDocument]) -> None:
                 stacked_embeddings.embed(sentence)
             sentence_embedding = torch.stack([token.embedding.cpu() for token in sentence])
 
-            all_embeddings.append(sentence_embedding)
+            sentence_documents.append(
+                SentenceDocument(
+                    tokens=doc.tokens[start:end],
+                    labels=doc.labels[start:end],
+                    embeddings=sentence_embedding
+                )
+            )
 
-        doc.embeddings = torch.cat(all_embeddings, dim=0)
-
-    torch.save(token_documents, "data/flair_embeddings/embeddings.pt")
+    torch.save(sentence_documents, "data/flair_embeddings/embeddings.pt")
 
 
 token_documents = create_token_documents(docs)
@@ -347,5 +360,4 @@ print(statistics.median(lengths))
 # max: 9200
     # mean: 1482,8
 # median: 1222,5
-# Todo: Chunking long fairytales
-# Todo: Bucketing -> Märchen sortieren nach Länge
+# -> Fairytales are processed sentence-level for LSTM

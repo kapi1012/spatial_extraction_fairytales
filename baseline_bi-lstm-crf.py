@@ -1,12 +1,14 @@
 import torch
 import torch.nn as nn
+import numpy as np
 
 from torch.utils.data import DataLoader
 from torchcrf import CRF
 
-from constants import LABEL2ID
+from constants import LABEL2ID, ID2LABEL
 from dataset_preprocessing import collate_fn, FairytaleSequenceTaggingDataset
 
+from sklearn.metrics import accuracy_score, precision_recall_fscore_support, classification_report, confusion_matrix
 """
 Number of possible label tags = 5
 
@@ -65,6 +67,12 @@ class BiLSTM_CRF(nn.Module):
 token_documents = torch.load("data/flair_embeddings/embeddings.pt", weights_only=False,)
 dataset = FairytaleSequenceTaggingDataset(token_documents, label2id=LABEL2ID)
 
+lengths = [doc.embeddings.size(0) for doc in token_documents]
+
+print(f"max length fairytale:{max(lengths)}")
+print(f"mean length fairytale:{np.mean(lengths)}")
+print(f"Embedding Shape:{token_documents[0].embeddings.shape}")
+print(f"max Embedding Shape:{max(doc.embeddings.size(0) for doc in token_documents)}")
 
 # Dataloader
 train_dataloader = DataLoader(dataset=dataset, batch_size=8, shuffle=True, num_workers=0, pin_memory=True, collate_fn=collate_fn) # pin_memory only for training on GPU
@@ -72,7 +80,6 @@ train_dataloader = DataLoader(dataset=dataset, batch_size=8, shuffle=True, num_w
 
 
 # Training
-# Test 50, 100, 300
 EMBEDDING_DIM = token_documents[0].embeddings.size(1)
 # Grid Search or random search for best value; test 64, 128, 264
 HIDDEN_DIM = 64
@@ -116,3 +123,33 @@ print(emissions.shape)
 #predictions = model(input_ids, mask)
 #dataset.ID2LABEL[tag]
 #predicted_labels = [ID2LABEL[i] for i in prediction]
+model.eval()
+
+all_predictions = []
+all_true_tags = []
+
+with torch.no_grad():
+
+    for batch in train_dataloader:
+
+        embeddings = batch["embeddings"].to(device)
+        tags = batch["tags"].to(device)
+        mask = batch["mask"].to(device)
+
+        predictions = model.decode(embeddings, mask)
+
+        for pred, gold, valid in zip(predictions, tags, mask):
+
+            length = valid.sum().item()
+
+            all_predictions.extend(pred)
+            all_true_tags.extend(gold[:length].cpu().tolist())
+
+accuracy = accuracy_score(all_true_tags, all_predictions)
+
+precision, recall, f1, _ = precision_recall_fscore_support(all_true_tags, all_predictions, average="macro")
+
+print(f"Accuracy : {accuracy:.4f}")
+print(f"Precision: {precision:.4f}")
+print(f"Recall   : {recall:.4f}")
+print(f"F1       : {f1:.4f}")

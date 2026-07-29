@@ -5,8 +5,10 @@ requires-python = ">=3.13"
 dependencies = [
     "flair[word-embeddings]>=0.15.1",
     "label-studio<=1.23",
+    "numpy>=2.4.4",
     "pip>=26.0.1",
     "pytorch-crf>=0.7.2",
+    "scikit-learn>=1.9.0",
     "spacy>=3.8.14",
     "torch>=2.12.1",
 ]
