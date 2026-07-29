@@ -70,10 +70,11 @@ dataset = FairytaleSequenceTaggingDataset(token_documents, label2id=LABEL2ID)
 
 lengths = [doc.embeddings.size(0) for doc in token_documents]
 
-print(f"max length fairytale:{max(lengths)}")
-print(f"mean length fairytale:{np.mean(lengths)}")
-print(f"Embedding Shape:{token_documents[0].embeddings.shape}")
-print(f"max Embedding Shape:{max(doc.embeddings.size(0) for doc in token_documents)}")
+# Checking length after sentence-wise usage
+#print(f"max length fairytale:{max(lengths)}")
+#print(f"mean length fairytale:{np.mean(lengths)}")
+#print(f"Embedding Shape:{token_documents[0].embeddings.shape}")
+#print(f"max Embedding Shape:{max(doc.embeddings.size(0) for doc in token_documents)}")
 
 # Train-Val-Test-Split
 # Small Dataset, so 80 % train
@@ -86,64 +87,81 @@ test_dataloader = DataLoader(dataset=test_dataset, batch_size=8, shuffle=True, n
 
 # Training
 EMBEDDING_DIM = token_documents[0].embeddings.size(1)
+EPOCHS = 20
+
+# Hyperparamtersearch
 # Grid Search or random search for best value; test 64, 128, 264
 HIDDEN_DIM = 64
+DROPOUT = 0.5
+LEARNING_RATE = 0.001
 
-model = BiLSTM_CRF(num_tags=len(LABEL2ID), embedding_dim=EMBEDDING_DIM, hidden_dim=HIDDEN_DIM)
+# Model Initialization
+model = BiLSTM_CRF(num_tags=len(LABEL2ID), embedding_dim=EMBEDDING_DIM, hidden_dim=HIDDEN_DIM, dropout=DROPOUT)
 
 # Enable GPU Training
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
-optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+# Optimizer
+optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
 
-# For Debugging
-batch = next(iter(train_dataloader))
+def train_model(model, optimizer, train_data, epochs):
+    model.train()
+    for epoch in range(epochs):
+        epoch_loss = 0
+        for batch in train_data:
 
-for batch in train_dataloader:
+            optimizer.zero_grad()
 
-    optimizer.zero_grad()
+            embeddings = batch["embeddings"].to(device)
+            tags = batch["tags"].to(device)
+            mask = batch["mask"].to(device)
 
-    embeddings = batch["embeddings"].to(device)
-    tags = batch["tags"].to(device)
-    mask = batch["mask"].to(device)
+            # compute loss and backpropagate
+            loss = model.compute_loss(embeddings, tags, mask)
+            #print(loss.item())
+            loss.backward()
 
-    loss = model.compute_loss(embeddings, tags, mask)
-    #print(loss.item())
+            optimizer.step()
 
-    loss.backward()
+            epoch_loss += loss.item()
 
-    optimizer.step()
+        # Print progress every 10 epochs
+        if (epoch + 1) % 10 == 0:
+            avg_loss = epoch_loss / len(train_data)
+            print(f"Epoch {epoch + 1}/{epochs}, Average Loss: {avg_loss:.4f}")
 
-print(batch["embeddings"].shape)
-print(batch["tags"].shape)
-print(batch["mask"].shape)
 
-emissions = model(batch["embeddings"].to(device))
-print(emissions.shape)
+    #print(batch["embeddings"].shape)
+    #print(batch["tags"].shape)
+    #print(batch["mask"].shape)
 
+    #emissions = model(batch["embeddings"].to(device))
+    #print(emissions.shape)
+
+train_model(model=model, optimizer=optimizer, train_data=train_dataloader, epochs=EPOCHS)
 
 # Evaluation
-model.eval()
+def test_model(model, test_data):
+    model.eval()
 
-all_predictions = []
-all_true_tags = []
+    all_predictions = []
+    all_true_tags = []
 
-with torch.no_grad():
+    with torch.no_grad():
 
-    for batch in test_dataloader:
+        for batch in test_data:
+            embeddings = batch["embeddings"].to(device)
+            tags = batch["tags"].to(device)
+            mask = batch["mask"].to(device)
 
-        embeddings = batch["embeddings"].to(device)
-        tags = batch["tags"].to(device)
-        mask = batch["mask"].to(device)
+            predictions = model.decode(embeddings, mask)
 
-        predictions = model.decode(embeddings, mask)
+            for pred, gold, valid in zip(predictions, tags, mask):
 
-        for pred, gold, valid in zip(predictions, tags, mask):
+                length = valid.sum().item()
 
-            length = valid.sum().item()
+                all_predictions.extend(pred)
+                all_true_tags.extend(gold[:length].cpu().tolist())
 
-            all_predictions.extend(pred)
-            all_true_tags.extend(gold[:length].cpu().tolist())
-
-print(classification_report(all_true_tags, all_predictions, target_names=LABEL2ID.keys()))
+    print(classification_report(all_true_tags, all_predictions, target_names=LABEL2ID.keys()))
