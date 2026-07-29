@@ -105,10 +105,14 @@ model.to(device)
 # Optimizer
 optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
 
-def train_model(model, optimizer, train_data, epochs):
-    model.train()
+def train_model(model, optimizer, train_data, val_data, epochs):
+
+    best_f1 = 0.0
+
     for epoch in range(epochs):
+        model.train()
         epoch_loss = 0
+
         for batch in train_data:
 
             optimizer.zero_grad()
@@ -121,15 +125,34 @@ def train_model(model, optimizer, train_data, epochs):
             loss = model.compute_loss(embeddings, tags, mask)
             #print(loss.item())
             loss.backward()
-
             optimizer.step()
 
             epoch_loss += loss.item()
 
+        # Validation
+        true_tags, predictions = test_model(model=model, test_data=val_data)
+        _, _, val_f1, _ = precision_recall_fscore_support(true_tags, predictions, average='micro')
+
+        print(
+            f"Epoch {epoch+1}/{epochs} "
+            f"Loss={epoch_loss:.3f} "
+            f"Val F1={val_f1:.4f}"
+        )
+
+        # Checkpoint
+        if val_f1 > best_f1:
+            best_f1 = val_f1
+            torch.save(model.state_dict(), "bilstm_models/bilstm_best.pt")
+
+    model.load_state_dict(torch.load("bilstm_models/bilstm_best.pt"))
+
+    return model
+
+
         # Print progress every 10 epochs
-        if (epoch + 1) % 10 == 0:
-            avg_loss = epoch_loss / len(train_data)
-            print(f"Epoch {epoch + 1}/{epochs}, Average Loss: {avg_loss:.4f}")
+        #if (epoch + 1) % 10 == 0:
+        #    avg_loss = epoch_loss / len(train_data)
+        #    print(f"Epoch {epoch + 1}/{epochs}, Average Loss: {avg_loss:.4f}")
 
 
     #print(batch["embeddings"].shape)
@@ -138,8 +161,6 @@ def train_model(model, optimizer, train_data, epochs):
 
     #emissions = model(batch["embeddings"].to(device))
     #print(emissions.shape)
-
-train_model(model=model, optimizer=optimizer, train_data=train_dataloader, epochs=EPOCHS)
 
 # Evaluation
 def test_model(model, test_data):
@@ -164,4 +185,11 @@ def test_model(model, test_data):
                 all_predictions.extend(pred)
                 all_true_tags.extend(gold[:length].cpu().tolist())
 
-    print(classification_report(all_true_tags, all_predictions, target_names=LABEL2ID.keys()))
+    return all_true_tags, all_predictions
+
+
+fuzzy_bilstm = train_model(model=model, optimizer=optimizer, train_data=train_dataloader, val_data=val_dataloader, epochs=EPOCHS)
+true_tags, predictions = test_model(model=fuzzy_bilstm, test_data=test_dataloader)
+
+#todo f1-score on Span-level, not token-level
+print(classification_report(true_tags, predictions, target_names=LABEL2ID.keys()))
