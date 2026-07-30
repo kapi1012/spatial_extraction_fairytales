@@ -157,8 +157,8 @@ class FairytaleSequenceTaggingDataset(Dataset):
     PyTorch Dataset for sequence tagging tasks.
     """
 
-    def __init__(self, token_documents: list[TokenDocument], label2id):
-        self.documents = token_documents
+    def __init__(self, documents: list[SentenceDocument], label2id):
+        self.documents = documents
         self.label2id = label2id
 
     def __len__(self):
@@ -166,11 +166,11 @@ class FairytaleSequenceTaggingDataset(Dataset):
 
     # Documents to pytorch Tensors
     def __getitem__(self, idx: int):
-        token_document = self.documents[idx]
-        tag_ids = [self.label2id[label] for label in token_document.labels]
+        document = self.documents[idx]
+        tag_ids = [self.label2id[label] for label in document.labels]
 
         return {
-            "embeddings": token_document.embeddings,
+            "embeddings": document.embeddings,
             "tags": torch.tensor(tag_ids)
         }
 
@@ -282,7 +282,7 @@ def create_token_documents(docs: list[Doc]) -> list[TokenDocument]:
     return [doc_to_token_document(doc) for doc in docs]
 
 
-def flair_embedding(token_documents: list[TokenDocument]) -> None:
+def flair_embedding(token_documents: list[TokenDocument]) -> list[SentenceDocument]:
     """
     Embeds the Fairytale-Texts on sentence-level for BiLSTM.
     """
@@ -312,11 +312,12 @@ def flair_embedding(token_documents: list[TokenDocument]) -> None:
             )
 
     torch.save(sentence_documents, "data/flair_embeddings/embeddings.pt")
+    return sentence_documents
 
 
 token_documents = create_token_documents(docs)
-flair_embedding(token_documents)
-dataset = FairytaleSequenceTaggingDataset(token_documents, label2id=LABEL2ID)
+sentence_documents = flair_embedding(token_documents)
+dataset = FairytaleSequenceTaggingDataset(sentence_documents, label2id=LABEL2ID)
 
 def collate_fn(batch: list[dict[str, Tensor]]):
     """"
@@ -353,6 +354,7 @@ lengths = [
     for doc in token_documents
 ]
 
+print("Lengths Documents:")
 print(max(lengths))
 print(sum(lengths)/len(lengths))
 print(statistics.median(lengths))
@@ -361,3 +363,13 @@ print(statistics.median(lengths))
     # mean: 1482,8
 # median: 1222,5
 # -> Fairytales are processed sentence-level for LSTM
+
+lengths_sentences = [
+    len(doc.tokens)
+    for doc in sentence_documents
+]
+
+print("Lengths Sentences:")
+print(max(lengths_sentences))
+print(sum(lengths_sentences)/len(lengths_sentences))
+print(statistics.median(lengths_sentences))

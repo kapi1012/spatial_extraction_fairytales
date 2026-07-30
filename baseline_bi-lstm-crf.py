@@ -5,14 +5,13 @@ import pandas as pd
 from datetime import datetime
 import time
 
-from torch.utils.data import DataLoader, Dataset, random_split
+from torch.utils.data import DataLoader, random_split
 from torchcrf import CRF
 
-from constants import LABEL2ID, ID2LABEL
+from constants import LABEL2ID
 from dataset_preprocessing import collate_fn, FairytaleSequenceTaggingDataset
 
-from sklearn import datasets
-from sklearn.metrics import accuracy_score, precision_recall_fscore_support, classification_report, confusion_matrix
+from sklearn.metrics import precision_recall_fscore_support, classification_report
 """
 Number of possible label tags = 5
 
@@ -68,28 +67,28 @@ class BiLSTM_CRF(nn.Module):
 
 
 # load preprocessed embeddings
-token_documents = torch.load("data/flair_embeddings/embeddings.pt", weights_only=False,)
-dataset = FairytaleSequenceTaggingDataset(token_documents, label2id=LABEL2ID)
+sentence_documents = torch.load("data/flair_embeddings/embeddings.pt", weights_only=False, )
+dataset = FairytaleSequenceTaggingDataset(sentence_documents, label2id=LABEL2ID)
 
-lengths = [doc.embeddings.size(0) for doc in token_documents]
+lengths = [doc.embeddings.size(0) for doc in sentence_documents]
 
 # Checking length after sentence-wise usage
-#print(f"max length fairytale:{max(lengths)}")
-#print(f"mean length fairytale:{np.mean(lengths)}")
-#print(f"Embedding Shape:{token_documents[0].embeddings.shape}")
-#print(f"max Embedding Shape:{max(doc.embeddings.size(0) for doc in token_documents)}")
+print(f"max length fairytale:{max(lengths)}")
+print(f"mean length fairytale:{np.mean(lengths)}")
+print(f"Embedding Shape:{sentence_documents[0].embeddings.shape}")
+print(f"max Embedding Shape:{max(doc.embeddings.size(0) for doc in sentence_documents)}")
 
 # Train-Val-Test-Split
 # Small Dataset, so 80 % train
-train_dataset, val_dataset, test_dataset = torch.utils.data.random_split(dataset, [0.8, 0.1, 0.1])
+train_dataset, val_dataset, test_dataset = random_split(dataset, [0.8, 0.1, 0.1])
 
 # Dataloader
 train_dataloader = DataLoader(dataset=train_dataset, batch_size=8, shuffle=True, num_workers=0, pin_memory=True, collate_fn=collate_fn) # pin_memory only for training on GPU
-val_dataloader = DataLoader(dataset=val_dataset, batch_size=8, shuffle=True, num_workers=0, pin_memory=True, collate_fn=collate_fn)
-test_dataloader = DataLoader(dataset=test_dataset, batch_size=8, shuffle=True, num_workers=0, pin_memory=True, collate_fn=collate_fn)
+val_dataloader = DataLoader(dataset=val_dataset, batch_size=8, shuffle=False, num_workers=0, pin_memory=True, collate_fn=collate_fn)
+test_dataloader = DataLoader(dataset=test_dataset, batch_size=8, shuffle=False, num_workers=0, pin_memory=True, collate_fn=collate_fn)
 
 # Training
-EMBEDDING_DIM = token_documents[0].embeddings.size(1)
+EMBEDDING_DIM = sentence_documents[0].embeddings.size(1)
 EPOCHS = 50
 
 # Hyperparamtersearch
@@ -166,19 +165,6 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters):
     return model
 
 
-        # Print progress every 10 epochs
-        #if (epoch + 1) % 10 == 0:
-        #    avg_loss = epoch_loss / len(train_data)
-        #    print(f"Epoch {epoch + 1}/{epochs}, Average Loss: {avg_loss:.4f}")
-
-
-    #print(batch["embeddings"].shape)
-    #print(batch["tags"].shape)
-    #print(batch["mask"].shape)
-
-    #emissions = model(batch["embeddings"].to(device))
-    #print(emissions.shape)
-
 # Evaluation
 def test_model(model, test_data, hyperparameters):
     model.eval()
@@ -207,7 +193,7 @@ def test_model(model, test_data, hyperparameters):
     df_report = pd.DataFrame(report).T
     for key, value in hyperparameters.items():
         df_report[key] = value
-    df_report = df_report.applymap("{:.4f}".format)
+    df_report = df_report.map(lambda x: f"{x:.4f}" if isinstance(x, float) else x)
     pd.DataFrame(df_report).to_csv("data/test_reports/" + current_time + ".csv")
 
     return all_true_tags, all_predictions
