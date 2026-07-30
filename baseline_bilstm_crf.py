@@ -12,6 +12,7 @@ from constants import LABEL2ID
 from dataset_preprocessing import collate_fn, FairytaleSequenceTaggingDataset
 
 from sklearn.metrics import precision_recall_fscore_support, classification_report
+
 """
 Number of possible label tags = 5
 
@@ -89,7 +90,7 @@ test_dataloader = DataLoader(dataset=test_dataset, batch_size=8, shuffle=False, 
 
 # Training
 EMBEDDING_DIM = sentence_documents[0].embeddings.size(1)
-EPOCHS = 50
+EPOCHS = 20
 
 # Hyperparamtersearch
 # Grid Search or random search for best value; test 64, 128, 264
@@ -126,6 +127,11 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters):
         model.train()
         epoch_loss = 0
 
+        # Early stopping
+        best_loss = np.inf
+        patience = 10
+        counter = 0
+
         for batch in train_data:
 
             optimizer.zero_grad()
@@ -141,6 +147,15 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters):
             optimizer.step()
 
             epoch_loss += loss.item()
+
+        # Early Stopping
+        if epoch_loss < best_loss:
+            best_loss = epoch_loss
+            counter = 0
+        else:
+            counter += 1
+        if counter >= patience:
+            break
 
         # Validation
         true_tags, predictions = test_model(model=model, test_data=val_data, hyperparameters=hyperparameters)
