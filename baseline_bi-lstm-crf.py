@@ -3,6 +3,7 @@ import torch.nn as nn
 import numpy as np
 import pandas as pd
 from datetime import datetime
+import time
 
 from torch.utils.data import DataLoader, Dataset, random_split
 from torchcrf import CRF
@@ -89,7 +90,7 @@ test_dataloader = DataLoader(dataset=test_dataset, batch_size=8, shuffle=True, n
 
 # Training
 EMBEDDING_DIM = token_documents[0].embeddings.size(1)
-EPOCHS = 20
+EPOCHS = 50
 
 # Hyperparamtersearch
 # Grid Search or random search for best value; test 64, 128, 264
@@ -97,21 +98,32 @@ HIDDEN_DIM = 64
 DROPOUT = 0.5
 LEARNING_RATE = 0.001
 
+hyperparameters = {
+    "embedding_dim": EMBEDDING_DIM,
+    "hidden_dim": HIDDEN_DIM,
+    "dropout": 0.5,
+    "learning_rate": 0.001,
+    "batch_size": 8,
+    "optimizer": "Adam",
+    "epochs": EPOCHS,
+}
+
 # Model Initialization
-model = BiLSTM_CRF(num_tags=len(LABEL2ID), embedding_dim=EMBEDDING_DIM, hidden_dim=HIDDEN_DIM, dropout=DROPOUT)
+model = BiLSTM_CRF(num_tags=len(LABEL2ID), embedding_dim=hyperparameters["embedding_dim"], hidden_dim=hyperparameters["hidden_dim"], dropout=hyperparameters["dropout"],)
 
 # Enable GPU Training
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
 # Optimizer
-optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
+optimizer = torch.optim.Adam(model.parameters(), lr=hyperparameters["learning_rate"])
 
-def train_model(model, optimizer, train_data, val_data, epochs):
+def train_model(model, optimizer, train_data, val_data, hyperparameters):
+    start_time_tracking = time.time()
 
     best_f1 = 0.0
 
-    for epoch in range(epochs):
+    for epoch in range(hyperparameters["epochs"]):
         model.train()
         epoch_loss = 0
 
@@ -132,11 +144,11 @@ def train_model(model, optimizer, train_data, val_data, epochs):
             epoch_loss += loss.item()
 
         # Validation
-        true_tags, predictions = test_model(model=model, test_data=val_data)
+        true_tags, predictions = test_model(model=model, test_data=val_data, hyperparameters=hyperparameters)
         _, _, val_f1, _ = precision_recall_fscore_support(true_tags, predictions, average='micro')
 
         print(
-            f"Epoch {epoch+1}/{epochs} "
+            f"Epoch {epoch+1}/{hyperparameters["epochs"]} "
             f"Loss={epoch_loss:.3f} "
             f"Val F1={val_f1:.4f}"
         )
@@ -147,6 +159,9 @@ def train_model(model, optimizer, train_data, val_data, epochs):
             torch.save(model.state_dict(), "bilstm_models/bilstm_best.pt")
 
     model.load_state_dict(torch.load("bilstm_models/bilstm_best.pt"))
+
+    end_time_tracking = time.time()
+    print(f"Total time training & testing: {(end_time_tracking - start_time_tracking) / 60} minutes or {(end_time_tracking - start_time_tracking) / 3600} hours.")
 
     return model
 
@@ -165,7 +180,7 @@ def train_model(model, optimizer, train_data, val_data, epochs):
     #print(emissions.shape)
 
 # Evaluation
-def test_model(model, test_data):
+def test_model(model, test_data, hyperparameters):
     model.eval()
 
     all_predictions = []
@@ -189,13 +204,17 @@ def test_model(model, test_data):
 
     current_time = datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
     report = classification_report(all_true_tags, all_predictions, target_names=LABEL2ID.keys(), output_dict=True)
-    pd.DataFrame(report).to_csv("data/test_reports/" + current_time + ".csv")
+    df_report = pd.DataFrame(report).T
+    for key, value in hyperparameters.items():
+        df_report[key] = value
+    df_report = df_report.applymap("{:.4f}".format)
+    pd.DataFrame(df_report).to_csv("data/test_reports/" + current_time + ".csv")
 
     return all_true_tags, all_predictions
 
 
-fuzzy_bilstm = train_model(model=model, optimizer=optimizer, train_data=train_dataloader, val_data=val_dataloader, epochs=EPOCHS)
-true_tags, predictions = test_model(model=fuzzy_bilstm, test_data=test_dataloader)
+fuzzy_bilstm = train_model(model=model, optimizer=optimizer, train_data=train_dataloader, val_data=val_dataloader, hyperparameters=hyperparameters)
+true_tags, predictions = test_model(model=fuzzy_bilstm, test_data=test_dataloader, hyperparameters=hyperparameters)
 
-#todo f1-score on Span-level, not token-level
+#todo f1-score on Span-level, not token-level?
 print(classification_report(true_tags, predictions, target_names=LABEL2ID.keys()))
