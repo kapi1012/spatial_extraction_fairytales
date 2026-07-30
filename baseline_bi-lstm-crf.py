@@ -1,6 +1,8 @@
 import torch
 import torch.nn as nn
 import numpy as np
+import pandas as pd
+from datetime import datetime
 
 from torch.utils.data import DataLoader, Dataset, random_split
 from torchcrf import CRF
@@ -184,6 +186,10 @@ def test_model(model, test_data):
 
                 all_predictions.extend(pred)
                 all_true_tags.extend(gold[:length].cpu().tolist())
+
+    current_time = datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
+    report = classification_report(all_true_tags, all_predictions, target_names=LABEL2ID.keys(), output_dict=True)
+    pd.DataFrame(report).to_csv("data/test_reports/" + current_time + ".csv")
 
     return all_true_tags, all_predictions
 
