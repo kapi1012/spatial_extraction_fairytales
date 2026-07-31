@@ -90,19 +90,19 @@ test_dataloader = DataLoader(dataset=test_dataset, batch_size=8, shuffle=False, 
 
 # Training
 EMBEDDING_DIM = sentence_documents[0].embeddings.size(1)
-EPOCHS = 20
+EPOCHS = 50
 
 # Hyperparamtersearch
 # Grid Search or random search for best value; test 64, 128, 264
-HIDDEN_DIM = 64
-DROPOUT = 0.5
-LEARNING_RATE = 0.001
+HIDDEN_DIM = 256
+DROPOUT = 0.3
+LEARNING_RATE = 0.01
 
 hyperparameters = {
     "embedding_dim": EMBEDDING_DIM,
     "hidden_dim": HIDDEN_DIM,
-    "dropout": 0.5,
-    "learning_rate": 0.001,
+    "dropout": DROPOUT,
+    "learning_rate": LEARNING_RATE,
     "batch_size": 8,
     "optimizer": "Adam",
     "epochs": EPOCHS,
