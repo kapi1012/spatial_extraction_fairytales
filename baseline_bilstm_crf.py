@@ -121,7 +121,6 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters):
         "val_precision": [],
         "val_recall": [],
         "val_f1": [],
-        "best_val_f1": [],
         "epoch_train_time": [],
     }
 
@@ -200,7 +199,7 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters):
 
     history["early_stopped"] = stopped_epoch < hyperparameters["epochs"]
     history["patience"] = patience
-    history["best_val_f1"].append(best_val_f1)
+    history["best_val_f1"] = best_val_f1
 
     current_time = datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
     df_history = pd.DataFrame(history)
