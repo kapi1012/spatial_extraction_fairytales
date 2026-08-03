@@ -137,6 +137,8 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters):
     # Early stopping
     best_val_f1 = 0.0
     patience = hyperparameters["patience"]
+    min_delta = 0.001
+
     counter = 0
     stopped_epoch = hyperparameters["epochs"]
 
@@ -164,7 +166,7 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters):
 
         # Validation
         true_tags, predictions = test_model(model=model, test_data=val_data)
-        val_precision, val_recall, val_f1, _ = precision_recall_fscore_support(true_tags, predictions, average='micro')
+        val_precision, val_recall, val_f1, _ = precision_recall_fscore_support(true_tags, predictions, average='macro')
 
         end_train_time = time.time()
         epoch_train_time = end_train_time - start_train_time
@@ -183,8 +185,9 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters):
         )
 
         # Early Stopping
-        if val_f1 > best_val_f1:
+        if val_f1 > best_val_f1 + min_delta:
             best_val_f1 = val_f1
+            best_epoch = epoch + 1
             counter = 0
             torch.save(model.state_dict(), "bilstm_models/bilstm_best.pt")
         else:
@@ -199,18 +202,30 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters):
 
     history["early_stopped"] = stopped_epoch < hyperparameters["epochs"]
     history["patience"] = patience
-    history["best_val_f1"] = best_val_f1
+
+    training_info["best_epoch"] = best_epoch
+    training_info["best_val_f1"] = best_val_f1
 
     current_time = datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
     df_history = pd.DataFrame(history)
 
     for key, value in training_info.items():
         df_history[key] = value
+    df_history = df_history.map(lambda x: f"{x:.4f}" if isinstance(x, float) else x)
 
     df_history.to_csv(f"data/train-reports/training_history_{current_time}.csv", index=False)
 
     end_time_tracking = time.time()
     total_time = end_time_tracking - start_time_tracking
+
+    training_summary = {
+        "best_epoch": best_epoch,
+        "best_val_f1": best_val_f1,
+        "stopped_epoch": stopped_epoch,
+        **hyperparameters
+    }
+
+    pd.DataFrame([training_summary]).to_csv(f"data/train-reports/summary_{current_time}.csv", index=False)
 
     print(
         f"Training finished in "

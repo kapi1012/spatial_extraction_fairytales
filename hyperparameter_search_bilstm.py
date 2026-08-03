@@ -18,13 +18,15 @@ for hidden_dim in param_grid["hidden_dim"]:
             print(f"\nTesting: hidden_dim={hidden_dim}, dropout={dropout}, lr={lr}")
 
             hyperparameters = {
-                "embedding_dim": EMBEDDING_DIM,
-                "hidden_dim": hidden_dim,
-                "dropout": dropout,
-                "learning_rate": lr,
+                "embedding_dim": sentence_documents[0].embeddings.size(1),
+                "hidden_dim": 256,
+                "dropout": 0.3,
+                "learning_rate": 0.01,
                 "batch_size": 8,
                 "optimizer": "Adam",
-                "epochs": EPOCHS,
+                "epochs": 50,
+                "patience": 10,
+                "early_stopping": True,
             }
 
             model = BiLSTM_CRF(
@@ -49,7 +51,7 @@ for hidden_dim in param_grid["hidden_dim"]:
             )
 
             # Train and evaluate
-            val_true, val_pred = test_model(model, val_dataloader, hyperparameters)
+            val_true, val_pred = test_model(model, val_dataloader)
 
             _, _, val_f1, _ = precision_recall_fscore_support(val_true, val_pred, average="macro")
 
