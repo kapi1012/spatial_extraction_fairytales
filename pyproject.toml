@@ -7,6 +7,7 @@ dependencies = [
     "datasets>=5.0.1",
     "evaluate>=0.4.6",
     "flair[word-embeddings]>=0.15.1",
+    "ipykernel>=7.3.0",
     "label-studio<=1.23",
     "numpy>=2.4.4",
     "pandas>=3.0.2",
