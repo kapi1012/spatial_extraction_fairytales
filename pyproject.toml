@@ -3,6 +3,9 @@ name = "spatial-extraction-fairytales"
 version = "0.1.0"
 requires-python = ">=3.13"
 dependencies = [
+    "accelerate>=1.14.0",
+    "datasets>=5.0.1",
+    "evaluate>=0.4.6",
     "flair[word-embeddings]>=0.15.1",
     "label-studio<=1.23",
     "numpy>=2.4.4",
@@ -12,4 +15,5 @@ dependencies = [
     "scikit-learn>=1.9.0",
     "spacy>=3.8.14",
     "torch>=2.12.1",
+    "transformers>=4.57.6",
 ]
