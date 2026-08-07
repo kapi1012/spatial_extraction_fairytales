@@ -42,21 +42,24 @@ FairytaleDataset
  │
  ├───────────────────────────────────────────────────┐
  ▼                                                   ▼
-SpaCyPreprocessor                           HuggingFace Tokenizer
-- Tokenizer                                  - offset_mapping
-- Character Offsets
-- Sentence Boundaries                                │ 
+SpaCyPreprocessor                           HuggingFace RoBERTa Tokenizer
+- Tokenizer                                     - input_ids
+- Character Offsets                             - attention_mask
+- Sentence Boundaries                           - offset_mapping 
  │                                                   │
  ▼                                                   ▼
 BiLSTMBuilder                               TransformerBuilder
-- IO(B)-Labels
-- Token Documents
-- Flair Embeddings
-- FairytaleSequenceTaggingDataset
-- Collate_fn for Sequence Padding + Masking
+- IO(B)-Labels                              - Character to Subword
+- Token Documents                                    │   
+- Flair Embeddings                                   ▼
+- FairytaleSequenceTaggingDataset                 IOB-Labels 
+- Collate_fn for Sequence Padding + Masking          │
+ │                                                   ▼
+ │                                            HuggingFace Dataset  
+ │                                                   │
  │                                                   │
  ▼                                                   ▼
-TorchDataset                                  TorchDataset
+TorchDataset                                   DataCollatorForTokenClassification
       
 """
 
@@ -319,7 +322,7 @@ token_documents = create_token_documents(docs)
 sentence_documents = flair_embedding(token_documents)
 dataset = FairytaleSequenceTaggingDataset(sentence_documents, label2id=LABEL2ID)
 
-def collate_fn(batch: list[dict[str, Tensor]]):
+def collate_fn_bilstm(batch: list[dict[str, Tensor]]):
     """"
     For padding & masking all Tensors from Datasets.
     Padding -> same size in each batch

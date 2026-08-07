@@ -2,7 +2,7 @@ from torch.utils.data import DataLoader, random_split
 from torchcrf import CRF
 
 from constants import LABEL2ID
-from dataset_preprocessing import collate_fn, FairytaleSequenceTaggingDataset
+from dataset_preprocessing import collate_fn_bilstm, FairytaleSequenceTaggingDataset
 from evaluation import *
 
 from sklearn.metrics import precision_recall_fscore_support, classification_report
@@ -78,9 +78,9 @@ print(f"max Embedding Shape:{max(doc.embeddings.size(0) for doc in sentence_docu
 train_dataset, val_dataset, test_dataset = random_split(dataset, [0.8, 0.1, 0.1])
 
 # Dataloader
-train_dataloader = DataLoader(dataset=train_dataset, batch_size=8, shuffle=True, num_workers=0, pin_memory=True, collate_fn=collate_fn) # pin_memory only for training on GPU
-val_dataloader = DataLoader(dataset=val_dataset, batch_size=8, shuffle=False, num_workers=0, pin_memory=True, collate_fn=collate_fn)
-test_dataloader = DataLoader(dataset=test_dataset, batch_size=8, shuffle=False, num_workers=0, pin_memory=True, collate_fn=collate_fn)
+train_dataloader = DataLoader(dataset=train_dataset, batch_size=8, shuffle=True, num_workers=0, pin_memory=True, collate_fn=collate_fn_bilstm) # pin_memory only for training on GPU
+val_dataloader = DataLoader(dataset=val_dataset, batch_size=8, shuffle=False, num_workers=0, pin_memory=True, collate_fn=collate_fn_bilstm)
+test_dataloader = DataLoader(dataset=test_dataset, batch_size=8, shuffle=False, num_workers=0, pin_memory=True, collate_fn=collate_fn_bilstm)
 
 # Hyperparamter
 
