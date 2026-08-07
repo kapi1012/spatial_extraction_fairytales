@@ -1,15 +1,9 @@
-import torch
-import torch.nn as nn
-import numpy as np
-import pandas as pd
-from datetime import datetime
-import time
-
 from torch.utils.data import DataLoader, random_split
 from torchcrf import CRF
 
 from constants import LABEL2ID
 from dataset_preprocessing import collate_fn, FairytaleSequenceTaggingDataset
+from evaluation import *
 
 from sklearn.metrics import precision_recall_fscore_support, classification_report
 
@@ -135,7 +129,7 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters):
     }
 
     # Early stopping
-    best_val_f1 = 0.0
+    best_val_span_f1 = 0.0
     patience = hyperparameters["patience"]
     min_delta = 0.001
 
@@ -165,8 +159,11 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters):
             epoch_loss /= len(train_data)
 
         # Validation
-        true_tags, predictions = test_model(model=model, test_data=val_data)
+        # val_f1 for training metric
+        # val_span_f1 for early stopping
+        true_tags, predictions, true_spans, pred_spans = test_model(model=model, test_data=val_data)
         val_precision, val_recall, val_f1, _ = precision_recall_fscore_support(true_tags, predictions, average='macro')
+        _, _, val_span_f1 = span_metrics(true_spans, pred_spans)
 
         end_train_time = time.time()
         epoch_train_time = end_train_time - start_train_time
@@ -184,9 +181,9 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters):
             f"Val F1={val_f1:.2f}"
         )
 
-        # Early Stopping
-        if val_f1 > best_val_f1 + min_delta:
-            best_val_f1 = val_f1
+        # Early Stopping with span-level f1
+        if val_span_f1 > best_val_span_f1 + min_delta:
+            best_val_span_f1 = val_span_f1
             best_epoch = epoch + 1
             counter = 0
             torch.save(model.state_dict(), "bilstm_models/bilstm_best.pt")
@@ -204,7 +201,7 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters):
     history["patience"] = patience
 
     training_info["best_epoch"] = best_epoch
-    training_info["best_val_f1"] = best_val_f1
+    training_info["best_val_span_f1"] = best_val_span_f1
 
     current_time = datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
     df_history = pd.DataFrame(history)
@@ -220,7 +217,7 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters):
 
     training_summary = {
         "best_epoch": best_epoch,
-        "best_val_f1": best_val_f1,
+        "best_val_span_f1": best_val_span_f1,
         "stopped_epoch": stopped_epoch,
         **hyperparameters
     }
@@ -236,50 +233,15 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters):
     return model, history
 
 
-# Evaluation
-def test_model(model, test_data):
-    model.eval()
-
-    all_predictions = []
-    all_true_tags = []
-
-    with torch.no_grad():
-
-        for batch in test_data:
-            embeddings = batch["embeddings"].to(device)
-            tags = batch["tags"].to(device)
-            mask = batch["mask"].to(device)
-
-            predictions = model.decode(embeddings, mask)
-
-            for pred, gold, valid in zip(predictions, tags, mask):
-
-                length = valid.sum().item()
-
-                all_predictions.extend(pred)
-                all_true_tags.extend(gold[:length].cpu().tolist())
-
-    return all_true_tags, all_predictions
-
-
-def save_test_report(true_tags, predictions, hyperparameters):
-
-    current_time = datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
-    filename = f"data/test_reports/{current_time}.csv"
-
-    report = classification_report(true_tags, predictions, target_names=LABEL2ID.keys(), output_dict=True)
-    df_report = pd.DataFrame(report).T
-
-    for key, value in hyperparameters.items():
-        df_report[key] = value
-    df_report = df_report.map(lambda x: f"{x:.4f}" if isinstance(x, float) else x)
-
-    df_report.to_csv(filename)
-
-
 fuzzy_bilstm, history = train_model(model=model, optimizer=optimizer, train_data=train_dataloader, val_data=val_dataloader, hyperparameters=hyperparameters)
-true_tags, predictions = test_model(model=fuzzy_bilstm, test_data=test_dataloader)
-save_test_report(true_tags, predictions, hyperparameters)
+true_tags, predictions, true_spans, pred_spans = test_model(model=fuzzy_bilstm, test_data=test_dataloader)
+span_precision, span_recall, span_f1 = span_metrics(true_spans, pred_spans)
+save_test_report(true_tags, predictions, true_spans, pred_spans, hyperparameters)
 
-#todo f1-score on Span-level, not token-level?
+# Token Level
 print(classification_report(true_tags, predictions, target_names=LABEL2ID.keys()))
+# Span-level
+print("\nSpan-Level (Exact Match)")
+print(f"Precision: {span_precision:.2f}")
+print(f"Recall:    {span_recall:.2f}")
+print(f"F1:        {span_f1:.2f}")
