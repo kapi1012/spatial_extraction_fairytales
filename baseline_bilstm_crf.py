@@ -115,6 +115,9 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters):
         "val_precision": [],
         "val_recall": [],
         "val_f1": [],
+        "val_span_precision": [],
+        "val_span_recall": [],
+        "val_span_f1": [],
         "epoch_train_time": [],
     }
 
@@ -155,15 +158,15 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters):
             optimizer.step()
 
             epoch_loss += loss.item()
-            # mean batch loss
-            epoch_loss /= len(train_data)
+        # mean batch loss
+        epoch_loss /= len(train_data)
 
         # Validation
-        # val_f1 for training metric
-        # val_span_f1 for early stopping
         true_tags, predictions, true_spans, pred_spans = test_model(model=model, test_data=val_data)
+        # val_f1 for training metric
         val_precision, val_recall, val_f1, _ = precision_recall_fscore_support(true_tags, predictions, average='macro')
-        _, _, val_span_f1 = span_metrics(true_spans, pred_spans)
+        # val_span_f1 for early stopping
+        span_precision, span_recall, val_span_f1 = span_metrics(true_spans, pred_spans)
 
         end_train_time = time.time()
         epoch_train_time = end_train_time - start_train_time
@@ -173,12 +176,16 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters):
         history["val_precision"].append(val_precision)
         history["val_recall"].append(val_recall)
         history["val_f1"].append(val_f1)
+        history["val_span_precision"].append(span_precision)
+        history["val_span_recall"].append(span_recall)
+        history["val_span_f1"].append(val_span_f1)
         history["epoch_train_time"].append(epoch_train_time)
 
         print(
             f"Epoch {epoch+1}/{hyperparameters["epochs"]} "
-            f"Loss={epoch_loss:.3f} "
-            f"Val F1={val_f1:.2f}"
+            f"Loss={epoch_loss:.4f} "
+            f"Token-F1={val_f1:.5f} "
+            f"Span-F1={val_span_f1:.5f}"
         )
 
         # Early Stopping with span-level f1
