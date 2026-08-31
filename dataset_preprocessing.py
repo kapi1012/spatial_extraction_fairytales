@@ -15,6 +15,7 @@ from flair.embeddings import WordEmbeddings, FlairEmbeddings, StackedEmbeddings
 from flair.data import Sentence
 
 from constants import LABEL2ID
+from roberta import fairytale
 
 # https://www.geeksforgeeks.org/deep-learning/how-do-you-use-pytorchs-dataset-and-dataloader-classes-for-custom-data/
 
@@ -142,6 +143,7 @@ class FairytaleDataset:
 
 @dataclass
 class TokenDocument:
+    khm: int
     text: str
     tokens: list[str]
     offsets: list[tuple[int, int]]
@@ -151,6 +153,7 @@ class TokenDocument:
 
 @dataclass
 class SentenceDocument:
+    khm: int
     tokens: list[str]
     labels: list[str]
     embeddings: torch.Tensor | None = None
@@ -174,7 +177,8 @@ class FairytaleSequenceTaggingDataset(Dataset):
 
         return {
             "embeddings": document.embeddings,
-            "tags": torch.tensor(tag_ids)
+            "tags": torch.tensor(tag_ids),
+            "khm": document.khm,
         }
 
 
@@ -229,8 +233,9 @@ def annotate_dataset(dataset: FairytaleDataset,) -> tuple[list[Doc], list[str]]:
     docs = []
     all_errors = []
 
-
     for fairytale, doc in zip(dataset.fairytales, nlp.pipe(texts)): # pipe() using all docs
+        doc.user_data["khm"] = fairytale.khm
+
         spacy_spans, errors = build_spacy_spans(fairytale, doc)
         doc.ents = spacy_spans
 
@@ -241,16 +246,16 @@ def annotate_dataset(dataset: FairytaleDataset,) -> tuple[list[Doc], list[str]]:
 
 
 DATA_PATH = "data/grimm_fairytales_annotated/fuzzy_loc_3.7.26.json"
-dataset = load_dataset(DATA_PATH)
+#dataset = load_dataset(DATA_PATH)
 
-docs, errors = annotate_dataset(dataset)
+#docs, errors = annotate_dataset(dataset)
 
-if errors:
-    print(f"\nFound {len(errors)} errors:\n")
-    for error in errors:
-        print(error)
-else:
-    print("No errors found.")
+#if errors:
+#    print(f"\nFound {len(errors)} errors:\n")
+#    for error in errors:
+#        print(error)
+#else:
+#    print("No errors found.")
 
 def doc_to_token_document(doc: Doc) -> TokenDocument:
 
@@ -274,6 +279,7 @@ def doc_to_token_document(doc: Doc) -> TokenDocument:
             labels.append(f"{token.ent_iob_}-{token.ent_type_}")
 
     return TokenDocument(
+        khm=doc.user_data["khm"],
         text=doc.text,
         tokens=tokens,
         offsets=offsets,
@@ -308,6 +314,7 @@ def flair_embedding(token_documents: list[TokenDocument]) -> list[SentenceDocume
 
             sentence_documents.append(
                 SentenceDocument(
+                    khm=doc.khm,
                     tokens=doc.tokens[start:end],
                     labels=doc.labels[start:end],
                     embeddings=sentence_embedding
@@ -318,9 +325,9 @@ def flair_embedding(token_documents: list[TokenDocument]) -> list[SentenceDocume
     return sentence_documents
 
 
-token_documents = create_token_documents(docs)
-sentence_documents = flair_embedding(token_documents)
-dataset = FairytaleSequenceTaggingDataset(sentence_documents, label2id=LABEL2ID)
+#token_documents = create_token_documents(docs)
+#sentence_documents = flair_embedding(token_documents)
+#dataset = FairytaleSequenceTaggingDataset(sentence_documents, label2id=LABEL2ID)
 
 def collate_fn_bilstm(batch: list[dict[str, Tensor]]):
     """"
@@ -331,6 +338,7 @@ def collate_fn_bilstm(batch: list[dict[str, Tensor]]):
     """
     embeddings = [sample["embeddings"] for sample in batch]
     tags = [sample["tags"] for sample in batch]
+    khms = [sample["khm"] for sample in batch]
 
     # Padding for a batch
     lengths = [e.size(0) for e in embeddings]
@@ -349,30 +357,5 @@ def collate_fn_bilstm(batch: list[dict[str, Tensor]]):
         "embeddings": embeddings,
         "tags": tags,
         "mask": mask,
+        "khm": khms,
     }
-
-# Looking at length and distributions:
-lengths = [
-    len(doc.tokens)
-    for doc in token_documents
-]
-
-print("Lengths Documents:")
-print(max(lengths))
-print(sum(lengths)/len(lengths))
-print(statistics.median(lengths))
-
-# max: 9200
-    # mean: 1482,8
-# median: 1222,5
-# -> Fairytales are processed sentence-level for LSTM
-
-lengths_sentences = [
-    len(doc.tokens)
-    for doc in sentence_documents
-]
-
-print("Lengths Sentences:")
-print(max(lengths_sentences))
-print(sum(lengths_sentences)/len(lengths_sentences))
-print(statistics.median(lengths_sentences))
