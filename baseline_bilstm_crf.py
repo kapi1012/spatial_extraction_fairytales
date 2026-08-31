@@ -1,9 +1,8 @@
 from torch.utils.data import DataLoader, random_split
 from torchcrf import CRF
 
-from constants import LABEL2ID
 from dataset_preprocessing import collate_fn_bilstm, FairytaleSequenceTaggingDataset
-from evaluation import *
+from data.evaluation.evaluation import *
 
 from sklearn.metrics import precision_recall_fscore_support, classification_report
 
