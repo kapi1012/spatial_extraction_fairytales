@@ -1,5 +1,4 @@
 import json
-import statistics
 
 from dataclasses import dataclass, field
 
@@ -14,8 +13,6 @@ from spacy.tokens import Doc, Span
 from flair.embeddings import WordEmbeddings, FlairEmbeddings, StackedEmbeddings
 from flair.data import Sentence
 
-from constants import LABEL2ID
-from roberta import fairytale
 
 # https://www.geeksforgeeks.org/deep-learning/how-do-you-use-pytorchs-dataset-and-dataloader-classes-for-custom-data/
 
@@ -321,7 +318,7 @@ def flair_embedding(token_documents: list[TokenDocument]) -> list[SentenceDocume
                 )
             )
 
-    torch.save(sentence_documents, "data/flair_embeddings/embeddings.pt")
+    torch.save(sentence_documents, "data/flair_embeddings/embeddings_21.8.26.pt")
     return sentence_documents
 
 

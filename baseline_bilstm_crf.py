@@ -1,8 +1,10 @@
+from pathlib import Path
 from torch.utils.data import DataLoader, random_split
 from torchcrf import CRF
 
-from dataset_preprocessing import collate_fn_bilstm, FairytaleSequenceTaggingDataset
+from dataset_preprocessing import *
 from data.evaluation.evaluation import *
+from data_split import *
 
 from sklearn.metrics import precision_recall_fscore_support, classification_report
 
@@ -60,9 +62,20 @@ class BiLSTM_CRF(nn.Module):
         return loss
 
 
+DATA_PATH = "data/grimm_fairytales_annotated/fuzzy_loc_21-8-26_final.json"
+dataset = load_dataset(DATA_PATH)
+docs, errors = annotate_dataset(dataset)
+
+token_documents = create_token_documents(docs)
+
 # load preprocessed embeddings
-sentence_documents = torch.load("data/flair_embeddings/embeddings.pt", weights_only=False, )
-dataset = FairytaleSequenceTaggingDataset(sentence_documents, label2id=LABEL2ID)
+EMBEDDINGS_PATH = Path("data/flair_embeddings/embeddings_21.8.26.pt")
+if EMBEDDINGS_PATH.exists():
+    sentence_documents = torch.load("data/flair_embeddings/embeddings_21.8.26.pt", weights_only=False)
+else:
+    sentence_documents = flair_embedding(token_documents)
+
+#dataset = FairytaleSequenceTaggingDataset(sentence_documents, label2id=LABEL2ID)
 
 lengths = [doc.embeddings.size(0) for doc in sentence_documents]
 
@@ -74,7 +87,17 @@ print(f"max Embedding Shape:{max(doc.embeddings.size(0) for doc in sentence_docu
 
 # Train-Val-Test-Split
 # Small Dataset, so 80 % train
-train_dataset, val_dataset, test_dataset = random_split(dataset, [0.8, 0.1, 0.1])
+#train_dataset, val_dataset, test_dataset = random_split(dataset, [0.8, 0.1, 0.1])
+
+# choose own train-val-test-split
+ANALYSIS_PATH = "data/analysis_dataset/analysis_dataset.csv"
+train_khm, val_khm, test_khm = data_split_on_khm(ANALYSIS_PATH, 1)
+
+train_documents, val_documents, test_documents = split_documents_by_khm(sentence_documents,train_khm, val_khm, test_khm)
+
+train_dataset = FairytaleSequenceTaggingDataset(train_documents, LABEL2ID)
+val_dataset = FairytaleSequenceTaggingDataset(val_documents, LABEL2ID)
+test_dataset = FairytaleSequenceTaggingDataset(test_documents, LABEL2ID)
 
 # Dataloader
 train_dataloader = DataLoader(dataset=train_dataset, batch_size=8, shuffle=True, num_workers=0, pin_memory=True, collate_fn=collate_fn_bilstm) # pin_memory only for training on GPU
@@ -192,7 +215,7 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters):
             best_val_span_f1 = val_span_f1
             best_epoch = epoch + 1
             counter = 0
-            torch.save(model.state_dict(), "bilstm_models/bilstm_best.pt")
+            torch.save(model.state_dict(), "bilstm_models/bilstm_best_21.8.26.pt")
         else:
             counter += 1
         if counter >= patience:
@@ -201,7 +224,7 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters):
             break
 
 
-    model.load_state_dict(torch.load("bilstm_models/bilstm_best.pt", map_location=device))
+    model.load_state_dict(torch.load("bilstm_models/bilstm_best_21.8.26.pt", map_location=device))
 
     history["early_stopped"] = stopped_epoch < hyperparameters["epochs"]
     history["patience"] = patience

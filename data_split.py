@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import random
-from dataset_preprocessing import load_dataset, FairytaleDataset
+from dataset_preprocessing import load_dataset, FairytaleDataset, SentenceDocument
 
 """
 Split data based on sentence count. -> Bi-LSTM is Sentence-based
@@ -88,6 +88,29 @@ def compare_splits(seeds:list, analysis_path:str) -> int:
     """
     ...
 
+
+def split_documents_by_khm(
+    documents: list[SentenceDocument],
+    train_khm: list[int],
+    val_khm: list[int],
+    test_khm: list[int],
+):
+    train_documents = [
+        doc for doc in documents
+        if doc.khm in train_khm
+    ]
+
+    val_documents = [
+        doc for doc in documents
+        if doc.khm in val_khm
+    ]
+
+    test_documents = [
+        doc for doc in documents
+        if doc.khm in test_khm
+    ]
+
+    return train_documents, val_documents, test_documents
 
 
 
