@@ -91,7 +91,7 @@ print(f"max Embedding Shape:{max(doc.embeddings.size(0) for doc in sentence_docu
 
 # choose own train-val-test-split
 ANALYSIS_PATH = "data/analysis_dataset/analysis_dataset.csv"
-train_khm, val_khm, test_khm = data_split_on_khm(ANALYSIS_PATH, 1)
+train_khm, val_khm, test_khm = data_split_on_khm(ANALYSIS_PATH, 42)
 
 train_documents, val_documents, test_documents = split_documents_by_khm(sentence_documents,train_khm, val_khm, test_khm)
 
@@ -215,7 +215,7 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters):
             best_val_span_f1 = val_span_f1
             best_epoch = epoch + 1
             counter = 0
-            torch.save(model.state_dict(), "bilstm_models/bilstm_best_21.8.26.pt")
+            torch.save(model.state_dict(), "bilstm_models/bilstm_best_2.9.26.pt")
         else:
             counter += 1
         if counter >= patience:
@@ -224,7 +224,7 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters):
             break
 
 
-    model.load_state_dict(torch.load("bilstm_models/bilstm_best_21.8.26.pt", map_location=device))
+    model.load_state_dict(torch.load("bilstm_models/bilstm_best_2.9.26.pt", map_location=device))
 
     history["early_stopped"] = stopped_epoch < hyperparameters["epochs"]
     history["patience"] = patience
