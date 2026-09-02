@@ -14,8 +14,3 @@ def count_words(input_dir):
 
 overall_word_count = count_words(INPUT_DIR)
 print(overall_word_count)
-
-# todo:
-# count: lengths sentences
-# count: labels
-# count: fuzzy vs. methaphoric
