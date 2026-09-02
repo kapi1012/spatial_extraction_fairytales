@@ -6,6 +6,7 @@ from constants import LABEL2ID
 from torch.utils.data import DataLoader
 from sklearn.model_selection import train_test_split
 from functools import partial
+from data_split import data_split_on_khm, split_dataset_by_khm
 
 # https://huggingface.co/docs/transformers/v4.27.2/en/model_doc/xlm-roberta#transformers.XLMRobertaForTokenClassification
 
@@ -24,20 +25,10 @@ model = AutoModelForTokenClassification.from_pretrained("FacebookAI/xlm-roberta-
 DATA_PATH = "data/grimm_fairytales_annotated/fuzzy_loc_3.7.26.json"
 dataset = load_dataset(DATA_PATH)
 
-# Train-Test-Val-Split: 80-20-20
-fairytales = dataset.fairytales
-
-train_fairytales, temp_fairytales = train_test_split(
-    fairytales,
-    test_size=0.2,
-    random_state=42
-)
-
-val_fairytales, test_fairytales = train_test_split(
-    temp_fairytales,
-    test_size=0.5,
-    random_state=42
-)
+# choose own train-val-test-split
+ANALYSIS_PATH = "data/analysis_dataset/analysis_dataset.csv"
+train_khm, val_khm, test_khm = data_split_on_khm(ANALYSIS_PATH, 42)
+train_fairytales, val_fairytales, test_fairytales = split_dataset_by_khm(dataset, train_khm, val_khm, test_khm,)
 
 train_chunks = []
 val_chunks = []
@@ -52,20 +43,9 @@ for fairytale in val_fairytales:
 for fairytale in test_fairytales:
     test_chunks.extend(tokenize_fairytale(fairytale, tokenizer))
 
-train_dataset = RoBERTaSequenceTaggingDataset(
-    train_chunks,
-    LABEL2ID
-)
-
-val_dataset = RoBERTaSequenceTaggingDataset(
-    val_chunks,
-    LABEL2ID
-)
-
-test_dataset = RoBERTaSequenceTaggingDataset(
-    test_chunks,
-    LABEL2ID
-)
+train_dataset = RoBERTaSequenceTaggingDataset(train_chunks, LABEL2ID)
+val_dataset = RoBERTaSequenceTaggingDataset(val_chunks, LABEL2ID)
+test_dataset = RoBERTaSequenceTaggingDataset(test_chunks, LABEL2ID)
 
 transformer_collate_fn = partial(
     collate_fn_transformer,
@@ -92,8 +72,3 @@ test_dataloader = DataLoader(
     shuffle=False,
     collate_fn=transformer_collate_fn
 )
-
-
-# Sorting fairytales
-# fairytale_by_id = {fairytale.khm: fairytale for fairytale in dataset.fairytales}
-
