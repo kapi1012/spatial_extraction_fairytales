@@ -3,7 +3,8 @@ import torch.nn as nn
 import numpy as np
 import pandas as pd
 from datetime import datetime
-import time
+import os
+import json
 
 from sklearn.metrics import classification_report
 from constants import LABEL2ID, ID2LABEL
@@ -158,3 +159,29 @@ def save_test_report(true_tags, predictions, true_spans, pred_spans, hyperparame
     df_report = df_report.map(lambda x: f"{x:.4f}" if isinstance(x, float) else x)
 
     df_report.to_csv(filename)
+
+
+# Transformer
+def save_transformer_train_results(training_args, trainer, results_dir, current_date):
+    """Save training arguments and log history to JSON file."""
+    os.makedirs(results_dir, exist_ok=True)
+    train_results_filename = f"{results_dir}/{current_date}_train_results.json"
+
+    train_data = {
+        'training_args': json.loads(training_args.to_json_string()),
+        'log_history': trainer.state.log_history if hasattr(trainer.state, 'log_history') else []
+    }
+
+    with open(train_results_filename, 'w') as f:
+        json.dump(train_data, f, indent=2)
+    print(f"Training results saved to {train_results_filename}")
+
+
+
+def save_transformer_test_results(test_results, results_dir, current_date):
+    """Save validation metrics to JSON file."""
+    os.makedirs(results_dir, exist_ok=True)
+    test_results_filename = f"{results_dir}/{current_date}_test_results.json"
+    with open(test_results_filename, 'w') as f:
+        json.dump(test_results, f, indent=2)
+    print(f"Validation results saved to {test_results_filename}")

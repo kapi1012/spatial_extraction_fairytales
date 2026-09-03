@@ -1,11 +1,11 @@
-import torch
-from transformers import AutoTokenizer, AutoModelForTokenClassification
+from datetime import datetime
+import inspect
+from transformers import AutoTokenizer, AutoModelForTokenClassification, TrainingArguments, Trainer, DataCollatorForTokenClassification
+
+from data.evaluation.evaluation import save_transformer_train_results
 from dataset_preprocessing_transformer import *
 from dataset_preprocessing import load_dataset
 from constants import LABEL2ID
-from torch.utils.data import DataLoader
-from sklearn.model_selection import train_test_split
-from functools import partial
 from data_split import data_split_on_khm, split_dataset_by_khm
 
 # https://huggingface.co/docs/transformers/v4.27.2/en/model_doc/xlm-roberta#transformers.XLMRobertaForTokenClassification
@@ -15,8 +15,6 @@ TOKENIZER_NAME = "FacebookAI/xlm-roberta-large-finetuned-conll03-german"
 tokenizer = AutoTokenizer.from_pretrained(TOKENIZER_NAME)
 
 model = AutoModelForTokenClassification.from_pretrained("FacebookAI/xlm-roberta-large-finetuned-conll03-german", device_map="auto")
-
-
 
 # check: https://colab.research.google.com/github/huggingface/notebooks/blob/main/examples/token_classification.ipynb#scrollTo=vc0BSBLIIrJQ
 
@@ -47,28 +45,70 @@ train_dataset = RoBERTaSequenceTaggingDataset(train_chunks, LABEL2ID)
 val_dataset = RoBERTaSequenceTaggingDataset(val_chunks, LABEL2ID)
 test_dataset = RoBERTaSequenceTaggingDataset(test_chunks, LABEL2ID)
 
-transformer_collate_fn = partial(
-    collate_fn_transformer,
-    tokenizer=tokenizer
+# DataCollator for padding of input_ids, attention_mask and -100 labels
+# added custom metadata
+data_collator = DataCollatorForTokenClassification(tokenizer)
+
+# Trainer
+args = TrainingArguments(
+    learning_rate=2e-5,
+    per_device_train_batch_size=8,
+    per_device_eval_batch_size=8,
+    num_train_epochs=3,
+    optim="adamw_torch",
+    warmup_ratio=0.1,
+    weight_decay=0.01,
+
+    output_dir="transformer/trainer_output",
+    logging_dir="transformer/train_log",
+    logging_strategy="steps",
+    logging_steps=50,
+
+    eval_strategy="epoch",
+    save_strategy="epoch",
+    metric_for_best_model="eval_loss",
+    greater_is_better=False,
+
+    label_smoothing_factor=0.0, # controls how confident the model should be
+    load_best_model_at_end=True, # for choosing the best model based on eval metrics -> save it at the end
+
+    remove_unused_columns=True, #default, keeps only input_ids, attention_mask and labels from DataSet class
+    seed=42,
+    push_to_hub=False,
+
 )
 
-train_dataloader = DataLoader(
-    train_dataset,
-    batch_size=8,
-    shuffle=True,
-    collate_fn=transformer_collate_fn
+trainer = Trainer(
+    model=model,
+    args=args,
+    train_dataset=train_dataset,
+    eval_dataset=val_dataset,
+    data_collator=data_collator,
 )
 
-val_dataloader = DataLoader(
-    val_dataset,
-    batch_size=8,
-    shuffle=False,
-    collate_fn=transformer_collate_fn
-)
+#Checking Input
+#print(inspect.signature(model.forward))
+#batch = next(iter(trainer.get_train_dataloader()))
+#print(batch.keys())
 
-test_dataloader = DataLoader(
-    test_dataset,
-    batch_size=8,
-    shuffle=False,
-    collate_fn=transformer_collate_fn
-)
+current_time = datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
+results_dir = "transformer/test_results"
+
+#Training
+trainer.train()
+trainer.model.save_pretrained(f"transformer/models/{current_time}_best_model")
+save_transformer_train_results(args, trainer, results_dir, current_time)
+
+#Testing
+predictions = trainer.predict(test_dataset)
+
+# add metadata to predictions for span eval
+for i, prediction in enumerate(predictions.predictions):
+    metadata = test_dataset[i]
+
+    offsets = metadata["offset_mapping"]
+    fairytale_id = metadata["fairytale_id"]
+    chunk_idx = metadata["chunk_idx"]
+
+
+#save_transformer_training_results(test_results, results_dir, current_time)

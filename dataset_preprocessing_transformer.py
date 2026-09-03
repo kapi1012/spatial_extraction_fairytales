@@ -4,6 +4,8 @@ from torch.nn.utils.rnn import pad_sequence
 
 from dataset_preprocessing import Span, Fairytale
 from constants import *
+from dataclasses import dataclass
+from transformers import DataCollatorForTokenClassification, PreTrainedTokenizerBase
 
 """
 - Tokenizer:
@@ -53,7 +55,6 @@ class RoBERTaSequenceTaggingDataset(Dataset):
             "offset_mapping": chunk["offset_mapping"],
             "fairytale_id": chunk["fairytale_id"],
             "chunk_idx": chunk["chunk_idx"],
-            "overflow_to_sample_mapping": chunk["overflow_to_sample_mapping"],
         }
 
 def tokenize_fairytale(fairytale: Fairytale, tokenizer, max_length: int = 512, stride: int = 128,):
@@ -93,13 +94,12 @@ def tokenize_fairytale(fairytale: Fairytale, tokenizer, max_length: int = 512, s
             "labels": labels,
             "fairytale_id": fairytale.khm, # to find original fairytale
             "chunk_idx": chunk_idx, # sequence in one fairytale
-            "overflow_to_sample_mapping": (
-                encoding["overflow_to_sample_mapping"][chunk_idx] # assignment to return_overflow_tokens -> to which text belongs which chunk
-            ),
+
         })
 
     return chunks
 
+#todo check if still needed
 def collate_fn_transformer(batch, tokenizer):
 
     input_ids = [item["input_ids"] for item in batch]
