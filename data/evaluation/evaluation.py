@@ -6,8 +6,9 @@ from datetime import datetime
 import os
 import json
 
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report, precision_recall_fscore_support
 from constants import LABEL2ID, ID2LABEL
+from collections import defaultdict
 
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -162,6 +163,173 @@ def save_test_report(true_tags, predictions, true_spans, pred_spans, hyperparame
 
 
 # Transformer
+def transformer_bio_predictions_to_spans(predicted_ids, offset_mapping, ):
+    spans = []
+
+    current_label = None
+    current_start = None
+    current_end = None
+
+    for label_id, (token_start, token_end) in zip(
+        predicted_ids,
+        offset_mapping,
+    ):
+        # Special tokens
+        if token_start == token_end:
+            continue
+
+        label = ID2LABEL[label_id]
+
+        if label == "O":
+            if current_label is not None:
+                spans.append(
+                    (current_start, current_end, current_label)
+                )
+                current_label = None
+                current_start = None
+                current_end = None
+
+            continue
+
+        prefix, entity_type = label.split("-", 1)
+
+        if prefix == "B":
+            # close old span
+            if current_label is not None:
+                spans.append(
+                    (current_start, current_end, current_label)
+                )
+
+            # start new span
+            current_label = entity_type
+            current_start = token_start
+            current_end = token_end
+
+        elif prefix == "I":
+            if current_label == entity_type:
+                # continue span
+                current_end = token_end
+
+            else:
+                # unexpected I-Tag as new label
+                if current_label is not None:
+                    spans.append(
+                        (current_start, current_end, current_label)
+                    )
+
+                current_label = entity_type
+                current_start = token_start
+                current_end = token_end
+
+    # close last span
+    if current_label is not None:
+        spans.append(
+            (current_start, current_end, current_label)
+        )
+
+    return spans
+
+
+def pred_spans_to_fairytale(test_dataset, predicted_ids):
+    """
+    Takes BIO-predictions -> Character-Spans per Chunk.
+    Takes all chunks of one fairytale.
+    Only keeps single Prediction (because of set) if the same prediction is in overlapping chunks.
+
+    :param test_dataset: RoBERTaSequenceTaggingDataset
+    :param predicted_ids: output of trainer.predict, as labels (not probabilities)
+    :return: predicted_spans_by_fairytale for all fairytales in testset
+    """
+    predicted_spans_by_fairytale = defaultdict(set)
+
+    for i in range(len(test_dataset)):
+        chunk = test_dataset[i]
+
+        # add metadata to predictions for span eval
+        fairytale_id = chunk["fairytale_id"]
+        offset_mapping = chunk["offset_mapping"]
+
+        # Trainer can return chunks padded
+        # only take real token of chunk
+        chunk_predictions = predicted_ids[i][:len(offset_mapping)]
+
+        chunk_spans = transformer_bio_predictions_to_spans(
+            predicted_ids=chunk_predictions,
+            offset_mapping=offset_mapping,
+        )
+
+        predicted_spans_by_fairytale[fairytale_id].update(chunk_spans)
+
+    return predicted_spans_by_fairytale
+
+
+def prepare_test_spans(test_fairytales, predicted_spans_by_fairytale):
+
+    all_true_spans = []
+    all_pred_spans = []
+
+    for fairytale in test_fairytales:
+        gold_spans = {
+            (span.start, span.end, span.label)
+            for span in fairytale.resolve_nested_spans()
+        }
+
+        pred_spans = predicted_spans_by_fairytale.get(
+            fairytale.khm,
+            set(),
+        )
+
+        all_true_spans.append(gold_spans)
+        all_pred_spans.append(pred_spans)
+
+    return all_true_spans, all_pred_spans
+
+def handle_token_prediction(test_dataset, predictions):
+    all_true_labels = []
+    all_pred_labels = []
+
+    # take true labels from testset
+    # still contain special tokens & padding
+    for i in range(len(test_dataset)):
+        chunk = test_dataset[i]
+        gold_labels = chunk["labels"].tolist()
+        all_true_labels.append(gold_labels)
+
+
+    # take prediction labels
+    # find token positions with character-offset: offset_mapping[token_position]
+    # gather all double predictions (due to overlap): predicted_ids[chunk_index][token_position]
+    # decide with pred score, which pred to keep: higher score from predictions.predictions
+
+
+    return all_true_labels, all_pred_labels
+
+
+def calculate_test_metrics(all_true_spans, all_pred_spans, all_true_labels, all_pred_labels):
+    """
+    Calculates metrics on span and on token level.
+    :param all_true_spans: span level
+    :param all_pred_spans: span level
+    :param all_true_labels: token level
+    :param all_pred_labels: token level
+    :return:
+    """
+    precision, recall, f1 = span_metrics(all_true_spans, all_pred_spans,)
+    test_precision, test_recall, test_f1, _ = precision_recall_fscore_support(all_true_labels, all_pred_labels, average='macro')
+
+    metrics = {
+        "span_precision": precision,
+        "span_recall": recall,
+        "span_f1": f1,
+        "token_precision": test_precision,
+        "token_recall": test_recall,
+        "token_f1": test_f1,
+    }
+
+    return metrics
+
+
+
 def save_transformer_train_results(training_args, trainer, results_dir, current_date):
     """Save training arguments and log history to JSON file."""
     os.makedirs(results_dir, exist_ok=True)

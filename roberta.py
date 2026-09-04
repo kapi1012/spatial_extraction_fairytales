@@ -2,11 +2,12 @@ from datetime import datetime
 import inspect
 from transformers import AutoTokenizer, AutoModelForTokenClassification, TrainingArguments, Trainer, DataCollatorForTokenClassification
 
-from data.evaluation.evaluation import save_transformer_train_results
+from data.evaluation.evaluation import save_transformer_train_results, save_transformer_test_results, span_metrics, prepare_test_spans, pred_spans_to_fairytale
 from dataset_preprocessing_transformer import *
 from dataset_preprocessing import load_dataset
 from constants import LABEL2ID
 from data_split import data_split_on_khm, split_dataset_by_khm
+import numpy as np
 
 # https://huggingface.co/docs/transformers/v4.27.2/en/model_doc/xlm-roberta#transformers.XLMRobertaForTokenClassification
 
@@ -92,23 +93,22 @@ trainer = Trainer(
 #print(batch.keys())
 
 current_time = datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
-results_dir = "transformer/test_results"
+train_results_dir = "transformer/train_log"
+test_results_dir = "transformer/test_results"
 
 #Training
 trainer.train()
 trainer.model.save_pretrained(f"transformer/models/{current_time}_best_model")
-save_transformer_train_results(args, trainer, results_dir, current_time)
+save_transformer_train_results(args, trainer, train_results_dir, current_time)
 
 #Testing
 predictions = trainer.predict(test_dataset)
 
-# add metadata to predictions for span eval
-for i, prediction in enumerate(predictions.predictions):
-    metadata = test_dataset[i]
+# convert probability prediction to label
+predicted_ids = np.argmax(predictions.predictions, axis=-1,)
 
-    offsets = metadata["offset_mapping"]
-    fairytale_id = metadata["fairytale_id"]
-    chunk_idx = metadata["chunk_idx"]
+predicted_spans_by_fairytale = pred_spans_to_fairytale(test_dataset, predicted_ids)
+all_true_spans, all_pred_spans = prepare_test_spans(test_fairytales, predicted_spans_by_fairytale)
 
 
-#save_transformer_training_results(test_results, results_dir, current_time)
+save_transformer_test_results(test_results, test_results_dir, current_time)
