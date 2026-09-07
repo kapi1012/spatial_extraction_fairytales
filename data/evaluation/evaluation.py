@@ -249,8 +249,8 @@ def pred_spans_to_fairytale(test_dataset, predicted_ids):
         fairytale_id = chunk["fairytale_id"]
         offset_mapping = chunk["offset_mapping"]
 
-        # Trainer can return chunks padded
-        # only take real token of chunk
+        # Remove batch padding added by the data collator
+        # Keep only the positions belonging to this original chunk
         chunk_predictions = predicted_ids[i][:len(offset_mapping)]
 
         chunk_spans = transformer_bio_predictions_to_spans(
@@ -284,22 +284,119 @@ def prepare_test_spans(test_fairytales, predicted_spans_by_fairytale):
 
     return all_true_spans, all_pred_spans
 
-def handle_token_prediction(test_dataset, predictions):
+
+def collect_token_labels(test_dataset, predicted_ids, predictions):
+    token_observations = defaultdict(list)
+    logits = predictions.predictions
+
+    for chunk_idx in range(len(test_dataset)):
+        chunk = test_dataset[chunk_idx]
+
+        fairytale_id = chunk["fairytale_id"]
+        offset_mapping = chunk["offset_mapping"]
+        true_labels = chunk["labels"].tolist()
+
+        for token_position, (start, end) in enumerate(offset_mapping):
+
+            # Special tokens
+            if start == end:
+                continue
+
+            # Prediction on same token position
+            pred_label = predicted_ids[chunk_idx][token_position]
+
+            # Gold label
+            true_label = true_labels[token_position]
+
+            # skip padding
+            if true_label == -100:
+                continue
+
+            token_key = (fairytale_id, start, end)
+
+            token_observations[token_key].append({
+                "chunk_idx": chunk["chunk_idx"],
+                "token_position": token_position,
+                "true_label": true_label,
+                "pred_label": pred_label,
+                "logit": logits[
+                    chunk_idx,
+                    token_position,
+                    pred_label
+                ],
+            })
+
+    return dict(sorted(token_observations.items()))
+
+
+def resolve_overlap_predictions(token_observations):
+    """
+    Labeled sequences can have an overlap due to chunking with a stride.
+    3 Cases:
+    1. Token only appears in one chunk -> keep.
+    2. Token appears in two chunks, but have same label -> keep.
+    3. Token appears in two chunks, but have different label -> keep token with higher logit.
+        -> predictions contain logits (predicted_ids contain label)
+    """
+    resolved_tokens = {}
+    same_prediction = 0
+    different_prediction = 0
+
+    for token_key, observations in token_observations.items():
+
+        # Case 1
+        if len(observations) == 1:
+            resolved_tokens[token_key] = observations[0]
+
+        # Case 2
+        elif len(observations) == 2:
+            obs1, obs2 = observations
+
+            if obs1["true_label"] != obs2["true_label"]:
+                raise ValueError(
+                    f"Different gold labels for token {token_key}: "
+                    f"{obs1['true_label']} vs. {obs2['true_label']}"
+                )
+
+            # same predictions
+            if obs1["pred_label"] == obs2["pred_label"]:
+                same_prediction += 1
+                resolved_tokens[token_key] = obs1
+
+            # case 3: higher logit
+            else:
+                different_prediction += 1
+
+                #print(
+                #    "\nOverlap conflict:"
+                #)
+                #print("Token:", token_key)
+                #print("Obs 1:", obs1)
+                #print("Obs 2:", obs2)
+
+                if obs1["logit"] >= obs2["logit"]:
+                    resolved_tokens[token_key] = obs1
+                else:
+                    resolved_tokens[token_key] = obs2
+
+        else:
+            raise ValueError(
+                f"Token {token_key} kommt {len(observations)} x vor."
+            )
+
+    print("Same prediction in overlap:", same_prediction)
+    print("Different prediction in overlap:", different_prediction)
+
+    return resolved_tokens
+
+
+def extract_token_labels(resolved_tokens):
     all_true_labels = []
     all_pred_labels = []
 
-    # take true labels from testset
-    # still contain special tokens & padding
-    for i in range(len(test_dataset)):
-        chunk = test_dataset[i]
-        gold_labels = chunk["labels"].tolist()
-        all_true_labels.append(gold_labels)
-
-
-    # take prediction labels
-    # find token positions with character-offset: offset_mapping[token_position]
-    # gather all double predictions (due to overlap): predicted_ids[chunk_index][token_position]
-    # decide with pred score, which pred to keep: higher score from predictions.predictions
+    for observation in resolved_tokens.values():
+        all_true_labels.append(observation["true_label"])
+        all_pred_labels.append(observation["pred_label"])
 
 
     return all_true_labels, all_pred_labels
@@ -308,26 +405,32 @@ def handle_token_prediction(test_dataset, predictions):
 def calculate_test_metrics(all_true_spans, all_pred_spans, all_true_labels, all_pred_labels):
     """
     Calculates metrics on span and on token level.
-    :param all_true_spans: span level
-    :param all_pred_spans: span level
-    :param all_true_labels: token level
-    :param all_pred_labels: token level
+    :param all_true_spans: span-level
+    :param all_pred_spans: span-level
+    :param all_true_labels: token-level
+    :param all_pred_labels: token-level
     :return:
     """
-    precision, recall, f1 = span_metrics(all_true_spans, all_pred_spans,)
-    test_precision, test_recall, test_f1, _ = precision_recall_fscore_support(all_true_labels, all_pred_labels, average='macro')
+    span_precision, span_recall, span_f1 = span_metrics(all_true_spans, all_pred_spans,)
+    token_precision, token_recall, token_f1, _ = (
+        precision_recall_fscore_support(
+            all_true_labels,
+            all_pred_labels,
+            average="macro",
+            zero_division=0,
+        )
+    )
 
     metrics = {
-        "span_precision": precision,
-        "span_recall": recall,
-        "span_f1": f1,
-        "token_precision": test_precision,
-        "token_recall": test_recall,
-        "token_f1": test_f1,
+        "span_precision": span_precision,
+        "span_recall": span_recall,
+        "span_f1": span_f1,
+        "token_precision": token_precision,
+        "token_recall": token_recall,
+        "token_f1": token_f1,
     }
 
     return metrics
-
 
 
 def save_transformer_train_results(training_args, trainer, results_dir, current_date):
@@ -346,10 +449,18 @@ def save_transformer_train_results(training_args, trainer, results_dir, current_
 
 
 
-def save_transformer_test_results(test_results, results_dir, current_date):
-    """Save validation metrics to JSON file."""
+def save_transformer_test_results(test_results, training_args, results_dir, current_date):
+    """Save test metrics to JSON file."""
     os.makedirs(results_dir, exist_ok=True)
     test_results_filename = f"{results_dir}/{current_date}_test_results.json"
+
+    test_data = {
+        "test_results": test_results,
+        "training_args": json.loads(
+            training_args.to_json_string()
+        ),
+    }
+
     with open(test_results_filename, 'w') as f:
-        json.dump(test_results, f, indent=2)
-    print(f"Validation results saved to {test_results_filename}")
+        json.dump(test_data, f, indent=2)
+    print(f"Test results saved to {test_results_filename}")

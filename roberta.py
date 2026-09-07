@@ -1,8 +1,11 @@
+from collections import Counter
 from datetime import datetime
 import inspect
 from transformers import AutoTokenizer, AutoModelForTokenClassification, TrainingArguments, Trainer, DataCollatorForTokenClassification
 
-from data.evaluation.evaluation import save_transformer_train_results, save_transformer_test_results, span_metrics, prepare_test_spans, pred_spans_to_fairytale
+from data.evaluation.evaluation import save_transformer_train_results, save_transformer_test_results,  \
+    prepare_test_spans, pred_spans_to_fairytale, collect_token_labels, calculate_test_metrics, extract_token_labels, \
+    resolve_overlap_predictions
 from dataset_preprocessing_transformer import *
 from dataset_preprocessing import load_dataset
 from constants import LABEL2ID
@@ -53,9 +56,15 @@ data_collator = DataCollatorForTokenClassification(tokenizer)
 # Trainer
 args = TrainingArguments(
     learning_rate=2e-5,
-    per_device_train_batch_size=8,
-    per_device_eval_batch_size=8,
-    num_train_epochs=3,
+    per_device_train_batch_size=1,
+    per_device_eval_batch_size=1,
+
+    gradient_accumulation_steps=8,
+
+    fp16=True,
+
+    num_train_epochs=1,
+
     optim="adamw_torch",
     warmup_ratio=0.1,
     weight_decay=0.01,
@@ -108,7 +117,30 @@ predictions = trainer.predict(test_dataset)
 predicted_ids = np.argmax(predictions.predictions, axis=-1,)
 
 predicted_spans_by_fairytale = pred_spans_to_fairytale(test_dataset, predicted_ids)
+# labels for span-level evaluation
 all_true_spans, all_pred_spans = prepare_test_spans(test_fairytales, predicted_spans_by_fairytale)
 
+# labels for token-level evaluation
+token_observations = collect_token_labels(test_dataset, predicted_ids, predictions)
+resolved_tokens = resolve_overlap_predictions(token_observations)
+all_true_labels, all_pred_labels = extract_token_labels(resolved_tokens)
 
-save_transformer_test_results(test_results, test_results_dir, current_time)
+test_results = calculate_test_metrics(all_true_spans, all_pred_spans, all_true_labels, all_pred_labels)
+
+print("Number of test chunks:", len(test_dataset))
+print("Number of token observations:", len(token_observations))
+print("Number of resolved tokens:", len(resolved_tokens))
+
+print(test_results)
+print("True labels:", len(all_true_labels))
+print("Pred labels:", len(all_pred_labels))
+assert len(all_true_labels) == len(all_pred_labels)
+
+observation_counts = Counter(
+    len(observations)
+    for observations in token_observations.values()
+)
+
+print(observation_counts)
+
+save_transformer_test_results(test_results, args, test_results_dir, current_time)
