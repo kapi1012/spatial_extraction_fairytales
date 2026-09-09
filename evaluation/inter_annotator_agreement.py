@@ -64,6 +64,27 @@ inter_annotator_list = [fairytale for fairytale in inter_annotator_dataset.fairy
 inter_annotator = main_annotator_list + inter_annotator_list
 inter_annotator_ds = FairytaleDataset(inter_annotator)
 
+# dataset annotieren
+docs, errors = annotate_dataset(inter_annotator_ds)
+# token docs erstellen
+token_documents = create_token_documents(docs)
+
+# testing
+for token, label in zip(
+    token_documents[0].tokens,
+    token_documents[0].labels,
+):
+    print(f"{token:20} {label:10}")
+
+# add khm and id
+# convert label to number
+
+
+# build np array:
+# for each KHM iterate over all tokens, take each label from every unique ID
+# for every missing entry -> NaN
+# should have: a lot of token items, up to 4 annotator entries: [ [0 1 1 2 NaN], [1 2 2 0 NaN], ... ]
+
 
 # Krippendorff's alpha
 # implementation after: https://mbrenndoerfer.com/writing/inter-annotator-agreement-kappa-alpha-reliability
@@ -87,6 +108,7 @@ annotations = np.array(
 
 n_items, n_raters = annotations.shape
 categories = np.unique(annotations)
+# expected: 5 labels: 0, 1, 2, 3, 4
 k = len(categories)
 
 def krippendorff_alpha(annotations, categories, metric="nominal"):
@@ -114,13 +136,13 @@ def krippendorff_alpha(annotations, categories, metric="nominal"):
 
     total_coincidences = np.sum(coincidence)
 
-    # Observed disagreement (for nominal: proportion of off-diagonal)
+    # Observed disagreement D_o (for nominal: proportion of off-diagonal)
     if metric == "nominal":
         D_o = (total_coincidences - np.trace(coincidence)) / total_coincidences
     else:
         raise NotImplementedError("Only nominal metric implemented here")
 
-    # Expected disagreement based on marginals
+    # Expected disagreement D_e based on marginals
     category_counts = np.sum(coincidence, axis=1)
     n_total = np.sum(category_counts)
     probs = category_counts / n_total
