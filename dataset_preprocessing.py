@@ -81,6 +81,7 @@ class Span:
 @dataclass
 class Fairytale:
     khm: int
+    id: int
     title: str
     text: str
     spans: list[Span] = field(default_factory=list) # rename from JSON "label" for clarity
@@ -123,6 +124,7 @@ class FairytaleDataset:
         for item in data:
             fairytale = Fairytale(
                 khm=item['khm'],
+                id=item["id"],
                 title=item['title'],
                 text=item['text'],
                 spans=[
@@ -141,6 +143,7 @@ class FairytaleDataset:
 @dataclass
 class TokenDocument:
     khm: int
+    id: int
     text: str
     tokens: list[str]
     offsets: list[tuple[int, int]]
@@ -151,6 +154,7 @@ class TokenDocument:
 @dataclass
 class SentenceDocument:
     khm: int
+    id: int
     tokens: list[str]
     labels: list[str]
     embeddings: torch.Tensor | None = None
@@ -176,6 +180,7 @@ class FairytaleSequenceTaggingDataset(Dataset):
             "embeddings": document.embeddings,
             "tags": torch.tensor(tag_ids),
             "khm": document.khm,
+            "id": document.id,
         }
 
 
@@ -202,7 +207,7 @@ def build_spacy_spans(fairytale: Fairytale, doc: Doc) -> tuple[list[Span], list[
 
         if spacy_span.text != annotation.text:
             errors.append(
-                f"KHM {fairytale.khm} ({fairytale.title}): "
+                f"KHM {fairytale.khm}, ID{fairytale.id} ({fairytale.title}): "
                 f"Span mismatch\n"
                 f"JSON : {annotation.text!r}\n"
                 f"spaCy: {spacy_span.text!r}"
@@ -232,6 +237,7 @@ def annotate_dataset(dataset: FairytaleDataset,) -> tuple[list[Doc], list[str]]:
 
     for fairytale, doc in zip(dataset.fairytales, nlp.pipe(texts)): # pipe() using all docs
         doc.user_data["khm"] = fairytale.khm
+        doc.user_data["id"] = fairytale.id
 
         spacy_spans, errors = build_spacy_spans(fairytale, doc)
         doc.ents = spacy_spans
@@ -277,6 +283,7 @@ def doc_to_token_document(doc: Doc) -> TokenDocument:
 
     return TokenDocument(
         khm=doc.user_data["khm"],
+        id=doc.user_data["id"],
         text=doc.text,
         tokens=tokens,
         offsets=offsets,
@@ -312,6 +319,7 @@ def flair_embedding(token_documents: list[TokenDocument]) -> list[SentenceDocume
             sentence_documents.append(
                 SentenceDocument(
                     khm=doc.khm,
+                    id=doc.id,
                     tokens=doc.tokens[start:end],
                     labels=doc.labels[start:end],
                     embeddings=sentence_embedding
