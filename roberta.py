@@ -1,9 +1,8 @@
 from collections import Counter
 from datetime import datetime
-import inspect
-from transformers import AutoTokenizer, AutoModelForTokenClassification, TrainingArguments, Trainer, DataCollatorForTokenClassification
+from transformers import AutoTokenizer, AutoModelForTokenClassification, TrainingArguments, Trainer
 
-from data.evaluation.evaluation import save_transformer_train_results, save_transformer_test_results,  \
+from evaluation.evaluation import save_transformer_train_results, save_transformer_test_results,  \
     prepare_test_spans, pred_spans_to_fairytale, collect_token_labels, calculate_test_metrics, extract_token_labels, \
     resolve_overlap_predictions
 from dataset_preprocessing_transformer import *

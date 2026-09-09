@@ -1,10 +1,10 @@
 import time
 from pathlib import Path
-from torch.utils.data import DataLoader, random_split
+from torch.utils.data import DataLoader
 from torchcrf import CRF
 
 from dataset_preprocessing import *
-from data.evaluation.evaluation import *
+from evaluation.evaluation import *
 from data_split import *
 
 from sklearn.metrics import precision_recall_fscore_support, classification_report
