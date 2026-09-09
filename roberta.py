@@ -57,13 +57,9 @@ data_collator = DataCollatorForTokenClassification(tokenizer)
 args = TrainingArguments(
     learning_rate=2e-5,
     per_device_train_batch_size=1,
-    per_device_eval_batch_size=1,
+    per_device_eval_batch_size=8,
 
-    gradient_accumulation_steps=8,
-
-    fp16=True,
-
-    num_train_epochs=1,
+    num_train_epochs=10,
 
     optim="adamw_torch",
     warmup_ratio=0.1,
