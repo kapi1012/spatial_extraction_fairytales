@@ -2,6 +2,8 @@ import itertools
 import numpy as np
 
 from dataset_preprocessing import *
+from constants import *
+from collections import Counter
 
 
 """"
@@ -60,30 +62,62 @@ inter_annotator_dataset = load_dataset("../data/annotators_annotations/fuzzy_loc
 main_annotator_list = [fairytale for fairytale in main_annotator_dataset.fairytales if fairytale.khm in khm_annotators]
 inter_annotator_list = [fairytale for fairytale in inter_annotator_dataset.fairytales if fairytale.khm in khm_annotators]
 
-# combine both lists and convert back to dataset
-inter_annotator = main_annotator_list + inter_annotator_list
-inter_annotator_ds = FairytaleDataset(inter_annotator)
+# create 2 datasets: labels have different names, but refer to the same
+# due to updated annotator guidelines
+main_docs, main_errors = annotate_dataset(FairytaleDataset(main_annotator_list))
+iaa_docs, iaa_errors = annotate_dataset(FairytaleDataset(inter_annotator_list))
 
-# dataset annotieren
-docs, errors = annotate_dataset(inter_annotator_ds)
-# token docs erstellen
-token_documents = create_token_documents(docs)
+main_token_documents = create_token_documents(main_docs)
+iaa_token_documents = create_token_documents(iaa_docs)
 
-# testing
-for token, label in zip(
-    token_documents[0].tokens,
-    token_documents[0].labels,
-):
-    print(f"{token:20} {label:10}")
+# convert labels to numbers for Krippendorff
 
-# add khm and id
-# convert label to number
+main_token_data = []
 
+for doc in main_token_documents:
+    for token_idx, (token, label) in enumerate(
+        zip(doc.tokens, doc.labels)
+    ):
+        main_token_data.append({
+            "khm": doc.khm,
+            "id": doc.id,
+            "token_idx": token_idx,
+            "token": token,
+            "label": LABEL2ID[label],
+        })
+
+iaa_token_data = []
+
+for doc in iaa_token_documents:
+    for token_idx, (token, label) in enumerate(
+        zip(doc.tokens, doc.labels)
+    ):
+        iaa_token_data.append({
+            "khm": doc.khm,
+            "id": doc.id,
+            "token_idx": token_idx,
+            "token": token,
+            "label": LABEL2ID_IAA[label],
+        })
+
+#combine both lists
+all_token_data = main_token_data + iaa_token_data
+#print(all_token_data)
+
+# count all token_idx in all data (unique per khm, every count starts again at 0 for each fairytale)
+unique_tokens = {
+    (item["khm"], item["token_idx"])
+    for item in all_token_data
+}
+
+print(len(unique_tokens))
 
 # build np array:
-# for each KHM iterate over all tokens, take each label from every unique ID
+# for each KHM iterate over all token_idx, take each label from every unique ID
 # for every missing entry -> NaN
-# should have: a lot of token items, up to 4 annotator entries: [ [0 1 1 2 NaN], [1 2 2 0 NaN], ... ]
+# should have: length of all unique_token_idx, up to 4 annotator entries: [ [0 1 1 2 NaN], [1 2 2 0 NaN], ... ]
+rows_number = len(unique_tokens)
+annotations_iaa = np.empty((rows_number, 4))
 
 
 # Krippendorff's alpha
