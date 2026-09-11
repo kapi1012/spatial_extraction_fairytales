@@ -3,7 +3,7 @@ import numpy as np
 
 from dataset_preprocessing import *
 from constants import *
-from collections import Counter
+from collections import Counter, defaultdict
 
 
 """"
@@ -81,6 +81,7 @@ for doc in main_token_documents:
         main_token_data.append({
             "khm": doc.khm,
             "id": doc.id,
+            "annotator_id": doc.annotator_id,
             "token_idx": token_idx,
             "token": token,
             "label": LABEL2ID[label],
@@ -95,6 +96,7 @@ for doc in iaa_token_documents:
         iaa_token_data.append({
             "khm": doc.khm,
             "id": doc.id,
+            "annotator_id": doc.annotator_id,
             "token_idx": token_idx,
             "token": token,
             "label": LABEL2ID_IAA[label],
@@ -110,85 +112,67 @@ unique_tokens = {
     for item in all_token_data
 }
 
-print(len(unique_tokens))
+#print(len(unique_tokens))
 
-# build np array:
-# for each KHM iterate over all token_idx, take each label from every unique ID
 # for every missing entry -> NaN
-# should have: length of all unique_token_idx, up to 4 annotator entries: [ [0 1 1 2 NaN], [1 2 2 0 NaN], ... ]
-rows_number = len(unique_tokens)
-annotations_iaa = np.empty((rows_number, 4))
+# up to max 7 annotators
+MAX_ANNOTATORS = 7
+
+# count tokenlength per fairytale to use as row index
+fairytale_length = defaultdict(lambda: 0 )
+for khm, token_idx in unique_tokens:
+    fairytale_length[khm] = max(fairytale_length[khm], token_idx + 1)  # token_idx is 0 based
+
+# to collect each fairytale matrix
+matrizes = {}
+
+for entry in all_token_data: # -> rows
+    if entry["khm"] not in matrizes:
+        matrizes[entry["khm"]] = np.full((fairytale_length[entry["khm"]], MAX_ANNOTATORS), np.nan)
+    matrizes[entry["khm"]][entry["token_idx"], ANNOTATOR2IDX[entry["annotator_id"]]] = entry["label"]
+
+annotations_iaa_matrix = np.vstack(tuple(matrizes.values()))
 
 
 # Krippendorff's alpha
 # implementation after: https://mbrenndoerfer.com/writing/inter-annotator-agreement-kappa-alpha-reliability
 
-# Define our annotation data: 10 items, 3 annotators (A, B, C)
-# Categories: 0=Negative(G), 1=Neutral(N), 2=Positive(P)
-annotations = np.array(
-    [
-        [2, 2, 2],  # Item 1: P,P,P
-        [2, 2, 1],  # Item 2: P,P,N
-        [1, 1, 1],  # Item 3: N,N,N
-        [2, 2, 2],  # Item 4: P,P,P
-        [1, 2, 1],  # Item 5: N,P,N
-        [0, 0, 0],  # Item 6: G,G,G
-        [2, 1, 2],  # Item 7: P,N,P
-        [1, 1, 1],  # Item 8: N,N,N
-        [2, 2, 2],  # Item 9: P,P,P
-        [0, 2, 0],  # Item 10: G,P,G
-    ]
-)
 
-n_items, n_raters = annotations.shape
-categories = np.unique(annotations)
+categories = np.unique(list(LABEL2ID.values()))
 # expected: 5 labels: 0, 1, 2, 3, 4
-k = len(categories)
 
-def krippendorff_alpha(annotations, categories, metric="nominal"):
-    """
-    Calculate Krippendorff's alpha.
-    Handles varying numbers of raters per item (missing data via NaN).
-    """
+def krippendorff_alpha(annotations, categories):
+    """Alpha with missing data handling."""
     n_items, n_raters = annotations.shape
     k = len(categories)
 
-    # Build coincidence matrix
     coincidence = np.zeros((k, k))
 
     for i in range(n_items):
-        # Get valid annotations for this item (non-NaN if we had missing data)
-        valid = annotations[i, :]
+        # Filter out NaN values
+        valid = annotations[i, ~np.isnan(annotations[i, :])]
         n_valid = len(valid)
 
-        # All ordered pairs of raters
+        if n_valid < 2:
+            continue
+
         for r1, r2 in itertools.product(range(n_valid), range(n_valid)):
             if r1 != r2:
-                c1 = np.where(categories == valid[r1])[0][0]
-                c2 = np.where(categories == valid[r2])[0][0]
+                #print("d")
+                c1 = np.where(categories == valid[r1])[0].item()
+                c2 = np.where(categories == valid[r2])[0].item()
                 coincidence[c1, c2] += 1
 
-    total_coincidences = np.sum(coincidence)
+    total = np.sum(coincidence)
+    D_o = (total - np.trace(coincidence)) / total
 
-    # Observed disagreement D_o (for nominal: proportion of off-diagonal)
-    if metric == "nominal":
-        D_o = (total_coincidences - np.trace(coincidence)) / total_coincidences
-    else:
-        raise NotImplementedError("Only nominal metric implemented here")
-
-    # Expected disagreement D_e based on marginals
-    category_counts = np.sum(coincidence, axis=1)
-    n_total = np.sum(category_counts)
-    probs = category_counts / n_total
-
+    probs = np.sum(coincidence, axis=1) / total
     D_e = 1 - np.sum(probs**2)
 
-    alpha = 1 - (D_o / D_e) if D_e != 0 else 0
-
-    return alpha, D_o, D_e, coincidence
+    return 1 - (D_o / D_e)
 
 
-alpha, d_o, d_e, coin_mat = krippendorff_alpha(annotations, categories)
+alpha = krippendorff_alpha(annotations_iaa_matrix, categories)
 print(alpha)
 
 

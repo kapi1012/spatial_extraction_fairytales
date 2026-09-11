@@ -82,6 +82,7 @@ class Span:
 class Fairytale:
     khm: int
     id: int
+    annotator_id: int
     title: str
     text: str
     spans: list[Span] = field(default_factory=list) # rename from JSON "label" for clarity
@@ -127,6 +128,7 @@ class FairytaleDataset:
                 id=item["id"],
                 title=item['title'],
                 text=item['text'],
+                annotator_id=item['annotator'],
                 spans=[
                     Span(start=span["start"],
                         end=span["end"],
@@ -144,6 +146,7 @@ class FairytaleDataset:
 class TokenDocument:
     khm: int
     id: int
+    annotator_id: int
     text: str
     tokens: list[str]
     offsets: list[tuple[int, int]]
@@ -155,6 +158,7 @@ class TokenDocument:
 class SentenceDocument:
     khm: int
     id: int
+    annotator_id: int
     tokens: list[str]
     labels: list[str]
     embeddings: torch.Tensor | None = None
@@ -181,6 +185,7 @@ class FairytaleSequenceTaggingDataset(Dataset):
             "tags": torch.tensor(tag_ids),
             "khm": document.khm,
             "id": document.id,
+            "annotator_id": document.annotator_id,
         }
 
 
@@ -238,6 +243,7 @@ def annotate_dataset(dataset: FairytaleDataset,) -> tuple[list[Doc], list[str]]:
     for fairytale, doc in zip(dataset.fairytales, nlp.pipe(texts)): # pipe() using all docs
         doc.user_data["khm"] = fairytale.khm
         doc.user_data["id"] = fairytale.id
+        doc.user_data["annotator_id"] = fairytale.annotator_id
 
         spacy_spans, errors = build_spacy_spans(fairytale, doc)
         doc.ents = spacy_spans
@@ -284,6 +290,7 @@ def doc_to_token_document(doc: Doc) -> TokenDocument:
     return TokenDocument(
         khm=doc.user_data["khm"],
         id=doc.user_data["id"],
+        annotator_id=doc.user_data["annotator_id"],
         text=doc.text,
         tokens=tokens,
         offsets=offsets,
@@ -320,6 +327,7 @@ def flair_embedding(token_documents: list[TokenDocument]) -> list[SentenceDocume
                 SentenceDocument(
                     khm=doc.khm,
                     id=doc.id,
+                    annotator_id=doc.annotator_id,
                     tokens=doc.tokens[start:end],
                     labels=doc.labels[start:end],
                     embeddings=sentence_embedding

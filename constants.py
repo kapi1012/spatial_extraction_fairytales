@@ -17,3 +17,13 @@ LABEL2ID_IAA = {
 }
 
 ID2LABEL_IAA = {v: k for k, v in LABEL2ID_IAA.items()}
+
+ANNOTATOR2IDX = {
+    1 : 0,
+    4 : 1,
+    5 : 2,
+    6 : 3,
+    7 : 4,
+    8 : 5,
+    9 : 6,
+}
