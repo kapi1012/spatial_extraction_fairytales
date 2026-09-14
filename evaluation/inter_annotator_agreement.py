@@ -3,7 +3,7 @@ import numpy as np
 
 from dataset_preprocessing import *
 from constants import *
-from collections import Counter, defaultdict
+from collections import defaultdict
 
 
 """"
@@ -12,13 +12,14 @@ Calculate Inter-Annotator Agreement with Krippendorff's Alpha.
 - add label-studio ID to Dataclass
     -> khm is not unique anymore
 - Extract 25 fairytales with annotators
+- over all: 7 different annotators
 - Most have 1 annotators, some up to 3
 - Add my annotations
 - each fairytale has min 1 annotator, max 4 annotators
     -> Krippendorff can handle Null/NaN values
 
-- Calculate per Fairytale? or for all 25 fairytales?
-- Calculate on (sub-) word-level or token-level?
+- Calculate for all 25 fairytales
+- Calculate on token-level
 - 1 item = 1 token
 - labels (see constants):
     "O": 0,
@@ -49,6 +50,8 @@ for III.
     II. python lib: https://pypi.org/project/krippendorff/
     III. nlkt: https://www.nltk.org/api/nltk.metrics.agreement.html (see: https://stackoverflow.com/questions/45353866/nltk-inter-annotator-agreement-using-krippendorff-alpha)
 
+- Implementation not on fairytale-level, but for all items (tokens) in same matrix
+- -> up to 7 annotator columns (-> Krippendorff ignores NaNs)
 """""
 
 # khm numbers of annotated fairytales
@@ -80,8 +83,8 @@ for doc in main_token_documents:
     ):
         main_token_data.append({
             "khm": doc.khm,
-            "id": doc.id,
-            "annotator_id": doc.annotator_id,
+            "id": doc.id, # not unique per annotator
+            "annotator_id": doc.annotator_id, # unique annotator ID
             "token_idx": token_idx,
             "token": token,
             "label": LABEL2ID[label],
@@ -118,7 +121,7 @@ unique_tokens = {
 # up to max 7 annotators
 MAX_ANNOTATORS = 7
 
-# count tokenlength per fairytale to use as row index
+# count token length per fairytale to use as row index
 fairytale_length = defaultdict(lambda: 0 )
 for khm, token_idx in unique_tokens:
     fairytale_length[khm] = max(fairytale_length[khm], token_idx + 1)  # token_idx is 0 based
@@ -128,18 +131,20 @@ matrizes = {}
 
 for entry in all_token_data: # -> rows
     if entry["khm"] not in matrizes:
+        # initialize matrix with NaN values
         matrizes[entry["khm"]] = np.full((fairytale_length[entry["khm"]], MAX_ANNOTATORS), np.nan)
+    # fill in annotations
     matrizes[entry["khm"]][entry["token_idx"], ANNOTATOR2IDX[entry["annotator_id"]]] = entry["label"]
 
+# combine all matrices (one per fairytale) to one
 annotations_iaa_matrix = np.vstack(tuple(matrizes.values()))
 
 
 # Krippendorff's alpha
 # implementation after: https://mbrenndoerfer.com/writing/inter-annotator-agreement-kappa-alpha-reliability
 
-
-categories = np.unique(list(LABEL2ID.values()))
 # expected: 5 labels: 0, 1, 2, 3, 4
+categories = np.unique(list(LABEL2ID.values()))
 
 def krippendorff_alpha(annotations, categories):
     """Alpha with missing data handling."""
@@ -158,22 +163,23 @@ def krippendorff_alpha(annotations, categories):
 
         for r1, r2 in itertools.product(range(n_valid), range(n_valid)):
             if r1 != r2:
-                #print("d")
                 c1 = np.where(categories == valid[r1])[0].item()
                 c2 = np.where(categories == valid[r2])[0].item()
                 coincidence[c1, c2] += 1
 
     total = np.sum(coincidence)
+    # observed disagreement
     D_o = (total - np.trace(coincidence)) / total
 
     probs = np.sum(coincidence, axis=1) / total
+    # expected disagreement
     D_e = 1 - np.sum(probs**2)
 
     return 1 - (D_o / D_e)
 
 
 alpha = krippendorff_alpha(annotations_iaa_matrix, categories)
-print(alpha)
+print(f"{alpha:.2f}")
 
 
 
