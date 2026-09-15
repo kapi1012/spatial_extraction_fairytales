@@ -87,3 +87,29 @@ To use local data in Label Studio, create a directory named `data` or `label-stu
 ``docker compose up -d``
 
 - using subdomain ``https://ortsreferenzen-annotation.lektorat-kasper.de/``
+
+## Setup Local LLM
+
+- Install Ollama locally ``curl -fsSL https://ollama.com/install.sh | sh``
+- add ollama to uv
+- start Ollama in uv: ``ollama serve``
+- if "Error: listen tcp 127.0.0.1:11434: bind: address already in use" appears, Ollama server is added as a system service (Linux):
+- ``systemctl stop ollama`` on system console
+
+### Start local model
+- choose model from https://ollama.com/search
+- download model:
+- ``ollama pull <model name>``
+- start model locally to chat:
+- ``ollama run <model name>``
+- type ``/bye`` to leave
+- use curl for requests on local server: https://docs.ollama.com/quickstart#ollama-api-2
+- 
+
+- check installed models:
+- ``ollama list``
+- remove models by name:
+- ``ollama rm <model name>``
+- The models are also stored locally, so find the directory: 
+- ``du -sh ~/.ollama/models/``
+- delete models

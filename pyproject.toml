@@ -10,6 +10,7 @@ dependencies = [
     "ipykernel>=7.3.0",
     "label-studio<=1.23",
     "numpy>=2.4.4",
+    "ollama>=0.6.2",
     "pandas>=3.0.2",
     "pip>=26.0.1",
     "pytorch-crf>=0.7.2",
