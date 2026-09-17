@@ -9,6 +9,7 @@ dependencies = [
     "flair[word-embeddings]>=0.15.1",
     "ipykernel>=7.3.0",
     "label-studio<=1.23",
+    "markdown>=3.10.3",
     "numpy>=2.4.4",
     "ollama>=0.6.2",
     "pandas>=3.0.2",

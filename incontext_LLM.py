@@ -1,3 +1,7 @@
+import markdown
+import json
+from ollama import chat
+
 """"
 Ollama in Python: https://www.youtube.com/watch?v=AGAETsxjg0o 
 
@@ -16,3 +20,28 @@ streaming for in-context-learning: https://docs.ollama.com/capabilities/streamin
 - compute metrics
 
 """""
+# load systemprompt with annotation guidelines
+with open("./ollama_files/systemprompt.md", "r") as f:
+    systemprompt = f.read()
+
+# load fairytale-json
+with open("data/grimm_fairytales_json/grimm_der_nagel.json", "r") as ft:
+    fairytale = json.load(ft)
+fairytale = json.dumps(fairytale)
+
+response = chat(
+    model='gemma3:1b',
+    messages=[
+        {
+            'role': 'system',
+            'content': systemprompt,
+        },
+
+        {
+            'role': 'user',
+            'content': fairytale,
+        }
+    ],
+
+)
+print(response.message.content)

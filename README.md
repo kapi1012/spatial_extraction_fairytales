@@ -94,7 +94,8 @@ To use local data in Label Studio, create a directory named `data` or `label-stu
 - add ollama to uv
 - start Ollama in uv: ``ollama serve``
 - if "Error: listen tcp 127.0.0.1:11434: bind: address already in use" appears, Ollama server is added as a system service (Linux):
-- ``systemctl stop ollama`` on system console
+- ``sudo systemctl stop ollama`` on system console
+- ``sudo systemctl status ollama`` check if process is inactive
 
 ### Start local model
 - choose model from https://ollama.com/search
