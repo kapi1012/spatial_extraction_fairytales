@@ -5,6 +5,7 @@ import json
 from pydantic import BaseModel
 from typing import Literal
 from ollama import chat
+from spacy.lang.de import German
 
 
 """"
@@ -79,7 +80,24 @@ with open("data/grimm_fairytales_json/grimm_der_nagel.json", "r") as ft:
     fairytale_dict = json.load(ft)
 fairytale = Fairytale.model_validate(fairytale_dict)
 
-# todo: Chunk longer fairytales
+# Chunk longer fairytales
+nlp = German()  # contains tokenizer, no other SpaCy Pipeline Components
+nlp.add_pipe("sentencizer")  # add segmentation by sentence
+
+doc = nlp(fairytale.text)
+sentences = [sent.text for sent in doc.sents]
+print(sentences)
+
+# combine n sentences for more context
+# after: https://stackoverflow.com/a/73958383
+def combine_sentences(sentences, number_of_sentences):
+    n = number_of_sentences
+    n_sentences = [' '.join(map(str, sentences[i:i+n])) for i in range(0, len(sentences), n)]
+    return n_sentences
+
+combined_sentences = combine_sentences(sentences, 3)
+print(combined_sentences)
+
 # load all test-fairytales by khm
 
 fairytale_str = json.dumps(
@@ -106,8 +124,8 @@ response = chat(
     }
 )
 
-annotation = FairytaleAnnotation.model_validate_json(response.message.content)
-print(annotation)
+#annotation = FairytaleAnnotation.model_validate_json(response.message.content)
+#print(annotation)
 
 def validate_fairytale(
     input_fairytale: Fairytale,
@@ -124,7 +142,7 @@ def validate_fairytale(
     if output_fairytale.text != input_fairytale.text:
         raise ValueError("Text was changed.")
 
-validate_fairytale(fairytale, annotation)
+#validate_fairytale(fairytale, annotation)
 
 def validate_spans(annotation: FairytaleAnnotation):
     text = annotation.fairytale.text
@@ -179,13 +197,13 @@ def validate_span_offsets(
 
     return errors
 
-span_errors = validate_span_offsets(annotation)
+#span_errors = validate_span_offsets(annotation)
 
-print(f"Spans: {len(annotation.spans)}")
-print(f"Offset errors: {len(span_errors)}")
+#print(f"Spans: {len(annotation.spans)}")
+#print(f"Offset errors: {len(span_errors)}")
 
-for error in span_errors[:20]:
-    print(error)
+#for error in span_errors[:20]:
+#    print(error)
 # evaluation
 # check, if offsets are correct:
 # assert annotation.fairytale.khm == original.fairytale.khm
