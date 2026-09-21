@@ -10,10 +10,11 @@ Deine Antwort muss exakt der vorgegebenen JSON-Struktur entsprechen.
 
 Beachte insbesondere:
 
-* Übernimm `khm`, `title` und `text` des Eingabemärchens unverändert in das Feld `fairytale`.
+* Übernimm `khm` und `title` des Eingabemärchens unverändert in das Feld `fairytale`.
 * Trage alle gefundenen Annotationen in das Feld `spans` ein.
 * Für jeden Span müssen `start` und `end` die Zeichenoffsets relativ zum ursprünglichen Feld `text` sein.
 * `text` innerhalb eines Spans muss exakt dem entsprechenden Ausschnitt aus dem Märchentext entsprechen.
+* `context` enthält den gesamten Satz, in dem der gelabelte `text` liegt.  
 * `labels` muss das gemäß den Annotation Guidelines zugewiesene Label enthalten.
 * Verändere den Märchentext nicht.
 * Füge keine zusätzlichen Felder hinzu.

@@ -21,8 +21,30 @@ Structured json output: https://docs.ollama.com/capabilities/structured-outputs#
 streaming for in-context-learning: https://docs.ollama.com/capabilities/streaming
 
 - Prompt with annotator guidelines
-- examples from train data
+    - Prompt in config as systemprompt -> no need to send it everytime
+    
+- split Data in sentences
+    - SpaCy sentecizer 
+    - for context, take x sentences
+        -> try 1 sentence, 3, 5, up to 10 as context
+        - save id for sentence per fairytale 
+    - model returns labeling sentence-wise
+    
 - assign labels to test data
+    - return text + labels as json
+    
+- function to assign text + labels to offset chars
+    -> models can't count offsets 
+    - check sentence from original fairytale (id for sentence -> SpaCy split should be deterministic)
+    - substring search -> find label text
+        - count offset
+        - add offset to label
+
+- examples from train data "in context-learning"
+    - RAG + Agent?
+    - "for each Sentence/Chunk, look up similar texts from train data"
+    - how to split train data to match test data?
+    
 - compute metrics
 
 """""
@@ -40,6 +62,7 @@ class Span(BaseModel):
     start: int
     end: int
     text: str
+    context: str
     label: Label
 
 class FairytaleAnnotation(BaseModel):
@@ -55,6 +78,9 @@ with open("./ollama_files/systemprompt.md", "r") as f:
 with open("data/grimm_fairytales_json/grimm_der_nagel.json", "r") as ft:
     fairytale_dict = json.load(ft)
 fairytale = Fairytale.model_validate(fairytale_dict)
+
+# todo: Chunk longer fairytales
+# load all test-fairytales by khm
 
 fairytale_str = json.dumps(
     fairytale.model_dump(),
@@ -118,8 +144,48 @@ def validate_spans(annotation: FairytaleAnnotation):
                 f"{span.text!r} != {extracted_text!r}"
             )
 
-validate_spans(annotation)
+#validate_spans(annotation)
 
+def validate_span_offsets(
+    annotation: FairytaleAnnotation,
+):
+    text = annotation.fairytale.text
+
+    errors = []
+
+    for i, span in enumerate(annotation.spans):
+
+        if not (0 <= span.start < span.end <= len(text)):
+            errors.append({
+                "index": i,
+                "reason": "invalid_offset_range",
+                "start": span.start,
+                "end": span.end,
+                "span_text": span.text,
+            })
+            continue
+
+        extracted = text[span.start:span.end]
+
+        if extracted != span.text:
+            errors.append({
+                "index": i,
+                "reason": "text_mismatch",
+                "start": span.start,
+                "end": span.end,
+                "span_text": span.text,
+                "original_text": extracted,
+            })
+
+    return errors
+
+span_errors = validate_span_offsets(annotation)
+
+print(f"Spans: {len(annotation.spans)}")
+print(f"Offset errors: {len(span_errors)}")
+
+for error in span_errors[:20]:
+    print(error)
 # evaluation
 # check, if offsets are correct:
 # assert annotation.fairytale.khm == original.fairytale.khm
