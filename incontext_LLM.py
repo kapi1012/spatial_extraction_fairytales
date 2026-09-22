@@ -1,12 +1,10 @@
-import string
-
-import markdown
 import json
 from pydantic import BaseModel
 from typing import Literal
 from ollama import chat
 from spacy.lang.de import German
 
+from helpers import validate_span_offsets, validate_spans
 
 """"
 Ollama in Python: https://www.youtube.com/watch?v=AGAETsxjg0o 
@@ -54,17 +52,19 @@ streaming for in-context-learning: https://docs.ollama.com/capabilities/streamin
 # for better JSON output
 Label = Literal["VAGUE_LOC", "CONCEPTUAL_LOC"]
 
+
 class Fairytale(BaseModel):
     khm: int
     title: str
     text: str
 
+
 class Span(BaseModel):
     start: int
     end: int
     text: str
-    context: str
     label: Label
+
 
 class FairytaleAnnotation(BaseModel):
     fairytale: Fairytale
@@ -80,30 +80,42 @@ with open("data/grimm_fairytales_json/grimm_der_nagel.json", "r") as ft:
     fairytale_dict = json.load(ft)
 fairytale = Fairytale.model_validate(fairytale_dict)
 
+
+#fairytale_str = json.dumps(fairytale.model_dump(),ensure_ascii=False)
+
 # Chunk longer fairytales
 nlp = German()  # contains tokenizer, no other SpaCy Pipeline Components
 nlp.add_pipe("sentencizer")  # add segmentation by sentence
 
 doc = nlp(fairytale.text)
 sentences = [sent.text for sent in doc.sents]
-print(sentences)
+#print(sentences)
+
 
 # combine n sentences for more context
 # after: https://stackoverflow.com/a/73958383
 def combine_sentences(sentences, number_of_sentences):
     n = number_of_sentences
-    n_sentences = [' '.join(map(str, sentences[i:i+n])) for i in range(0, len(sentences), n)]
+    n_sentences = [' '.join(map(str, sentences[i:i + n])) for i in range(0, len(sentences), n)]
     return n_sentences
 
+
 combined_sentences = combine_sentences(sentences, 3)
-print(combined_sentences)
+#print(combined_sentences)
 
-# load all test-fairytales by khm
+# add title and khm to combined_sentences as json
+chunked_fairytale = {"text": combined_sentences, "khm": fairytale.khm, "title": fairytale.title}
+chunked_fairytale = json.dumps(chunked_fairytale)
 
-fairytale_str = json.dumps(
-    fairytale.model_dump(),
-    ensure_ascii=False
-)
+chunked_fairytale_test = {"text": combined_sentences[0], "khm": fairytale.khm, "title": fairytale.title}
+
+print(chunked_fairytale_test)
+#todo load all test fairytales by khm
+#todo split all test fairytales
+
+
+chunked_fairytale_test = Fairytale.model_validate(chunked_fairytale_test)
+chunked_fairytale_str = json.dumps(chunked_fairytale_test.model_dump(), ensure_ascii=False)
 
 response = chat(
     model='gemma3:4b',
@@ -115,7 +127,8 @@ response = chat(
 
         {
             'role': 'user',
-            'content': fairytale_str,
+            #'content': fairytale_str,
+            'content': chunked_fairytale_str,
         }
     ],
     format=FairytaleAnnotation.model_json_schema(),
@@ -124,87 +137,44 @@ response = chat(
     }
 )
 
-#annotation = FairytaleAnnotation.model_validate_json(response.message.content)
-#print(annotation)
 
-def validate_fairytale(
-    input_fairytale: Fairytale,
-    annotation: FairytaleAnnotation,
-):
-    output_fairytale = annotation.fairytale
+annotation = FairytaleAnnotation.model_validate_json(response.message.content)
+print(annotation)
 
-    if output_fairytale.khm != input_fairytale.khm:
-        raise ValueError("KHM was changed.")
 
-    if output_fairytale.title != input_fairytale.title:
-        raise ValueError("Title was changed.")
-
-    if output_fairytale.text != input_fairytale.text:
-        raise ValueError("Text was changed.")
-
-#validate_fairytale(fairytale, annotation)
-
-def validate_spans(annotation: FairytaleAnnotation):
-    text = annotation.fairytale.text
+def find_label_offsets(annotation: FairytaleAnnotation, original_fairytale: Fairytale):
+    label_dict = {"khm": annotation.fairytale.khm, "spans": []}  # contains: khm, span: start, end, text, label
+    complete_fairytale_text = original_fairytale.text
 
     for span in annotation.spans:
-        if not (0 <= span.start < span.end <= len(text)):
-            raise ValueError(
-                f"Invalid span offsets: {span.start}:{span.end}"
-            )
+        # find start, end from sentences in complete fairytale
+        substring = annotation.fairytale.text
+        start_index_substring = complete_fairytale_text.index(substring)
+        end_index_substring = start_index_substring + len(substring)
 
-        extracted_text = text[span.start:span.end]
+        # search only within start, end for label-text
+        label_text = span.text
+        start_index_label = complete_fairytale_text.index(label_text, start_index_substring, end_index_substring)
+        end_index_label = start_index_label + len(label_text)
 
-        if extracted_text != span.text:
-            raise ValueError(
-                f"Span text does not match offsets: "
-                f"{span.start}:{span.end} -> "
-                f"{span.text!r} != {extracted_text!r}"
-            )
+        # overwrite false annotations
+        span.start = start_index_label
+        span.end = end_index_label
 
-#validate_spans(annotation)
+        # build span
+        new_span = Span(start=start_index_label, end=end_index_label, text=span.text, label=span.label)
+        # add all to dict
+        label_dict["spans"].append(new_span)
 
-def validate_span_offsets(
-    annotation: FairytaleAnnotation,
-):
-    text = annotation.fairytale.text
+    return label_dict, annotation
 
-    errors = []
+labels, annotation = find_label_offsets(annotation, fairytale)
+print(labels)
+print(annotation)
 
-    for i, span in enumerate(annotation.spans):
 
-        if not (0 <= span.start < span.end <= len(text)):
-            errors.append({
-                "index": i,
-                "reason": "invalid_offset_range",
-                "start": span.start,
-                "end": span.end,
-                "span_text": span.text,
-            })
-            continue
+validate_spans(annotation)
+span_errors = validate_span_offsets(annotation)
 
-        extracted = text[span.start:span.end]
-
-        if extracted != span.text:
-            errors.append({
-                "index": i,
-                "reason": "text_mismatch",
-                "start": span.start,
-                "end": span.end,
-                "span_text": span.text,
-                "original_text": extracted,
-            })
-
-    return errors
-
-#span_errors = validate_span_offsets(annotation)
-
-#print(f"Spans: {len(annotation.spans)}")
-#print(f"Offset errors: {len(span_errors)}")
-
-#for error in span_errors[:20]:
-#    print(error)
-# evaluation
-# check, if offsets are correct:
-# assert annotation.fairytale.khm == original.fairytale.khm
-# assert annotation.fairytale.text == original.fairytale.text
+print(f"Spans: {len(annotation.spans)}")
+print(f"Offset errors: {len(span_errors)}")
