@@ -1,4 +1,4 @@
-from basemodels import FairytaleChunk, Fairytale
+from ollama_basemodels import *
 
 def validate_chunk(
     chunk: FairytaleChunk,

@@ -1,4 +1,4 @@
-from basemodels import *
+from ollama_basemodels import *
 from spacy.lang.de import German
 
 
@@ -34,7 +34,7 @@ def split_fairytale_to_chunks(fairytale: Fairytale, number_of_sentences: int = 1
                 text=chunk_text,
                 start=start,
                 end=end,
-                chunk_id=i,
+                chunk_id=i // number_of_sentences,
             )
         )
 

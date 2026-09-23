@@ -5,6 +5,7 @@ from ollama import chat
 from data_split import data_split_on_khm
 from ollama_validation import *
 from ollama_chunks import *
+from ollama_basemodels import *
 
 """"
 Ollama in Python: https://www.youtube.com/watch?v=AGAETsxjg0o 
@@ -58,61 +59,82 @@ with open("./ollama_files/systemprompt.md", "r") as f:
 # load fairytale-json
 with open("./ollama_files/fairytales.json", "r", encoding="utf-8") as ft:
     fairytales = json.load(ft)
+#todo load all test fairytales by khm
+#todo split all test fairytales
+
+# 1 fairytale for pipeline testing
 fairytale_data = next(item for item in fairytales if item["khm"] == 1)
 fairytale = Fairytale.model_validate(fairytale_data)
 
 
 chunked_fairytale = split_fairytale_to_chunks(fairytale, 3)
-#print(chunked_fairytale)
 
-chunked_fairytale_test = chunked_fairytale[0]
-chunked_fairytale_test_json = json.dumps(    {
-        "khm": chunked_fairytale_test.khm,
-        "title": chunked_fairytale_test.title,
-        "text": chunked_fairytale_test.text,
-    }, ensure_ascii=False)
+#chunked_fairytale_test = chunked_fairytale[0]
+#chunked_fairytale_test_json = json.dumps(    {
+#        "khm": chunked_fairytale_test.khm,
+#        "title": chunked_fairytale_test.title,
+#        "text": chunked_fairytale_test.text,
+#    }, ensure_ascii=False)
+#print(chunked_fairytale_test)
+#validate_chunk(chunked_fairytale_test, fairytale)
 
-print(chunked_fairytale_test)
+# annotate all chunk per 1 fairytale
+annotated_chunks = []
 
-validate_chunk(chunked_fairytale_test, fairytale)
-#todo load all test fairytales by khm
-#todo split all test fairytales
+for chunk in chunked_fairytale:
 
-
-response = chat(
-    model='gemma3:4b',
-    messages=[
+    chunked_fairytale_json = json.dumps(
         {
-            'role': 'system',
-            'content': systemprompt,
+            "khm": chunk.khm,
+            "title": chunk.title,
+            "text": chunk.text,
         },
+        ensure_ascii=False)
 
-        {
-            'role': 'user',
-            'content': chunked_fairytale_test_json,
+    response = chat(
+        model='gemma3:4b',
+        messages=[
+            {
+                'role': 'system',
+                'content': systemprompt,
+            },
+
+            {
+                'role': 'user',
+                'content': chunked_fairytale_json,
+            }
+        ],
+        format=FairytaleAnnotation.model_json_schema(),
+        options={
+            "temperature": 0,
         }
-    ],
-    format=FairytaleAnnotation.model_json_schema(),
-    options={
-        "temperature": 0,
-    }
-)
+    )
 
 
-annotation = FairytaleAnnotation.model_validate_json(response.message.content)
-print(annotation)
+    annotation = FairytaleAnnotation.model_validate_json(response.message.content)
+    #print(annotation)
 
+    annotated_chunk = find_label_offsets(annotation, chunk)
+    print(annotated_chunk)
 
-annotated_chunk = find_label_offsets(annotation, chunked_fairytale_test)
-print(annotated_chunk)
-print(annotation)
+    span_errors = validate_chunk_spans(annotated_chunk, fairytale)
 
+    if span_errors:
+        print("Span errors:")
+        for error in span_errors:
+            print(error)
+    else:
+        print("All spans valid.")
 
-span_errors = validate_chunk_spans(chunked_fairytale_test, fairytale)
+    annotated_chunks.append(annotated_chunk)
 
-if span_errors:
-    print("Span errors:")
-    for error in span_errors:
-        print(error)
-else:
-    print("All spans valid.")
+# build Fairytale object of all annotated spans
+
+all_spans = []
+
+for chunk in annotated_chunks:
+    all_spans.extend(chunk.spans)
+
+annotated_fairytale = fairytale.model_copy(update={"spans": all_spans})
+
+print(annotated_fairytale)
