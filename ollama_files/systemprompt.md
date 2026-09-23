@@ -12,7 +12,6 @@ Beachte insbesondere:
 
 * Übernimm `khm` und `title` des Eingabemärchens unverändert in das Feld `fairytale`.
 * Trage alle gefundenen Annotationen in das Feld `spans` ein.
-* Für jeden Span müssen `start` und `end` die Zeichenoffsets relativ zum ursprünglichen Feld `text` sein.
 * `text` innerhalb eines Spans muss exakt dem entsprechenden Ausschnitt aus dem Märchentext entsprechen.
 * `labels` muss das gemäß den Annotation Guidelines zugewiesene Label enthalten.
 * Verändere den Märchentext nicht.

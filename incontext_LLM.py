@@ -1,10 +1,10 @@
 import json
-from pydantic import BaseModel
-from typing import Literal
-from ollama import chat
-from spacy.lang.de import German
 
-from helpers import validate_span_offsets, validate_spans
+from ollama import chat
+
+from data_split import data_split_on_khm
+from ollama_validation import *
+from ollama_chunks import *
 
 """"
 Ollama in Python: https://www.youtube.com/watch?v=AGAETsxjg0o 
@@ -48,74 +48,36 @@ streaming for in-context-learning: https://docs.ollama.com/capabilities/streamin
 
 """""
 
-# Define pydantic BaseModel similar to Dataclass
-# for better JSON output
-Label = Literal["VAGUE_LOC", "CONCEPTUAL_LOC"]
-
-
-class Fairytale(BaseModel):
-    khm: int
-    title: str
-    text: str
-
-
-class Span(BaseModel):
-    start: int
-    end: int
-    text: str
-    label: Label
-
-
-class FairytaleAnnotation(BaseModel):
-    fairytale: Fairytale
-    spans: list[Span]
-
+ANALYSIS_PATH = "data/analysis_dataset/analysis_dataset.csv"
+train_khm, val_khm, test_khm = data_split_on_khm(ANALYSIS_PATH, 42)
 
 # load systemprompt with annotation guidelines
 with open("./ollama_files/systemprompt.md", "r") as f:
     systemprompt = f.read()
 
 # load fairytale-json
-with open("data/grimm_fairytales_json/grimm_der_nagel.json", "r") as ft:
-    fairytale_dict = json.load(ft)
-fairytale = Fairytale.model_validate(fairytale_dict)
+with open("./ollama_files/fairytales.json", "r", encoding="utf-8") as ft:
+    fairytales = json.load(ft)
+fairytale_data = next(item for item in fairytales if item["khm"] == 1)
+fairytale = Fairytale.model_validate(fairytale_data)
 
 
-#fairytale_str = json.dumps(fairytale.model_dump(),ensure_ascii=False)
+chunked_fairytale = split_fairytale_to_chunks(fairytale, 3)
+#print(chunked_fairytale)
 
-# Chunk longer fairytales
-nlp = German()  # contains tokenizer, no other SpaCy Pipeline Components
-nlp.add_pipe("sentencizer")  # add segmentation by sentence
-
-doc = nlp(fairytale.text)
-sentences = [sent.text for sent in doc.sents]
-#print(sentences)
-
-
-# combine n sentences for more context
-# after: https://stackoverflow.com/a/73958383
-def combine_sentences(sentences, number_of_sentences):
-    n = number_of_sentences
-    n_sentences = [' '.join(map(str, sentences[i:i + n])) for i in range(0, len(sentences), n)]
-    return n_sentences
-
-
-combined_sentences = combine_sentences(sentences, 3)
-#print(combined_sentences)
-
-# add title and khm to combined_sentences as json
-chunked_fairytale = {"text": combined_sentences, "khm": fairytale.khm, "title": fairytale.title}
-chunked_fairytale = json.dumps(chunked_fairytale)
-
-chunked_fairytale_test = {"text": combined_sentences[0], "khm": fairytale.khm, "title": fairytale.title}
+chunked_fairytale_test = chunked_fairytale[0]
+chunked_fairytale_test_json = json.dumps(    {
+        "khm": chunked_fairytale_test.khm,
+        "title": chunked_fairytale_test.title,
+        "text": chunked_fairytale_test.text,
+    }, ensure_ascii=False)
 
 print(chunked_fairytale_test)
+
+validate_chunk(chunked_fairytale_test, fairytale)
 #todo load all test fairytales by khm
 #todo split all test fairytales
 
-
-chunked_fairytale_test = Fairytale.model_validate(chunked_fairytale_test)
-chunked_fairytale_str = json.dumps(chunked_fairytale_test.model_dump(), ensure_ascii=False)
 
 response = chat(
     model='gemma3:4b',
@@ -127,8 +89,7 @@ response = chat(
 
         {
             'role': 'user',
-            #'content': fairytale_str,
-            'content': chunked_fairytale_str,
+            'content': chunked_fairytale_test_json,
         }
     ],
     format=FairytaleAnnotation.model_json_schema(),
@@ -142,39 +103,16 @@ annotation = FairytaleAnnotation.model_validate_json(response.message.content)
 print(annotation)
 
 
-def find_label_offsets(annotation: FairytaleAnnotation, original_fairytale: Fairytale):
-    label_dict = {"khm": annotation.fairytale.khm, "spans": []}  # contains: khm, span: start, end, text, label
-    complete_fairytale_text = original_fairytale.text
-
-    for span in annotation.spans:
-        # find start, end from sentences in complete fairytale
-        substring = annotation.fairytale.text
-        start_index_substring = complete_fairytale_text.index(substring)
-        end_index_substring = start_index_substring + len(substring)
-
-        # search only within start, end for label-text
-        label_text = span.text
-        start_index_label = complete_fairytale_text.index(label_text, start_index_substring, end_index_substring)
-        end_index_label = start_index_label + len(label_text)
-
-        # overwrite false annotations
-        span.start = start_index_label
-        span.end = end_index_label
-
-        # build span
-        new_span = Span(start=start_index_label, end=end_index_label, text=span.text, label=span.label)
-        # add all to dict
-        label_dict["spans"].append(new_span)
-
-    return label_dict, annotation
-
-labels, annotation = find_label_offsets(annotation, fairytale)
-print(labels)
+annotated_chunk = find_label_offsets(annotation, chunked_fairytale_test)
+print(annotated_chunk)
 print(annotation)
 
 
-validate_spans(annotation)
-span_errors = validate_span_offsets(annotation)
+span_errors = validate_chunk_spans(chunked_fairytale_test, fairytale)
 
-print(f"Spans: {len(annotation.spans)}")
-print(f"Offset errors: {len(span_errors)}")
+if span_errors:
+    print("Span errors:")
+    for error in span_errors:
+        print(error)
+else:
+    print("All spans valid.")
