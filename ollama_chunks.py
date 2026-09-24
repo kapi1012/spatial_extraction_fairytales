@@ -41,20 +41,33 @@ def split_fairytale_to_chunks(fairytale: Fairytale, number_of_sentences: int = 1
     return chunks
 
 
-def find_label_offsets(annotation: FairytaleAnnotation, chunk: FairytaleChunk):
+def find_label_offsets(annotation: LLMFairytaleAnnotation, chunk: FairytaleChunk):
 
     chunk_text = chunk.text
     chunk_start = chunk.start
+    chunk_id = chunk.chunk_id
+    khm = chunk.khm
 
     annotated_spans = []
+    span_errors = []
 
     for span in annotation.spans:
         local_start = chunk_text.lower().find(span.text.lower())
 
         if local_start == -1:
-            raise ValueError(
-                f"Span not found in chunk: {span.text!r}"
+            span_errors.append(
+                {
+                    "khm": khm,
+                    "chunk_id": chunk_id,
+                    "span": span.text,
+                    "chunk_text": chunk_text,
+                    "reason": "span_not_found_in_chunk",
+                }
             )
+            #raise ValueError(
+            #    f"Span not found in chunk: {span.text!r}"
+            #)
+            continue
 
         local_end = local_start + len(span.text)
 
@@ -70,4 +83,4 @@ def find_label_offsets(annotation: FairytaleAnnotation, chunk: FairytaleChunk):
             )
         )
 
-    return chunk.model_copy(update={"spans": annotated_spans})
+    return chunk.model_copy(update={"spans": annotated_spans}), span_errors

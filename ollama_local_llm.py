@@ -80,6 +80,7 @@ chunked_fairytale = split_fairytale_to_chunks(fairytale, 3)
 
 # annotate all chunk per 1 fairytale
 annotated_chunks = []
+all_span_errors = []
 
 for chunk in chunked_fairytale:
 
@@ -104,17 +105,17 @@ for chunk in chunked_fairytale:
                 'content': chunked_fairytale_json,
             }
         ],
-        format=FairytaleAnnotation.model_json_schema(),
+        format=LLMFairytaleAnnotation.model_json_schema(),
         options={
             "temperature": 0,
         }
     )
 
 
-    annotation = FairytaleAnnotation.model_validate_json(response.message.content)
+    annotation = LLMFairytaleAnnotation.model_validate_json(response.message.content)
     #print(annotation)
 
-    annotated_chunk = find_label_offsets(annotation, chunk)
+    annotated_chunk, spans_not_found = find_label_offsets(annotation, chunk)
     print(annotated_chunk)
 
     span_errors = validate_chunk_spans(annotated_chunk, fairytale)
@@ -127,6 +128,7 @@ for chunk in chunked_fairytale:
         print("All spans valid.")
 
     annotated_chunks.append(annotated_chunk)
+    all_span_errors.append(spans_not_found)
 
 # build Fairytale object of all annotated spans
 
@@ -138,3 +140,9 @@ for chunk in annotated_chunks:
 annotated_fairytale = fairytale.model_copy(update={"spans": all_spans})
 
 print(annotated_fairytale)
+print("ALLE SPAN ERRORS:")
+print(json.dumps(
+    all_span_errors,
+    ensure_ascii=False,
+    indent=2
+))

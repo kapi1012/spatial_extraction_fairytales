@@ -29,6 +29,17 @@ class FairytaleChunk(BaseModel):
     chunk_id: int
     spans: list[Span] = Field(default_factory=list)
 
+
 class FairytaleAnnotation(BaseModel):
     fairytale: Fairytale
     spans: list[Span]
+
+
+# LLM class without start+end
+class LLMSpan(BaseModel):
+    text: str
+    label: Label
+
+
+class LLMFairytaleAnnotation(BaseModel):
+    spans: list[LLMSpan]
