@@ -39,6 +39,7 @@ def validate_chunk_spans(chunk: FairytaleChunk, original_fairytale: Fairytale) -
             0 <= span.start < span.end <= len(full_text)
         ):
             errors.append({
+                "khm": chunk.khm,
                 "chunk_id": chunk.chunk_id,
                 "span_index": i,
                 "reason": "invalid_offset_range",
@@ -54,6 +55,7 @@ def validate_chunk_spans(chunk: FairytaleChunk, original_fairytale: Fairytale) -
 
         if extracted_text != span.text:
             errors.append({
+                "khm": chunk.khm,
                 "chunk_id": chunk.chunk_id,
                 "span_index": i,
                 "reason": "text_mismatch",
@@ -70,6 +72,7 @@ def validate_chunk_spans(chunk: FairytaleChunk, original_fairytale: Fairytale) -
             and span.end <= chunk.end
         ):
             errors.append({
+                "khm": chunk.khm,
                 "chunk_id": chunk.chunk_id,
                 "span_index": i,
                 "reason": "span_outside_chunk",

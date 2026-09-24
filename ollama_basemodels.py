@@ -7,17 +7,19 @@ Define pydantic BaseModel similar to Dataclass
 
 Label = Literal["VAGUE_LOC", "CONCEPTUAL_LOC"]
 
-class Fairytale(BaseModel):
-    khm: int
-    title: str
-    text: str
-
 
 class Span(BaseModel):
     start: int
     end: int
     text: str
     label: Label
+
+
+class Fairytale(BaseModel):
+    khm: int
+    title: str
+    text: str
+    spans: list[Span] = Field(default_factory=list)
 
 
 class FairytaleChunk(BaseModel):
@@ -30,16 +32,11 @@ class FairytaleChunk(BaseModel):
     spans: list[Span] = Field(default_factory=list)
 
 
-class FairytaleAnnotation(BaseModel):
-    fairytale: Fairytale
-    spans: list[Span]
-
-
 # LLM class without start+end
 class LLMSpan(BaseModel):
     text: str
     label: Label
 
-
+# LLM class don't need to respond whole fairytale again
 class LLMFairytaleAnnotation(BaseModel):
     spans: list[LLMSpan]

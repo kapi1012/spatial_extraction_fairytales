@@ -1,7 +1,7 @@
 import json
 
+from datetime import datetime
 from ollama import chat
-
 from data_split import data_split_on_khm
 from ollama_validation import *
 from ollama_chunks import *
@@ -48,6 +48,7 @@ streaming for in-context-learning: https://docs.ollama.com/capabilities/streamin
 - compute metrics
 
 """""
+current_time = datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
 
 ANALYSIS_PATH = "data/analysis_dataset/analysis_dataset.csv"
 train_khm, val_khm, test_khm = data_split_on_khm(ANALYSIS_PATH, 42)
@@ -121,28 +122,43 @@ for chunk in chunked_fairytale:
     span_errors = validate_chunk_spans(annotated_chunk, fairytale)
 
     if span_errors:
-        print("Span errors:")
-        for error in span_errors:
-            print(error)
+        all_span_errors.extend(span_errors)
     else:
         print("All spans valid.")
 
+    all_span_errors.extend(spans_not_found)
+
     annotated_chunks.append(annotated_chunk)
-    all_span_errors.append(spans_not_found)
 
 # build Fairytale object of all annotated spans
-
 all_spans = []
 
 for chunk in annotated_chunks:
     all_spans.extend(chunk.spans)
 
-annotated_fairytale = fairytale.model_copy(update={"spans": all_spans})
+annotated_fairytale = Fairytale(
+    khm=fairytale.khm,
+    title=fairytale.title,
+    text=fairytale.text,
+    spans=all_spans,
+)
 
-print(annotated_fairytale)
-print("ALLE SPAN ERRORS:")
-print(json.dumps(
+# save results and errors
+annotated_fairytale_json = annotated_fairytale.model_dump_json(
+    ensure_ascii=False,
+    indent=4)
+
+with open(f"./ollama_files/annotated_fairytales_{current_time}.json", "w", encoding="utf-8") as f:
+    f.write(annotated_fairytale_json)
+
+all_span_errors_json = json.dumps(
     all_span_errors,
     ensure_ascii=False,
-    indent=2
-))
+    indent=2)
+
+with open(f"./ollama_files/annotation_errors_{current_time}.json", "w", encoding="utf-8") as f:
+    f.write(all_span_errors_json)
+
+print(annotated_fairytale_json)
+print("ALLE SPAN ERRORS:")
+print(all_span_errors)
