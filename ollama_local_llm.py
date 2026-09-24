@@ -119,27 +119,20 @@ def combine_chunks_to_fairytale(annotated_chunks):
 
 
 # save results and errors
-def save_results_and_errors(annotated_fairytale, all_span_errors, output_dir):
+def save_results_and_errors(annotated_fairytales, all_span_errors, output_dir):
     current_time = datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
 
-    annotated_fairytale_json = annotated_fairytale.model_dump_json(
-        ensure_ascii=False,
-        indent=4)
+    # convert to dict
+    annotated_fairytales_data = [
+        fairytale.model_dump()
+        for fairytale in annotated_fairytales
+    ]
 
     with open(f"{output_dir}annotated_fairytales_{current_time}.json", "w", encoding="utf-8") as f:
-        f.write(annotated_fairytale_json)
-
-    all_span_errors_json = json.dumps(
-        all_span_errors,
-        ensure_ascii=False,
-        indent=2)
+        json.dump(annotated_fairytales_data, f, ensure_ascii=False, indent=4)
 
     with open(f"{output_dir}annotation_errors_{current_time}.json", "w", encoding="utf-8") as f:
-        f.write(all_span_errors_json)
-
-    print(annotated_fairytale_json)
-    print("ALLE SPAN ERRORS:")
-    print(all_span_errors)
+        json.dump(all_span_errors, f, ensure_ascii=False, indent=4)
 
 
 OUTPUT_DIR = "./ollama_files/"
@@ -153,21 +146,35 @@ with open("./ollama_files/systemprompt.md", "r") as f:
 # load fairytale-json
 with open("./ollama_files/fairytales.json", "r", encoding="utf-8") as ft:
     fairytales = json.load(ft)
-#todo load all test fairytales by khm
-
-
-#todo split all test fairytales
-
-# 1 fairytale for pipeline testing
-fairytale_data = next(item for item in fairytales if item["khm"] == 1)
-fairytale = Fairytale.model_validate(fairytale_data)
-
-chunked_fairytale = split_fairytale_to_chunks(fairytale, 3)
 
 model_name = "gemma3:4b"
+# load all test fairytales by khm
+fairytales_data = [
+    item for item in fairytales
+    if item["khm"] in test_khm
+]
+
+all_annotated_fairytales = []
+all_span_errors = []
+
+for data in fairytales_data:
+    fairytale = Fairytale.model_validate(data)
+    chunked_fairytale = split_fairytale_to_chunks(fairytale, 3)
+    annotated_chunks, span_errors = llm_annotate_fairytale(chunked_fairytale, fairytale, model_name)
+    annotated_fairytale = combine_chunks_to_fairytale(annotated_chunks)
+
+    all_annotated_fairytales.append(annotated_fairytale)
+    all_span_errors.extend(span_errors)
+
+save_results_and_errors(all_annotated_fairytales, all_span_errors, OUTPUT_DIR)
+
+
+# 1 fairytale for pipeline testing
+#fairytale_data = next(item for item in fairytales if item["khm"] == 1)
+#fairytale = Fairytale.model_validate(fairytale_data)
+#chunked_fairytale = split_fairytale_to_chunks(fairytale, 3)
 
 # annotate all chunk per 1 fairytale
-
-annotated_chunks, all_span_errors = llm_annotate_fairytale(chunked_fairytale, fairytale, model_name)
-annotated_fairytale = combine_chunks_to_fairytale(annotated_chunks)
-save_results_and_errors(annotated_fairytale, all_span_errors, OUTPUT_DIR)
+#annotated_chunks, all_span_errors = llm_annotate_fairytale(chunked_fairytale, fairytale, model_name)
+#annotated_fairytale = combine_chunks_to_fairytale(annotated_chunks)
+#save_results_and_errors(annotated_fairytale, all_span_errors, OUTPUT_DIR)

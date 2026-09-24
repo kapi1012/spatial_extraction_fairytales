@@ -69,13 +69,16 @@ def data_split_on_khm(analysis_path:str, seed:int) -> tuple[list[int], list[int]
         all_khm.remove(rnd_row)
 
     test_khm = all_khm
+    print(f"Train: {train_khm}")
+    print(f"Val: {val_khm}")
+    print(f"Test: {test_khm}")
 
     return train_khm, val_khm, test_khm
 
-train_khm, val_khm, test_khm = data_split_on_khm(ANALYSIS_PATH, seed=1)
-print(train_khm)
-print(val_khm)
-print(test_khm)
+#train_khm, val_khm, test_khm = data_split_on_khm(ANALYSIS_PATH, seed=1)
+#print(f"Train: {train_khm}")
+#print(f"Val: {val_khm}")
+#print(f"Test: {test_khm}")
 
 
 dataset = load_dataset(DATA_PATH)
