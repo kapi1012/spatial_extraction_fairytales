@@ -1,5 +1,4 @@
 import json
-import statistics
 
 from dataclasses import dataclass, field
 
@@ -14,7 +13,6 @@ from spacy.tokens import Doc, Span
 from flair.embeddings import WordEmbeddings, FlairEmbeddings, StackedEmbeddings
 from flair.data import Sentence
 
-from constants import LABEL2ID
 
 # https://www.geeksforgeeks.org/deep-learning/how-do-you-use-pytorchs-dataset-and-dataloader-classes-for-custom-data/
 
@@ -42,21 +40,24 @@ FairytaleDataset
  │
  ├───────────────────────────────────────────────────┐
  ▼                                                   ▼
-SpaCyPreprocessor                           HuggingFace Tokenizer
-- Tokenizer                                  - offset_mapping
-- Character Offsets
-- Sentence Boundaries                                │ 
+SpaCyPreprocessor                           HuggingFace RoBERTa Tokenizer
+- Tokenizer                                     - input_ids
+- Character Offsets                             - attention_mask
+- Sentence Boundaries                           - offset_mapping 
  │                                                   │
  ▼                                                   ▼
 BiLSTMBuilder                               TransformerBuilder
-- IO(B)-Labels
-- Token Documents
-- Flair Embeddings
-- FairytaleSequenceTaggingDataset
-- Collate_fn for Sequence Padding + Masking
+- IO(B)-Labels                              - Character to Subword
+- Token Documents                                    │   
+- Flair Embeddings                                   ▼
+- FairytaleSequenceTaggingDataset                 IOB-Labels 
+- Collate_fn for Sequence Padding + Masking          │
+ │                                                   ▼
+ │                                            HuggingFace Dataset  
+ │                                                   │
  │                                                   │
  ▼                                                   ▼
-TorchDataset                                  TorchDataset
+TorchDataset                                   DataCollatorForTokenClassification
       
 """
 
@@ -80,6 +81,8 @@ class Span:
 @dataclass
 class Fairytale:
     khm: int
+    id: int
+    annotator_id: int
     title: str
     text: str
     spans: list[Span] = field(default_factory=list) # rename from JSON "label" for clarity
@@ -122,8 +125,10 @@ class FairytaleDataset:
         for item in data:
             fairytale = Fairytale(
                 khm=item['khm'],
+                id=item["id"],
                 title=item['title'],
                 text=item['text'],
+                annotator_id=item['annotator'],
                 spans=[
                     Span(start=span["start"],
                         end=span["end"],
@@ -139,6 +144,9 @@ class FairytaleDataset:
 
 @dataclass
 class TokenDocument:
+    khm: int
+    id: int
+    annotator_id: int
     text: str
     tokens: list[str]
     offsets: list[tuple[int, int]]
@@ -148,6 +156,9 @@ class TokenDocument:
 
 @dataclass
 class SentenceDocument:
+    khm: int
+    id: int
+    annotator_id: int
     tokens: list[str]
     labels: list[str]
     embeddings: torch.Tensor | None = None
@@ -171,7 +182,10 @@ class FairytaleSequenceTaggingDataset(Dataset):
 
         return {
             "embeddings": document.embeddings,
-            "tags": torch.tensor(tag_ids)
+            "tags": torch.tensor(tag_ids),
+            "khm": document.khm,
+            "id": document.id,
+            "annotator_id": document.annotator_id,
         }
 
 
@@ -198,7 +212,7 @@ def build_spacy_spans(fairytale: Fairytale, doc: Doc) -> tuple[list[Span], list[
 
         if spacy_span.text != annotation.text:
             errors.append(
-                f"KHM {fairytale.khm} ({fairytale.title}): "
+                f"KHM {fairytale.khm}, ID{fairytale.id} ({fairytale.title}): "
                 f"Span mismatch\n"
                 f"JSON : {annotation.text!r}\n"
                 f"spaCy: {spacy_span.text!r}"
@@ -226,8 +240,11 @@ def annotate_dataset(dataset: FairytaleDataset,) -> tuple[list[Doc], list[str]]:
     docs = []
     all_errors = []
 
-
     for fairytale, doc in zip(dataset.fairytales, nlp.pipe(texts)): # pipe() using all docs
+        doc.user_data["khm"] = fairytale.khm
+        doc.user_data["id"] = fairytale.id
+        doc.user_data["annotator_id"] = fairytale.annotator_id
+
         spacy_spans, errors = build_spacy_spans(fairytale, doc)
         doc.ents = spacy_spans
 
@@ -238,16 +255,16 @@ def annotate_dataset(dataset: FairytaleDataset,) -> tuple[list[Doc], list[str]]:
 
 
 DATA_PATH = "data/grimm_fairytales_annotated/fuzzy_loc_3.7.26.json"
-dataset = load_dataset(DATA_PATH)
+#dataset = load_dataset(DATA_PATH)
 
-docs, errors = annotate_dataset(dataset)
+#docs, errors = annotate_dataset(dataset)
 
-if errors:
-    print(f"\nFound {len(errors)} errors:\n")
-    for error in errors:
-        print(error)
-else:
-    print("No errors found.")
+#if errors:
+#    print(f"\nFound {len(errors)} errors:\n")
+#    for error in errors:
+#        print(error)
+#else:
+#    print("No errors found.")
 
 def doc_to_token_document(doc: Doc) -> TokenDocument:
 
@@ -271,6 +288,9 @@ def doc_to_token_document(doc: Doc) -> TokenDocument:
             labels.append(f"{token.ent_iob_}-{token.ent_type_}")
 
     return TokenDocument(
+        khm=doc.user_data["khm"],
+        id=doc.user_data["id"],
+        annotator_id=doc.user_data["annotator_id"],
         text=doc.text,
         tokens=tokens,
         offsets=offsets,
@@ -305,21 +325,24 @@ def flair_embedding(token_documents: list[TokenDocument]) -> list[SentenceDocume
 
             sentence_documents.append(
                 SentenceDocument(
+                    khm=doc.khm,
+                    id=doc.id,
+                    annotator_id=doc.annotator_id,
                     tokens=doc.tokens[start:end],
                     labels=doc.labels[start:end],
                     embeddings=sentence_embedding
                 )
             )
 
-    torch.save(sentence_documents, "data/flair_embeddings/embeddings.pt")
+    torch.save(sentence_documents, "data/flair_embeddings/embeddings_21.8.26.pt")
     return sentence_documents
 
 
-token_documents = create_token_documents(docs)
-sentence_documents = flair_embedding(token_documents)
-dataset = FairytaleSequenceTaggingDataset(sentence_documents, label2id=LABEL2ID)
+#token_documents = create_token_documents(docs)
+#sentence_documents = flair_embedding(token_documents)
+#dataset = FairytaleSequenceTaggingDataset(sentence_documents, label2id=LABEL2ID)
 
-def collate_fn(batch: list[dict[str, Tensor]]):
+def collate_fn_bilstm(batch: list[dict[str, Tensor]]):
     """"
     For padding & masking all Tensors from Datasets.
     Padding -> same size in each batch
@@ -328,6 +351,7 @@ def collate_fn(batch: list[dict[str, Tensor]]):
     """
     embeddings = [sample["embeddings"] for sample in batch]
     tags = [sample["tags"] for sample in batch]
+    khms = [sample["khm"] for sample in batch]
 
     # Padding for a batch
     lengths = [e.size(0) for e in embeddings]
@@ -346,30 +370,5 @@ def collate_fn(batch: list[dict[str, Tensor]]):
         "embeddings": embeddings,
         "tags": tags,
         "mask": mask,
+        "khm": khms,
     }
-
-# Looking at length and distributions:
-lengths = [
-    len(doc.tokens)
-    for doc in token_documents
-]
-
-print("Lengths Documents:")
-print(max(lengths))
-print(sum(lengths)/len(lengths))
-print(statistics.median(lengths))
-
-# max: 9200
-    # mean: 1482,8
-# median: 1222,5
-# -> Fairytales are processed sentence-level for LSTM
-
-lengths_sentences = [
-    len(doc.tokens)
-    for doc in sentence_documents
-]
-
-print("Lengths Sentences:")
-print(max(lengths_sentences))
-print(sum(lengths_sentences)/len(lengths_sentences))
-print(statistics.median(lengths_sentences))

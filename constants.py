@@ -7,3 +7,23 @@ LABEL2ID = {
 }
 
 ID2LABEL = {v: k for k, v in LABEL2ID.items()}
+
+LABEL2ID_IAA = {
+    "O": 0,
+    "B-VAGUE_LOC": 1,
+    "I-VAGUE_LOC": 2,
+    "B-CONCEPTUAL_LOC": 3,
+    "I-CONCEPTUAL_LOC": 4,
+}
+
+ID2LABEL_IAA = {v: k for k, v in LABEL2ID_IAA.items()}
+
+ANNOTATOR2IDX = {
+    1 : 0,
+    4 : 1,
+    5 : 2,
+    6 : 3,
+    7 : 4,
+    8 : 5,
+    9 : 6,
+}

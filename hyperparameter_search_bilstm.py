@@ -4,9 +4,9 @@ from sklearn.metrics import precision_recall_fscore_support
 
 
 param_grid = {
-    "dropout" : [0.1, 0.3, 0.5],
-    "learning_rate" : [1e-2, 1e-3, 1e-4],
-    "hidden_dim" : [64, 128, 256],
+    "dropout" : [0.1, 0.2, 0.3, 0.5],
+    "learning_rate" : [1e-2, 1e-3, 1e-4, 1e-5],
+    "hidden_dim" : [64, 128, 256, 512],
 }
 
 best_f1 = 0.0
@@ -42,7 +42,7 @@ for hidden_dim in param_grid["hidden_dim"]:
                 lr=hyperparameters["learning_rate"],
             )
 
-            model = train_model(
+            model, history = train_model(
                 model,
                 optimizer,
                 train_dataloader,
@@ -51,7 +51,7 @@ for hidden_dim in param_grid["hidden_dim"]:
             )
 
             # Train and evaluate
-            val_true, val_pred = test_model(model, val_dataloader)
+            val_true, val_pred, _, _ = test_model(model, val_dataloader)
 
             _, _, val_f1, _ = precision_recall_fscore_support(val_true, val_pred, average="macro")
 
@@ -64,3 +64,7 @@ print(f"\nBest hyperparameters: {best_params}")
 print(f"Best F1 score: {best_f1:.4f}")
 # Best hyperparameters: {'hidden_dim': 256, 'dropout': 0.3, 'learning_rate': 0.01}
 # Best F1 score: 0.8213
+
+# with new split & finished dataset
+#Best hyperparameters: {'hidden_dim': 128, 'dropout': 0.2, 'learning_rate': 0.0001}
+#Best F1 score: 0.8333
