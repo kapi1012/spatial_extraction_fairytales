@@ -15,7 +15,7 @@ Calculate Inter-Annotator Agreement with Krippendorff's Alpha.
 - over all: 7 different annotators
 - Most have 1 annotators, some up to 3
 - Add my annotations
-- each fairytale has min 1 annotator, max 4 annotators
+- each fairytale has min 1 annotator, max 3 annotators
     -> Krippendorff can handle Null/NaN values
 
 - Calculate for all 25 fairytales
@@ -58,8 +58,8 @@ for III.
 khm_annotators = [1, 10, 11, 12, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 114, 115, 116, 117, 118, 119, 120, 121]
 
 # load all data as dataset
-main_annotator_dataset = load_dataset("../data/grimm_fairytales_annotated/fuzzy_loc_21-8-26_final.json")
-inter_annotator_dataset = load_dataset("../data/annotators_annotations/fuzzy_loc_IAA_8-9-26_mini.json")
+main_annotator_dataset = load_dataset("../data/grimm_fairytales_annotated/vague_loc_after_iaa_29-9-26.json")
+inter_annotator_dataset = load_dataset("../data/annotators_annotations/vague_loc_IAA_corrected_29-9-27.json")
 
 # filter for only annotated fairytales by khm number
 main_annotator_list = [fairytale for fairytale in main_annotator_dataset.fairytales if fairytale.khm in khm_annotators]
