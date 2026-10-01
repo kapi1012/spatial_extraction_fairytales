@@ -226,8 +226,6 @@ def build_spacy_spans(fairytale: Fairytale, doc: Doc) -> tuple[list[Span], list[
 
     return spacy_spans, errors
 
-    #for token in doc[:20]:
-    #    print(token.text, token.ent_iob_, token.ent_type_)
 
 def annotate_dataset(dataset: FairytaleDataset,) -> tuple[list[Doc], list[str]]:
 
@@ -253,18 +251,6 @@ def annotate_dataset(dataset: FairytaleDataset,) -> tuple[list[Doc], list[str]]:
 
     return docs, all_errors
 
-
-DATA_PATH = "data/grimm_fairytales_annotated/fuzzy_loc_3.7.26.json"
-#dataset = load_dataset(DATA_PATH)
-
-#docs, errors = annotate_dataset(dataset)
-
-#if errors:
-#    print(f"\nFound {len(errors)} errors:\n")
-#    for error in errors:
-#        print(error)
-#else:
-#    print("No errors found.")
 
 def doc_to_token_document(doc: Doc) -> TokenDocument:
 
@@ -334,13 +320,9 @@ def flair_embedding(token_documents: list[TokenDocument]) -> list[SentenceDocume
                 )
             )
 
-    torch.save(sentence_documents, "data/flair_embeddings/embeddings_21.8.26.pt")
+    torch.save(sentence_documents, "data/flair_embeddings/embeddings_1.10.26.pt")
     return sentence_documents
 
-
-#token_documents = create_token_documents(docs)
-#sentence_documents = flair_embedding(token_documents)
-#dataset = FairytaleSequenceTaggingDataset(sentence_documents, label2id=LABEL2ID)
 
 def collate_fn_bilstm(batch: list[dict[str, Tensor]]):
     """"
