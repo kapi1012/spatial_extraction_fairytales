@@ -1,7 +1,6 @@
-import numpy as np
 import pandas as pd
 import random
-from dataset_preprocessing import load_dataset, FairytaleDataset, SentenceDocument, Fairytale
+from dataset_preprocessing import FairytaleDataset, SentenceDocument
 
 """
 Split data based on sentence count. -> Bi-LSTM is Sentence-based
@@ -23,18 +22,9 @@ Algorithm:
 - repeat X times
     - define seeds (or save splits)
 
-- compare label distribution in X data splits
-    - 
-    - choose most even distribution
-
 
 random.choice() https://www.geeksforgeeks.org/python/python-select-random-value-from-a-list/
 """
-DATA_PATH = "data/grimm_fairytales_annotated/fuzzy_loc_21-8-26_final.json"
-ANALYSIS_PATH = "data/analysis_dataset/analysis_dataset.csv"
-
-df = pd.read_csv(ANALYSIS_PATH)
-df_numeric = df.apply(pd.to_numeric, errors='coerce')
 
 def data_split_on_khm(analysis_path:str, seed:int) -> tuple[list[int], list[int], list[int]]:
     """
@@ -75,21 +65,6 @@ def data_split_on_khm(analysis_path:str, seed:int) -> tuple[list[int], list[int]
 
     return train_khm, val_khm, test_khm
 
-#train_khm, val_khm, test_khm = data_split_on_khm(ANALYSIS_PATH, seed=1)
-#print(f"Train: {train_khm}")
-#print(f"Val: {val_khm}")
-#print(f"Test: {test_khm}")
-
-
-dataset = load_dataset(DATA_PATH)
-seed_list = [0, 5, 10, 42]
-
-def compare_splits(seeds:list, analysis_path:str) -> int:
-    """
-    Takes Dataset and list of seeds to perform dataset splitting.
-    Compares label distribution and returns seed with most even distribution.
-    """
-    ...
 
 # used for BiLSTM-Split
 def split_documents_by_khm(
