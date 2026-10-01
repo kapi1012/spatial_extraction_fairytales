@@ -63,73 +63,52 @@ class BiLSTM_CRF(nn.Module):
         return loss
 
 
-DATA_PATH = "data/grimm_fairytales_annotated/fuzzy_loc_21-8-26_final.json"
-dataset = load_dataset(DATA_PATH)
-docs, errors = annotate_dataset(dataset)
+def prepare_data():
+    DATA_PATH = "data/grimm_fairytales_annotated/vague_loc_after_iaa_29-9-26.json"
+    dataset = load_dataset(DATA_PATH)
+    docs, errors = annotate_dataset(dataset)
 
-token_documents = create_token_documents(docs)
+    token_documents = create_token_documents(docs)
 
-# load preprocessed embeddings
-EMBEDDINGS_PATH = Path("data/flair_embeddings/embeddings_21.8.26.pt")
-if EMBEDDINGS_PATH.exists():
-    sentence_documents = torch.load("data/flair_embeddings/embeddings_21.8.26.pt", weights_only=False)
-else:
-    sentence_documents = flair_embedding(token_documents)
+    # load preprocessed embeddings
+    EMBEDDINGS_PATH = Path("data/flair_embeddings/embeddings_1.10.26.pt")
+    if EMBEDDINGS_PATH.exists():
+        sentence_documents = torch.load("data/flair_embeddings/embeddings_1.10.26.pt", weights_only=False)
+    else:
+        sentence_documents = flair_embedding(token_documents)
 
-#dataset = FairytaleSequenceTaggingDataset(sentence_documents, label2id=LABEL2ID)
+    lengths = [doc.embeddings.size(0) for doc in sentence_documents]
 
-lengths = [doc.embeddings.size(0) for doc in sentence_documents]
+    # Checking length after sentence-wise usage
+    print(f"max length fairytale:{max(lengths)}")
+    print(f"mean length fairytale:{np.mean(lengths)}")
+    print(f"Embedding Shape:{sentence_documents[0].embeddings.shape}")
+    print(f"max Embedding Shape:{max(doc.embeddings.size(0) for doc in sentence_documents)}")
 
-# Checking length after sentence-wise usage
-print(f"max length fairytale:{max(lengths)}")
-print(f"mean length fairytale:{np.mean(lengths)}")
-print(f"Embedding Shape:{sentence_documents[0].embeddings.shape}")
-print(f"max Embedding Shape:{max(doc.embeddings.size(0) for doc in sentence_documents)}")
+    # Train-Val-Test-Split
+    # choose own train-val-test-split
+    ANALYSIS_PATH = "data/analysis_dataset/analysis_dataset.csv"
+    train_khm, val_khm, test_khm = data_split_on_khm(ANALYSIS_PATH, 42)
 
-# Train-Val-Test-Split
-# Small Dataset, so 80 % train
-#train_dataset, val_dataset, test_dataset = random_split(dataset, [0.8, 0.1, 0.1])
+    train_documents, val_documents, test_documents = split_documents_by_khm(sentence_documents, train_khm, val_khm,
+                                                                            test_khm)
 
-# choose own train-val-test-split
-ANALYSIS_PATH = "data/analysis_dataset/analysis_dataset.csv"
-train_khm, val_khm, test_khm = data_split_on_khm(ANALYSIS_PATH, 42)
+    train_dataset = FairytaleSequenceTaggingDataset(train_documents, LABEL2ID)
+    val_dataset = FairytaleSequenceTaggingDataset(val_documents, LABEL2ID)
+    test_dataset = FairytaleSequenceTaggingDataset(test_documents, LABEL2ID)
 
-train_documents, val_documents, test_documents = split_documents_by_khm(sentence_documents,train_khm, val_khm, test_khm)
+    # Dataloader
+    train_dataloader = DataLoader(dataset=train_dataset, batch_size=8, shuffle=True, num_workers=0, pin_memory=True,
+                                  collate_fn=collate_fn_bilstm)  # pin_memory only for training on GPU
+    val_dataloader = DataLoader(dataset=val_dataset, batch_size=8, shuffle=False, num_workers=0, pin_memory=True,
+                                collate_fn=collate_fn_bilstm)
+    test_dataloader = DataLoader(dataset=test_dataset, batch_size=8, shuffle=False, num_workers=0, pin_memory=True,
+                                 collate_fn=collate_fn_bilstm)
 
-train_dataset = FairytaleSequenceTaggingDataset(train_documents, LABEL2ID)
-val_dataset = FairytaleSequenceTaggingDataset(val_documents, LABEL2ID)
-test_dataset = FairytaleSequenceTaggingDataset(test_documents, LABEL2ID)
+    return sentence_documents, train_dataloader, val_dataloader, test_dataloader
 
-# Dataloader
-train_dataloader = DataLoader(dataset=train_dataset, batch_size=8, shuffle=True, num_workers=0, pin_memory=True, collate_fn=collate_fn_bilstm) # pin_memory only for training on GPU
-val_dataloader = DataLoader(dataset=val_dataset, batch_size=8, shuffle=False, num_workers=0, pin_memory=True, collate_fn=collate_fn_bilstm)
-test_dataloader = DataLoader(dataset=test_dataset, batch_size=8, shuffle=False, num_workers=0, pin_memory=True, collate_fn=collate_fn_bilstm)
 
-# Hyperparamter
-
-hyperparameters = {
-    "embedding_dim": sentence_documents[0].embeddings.size(1),
-    "hidden_dim": 256,
-    "dropout": 0.3,
-    "learning_rate": 0.01,
-    "batch_size": 8,
-    "optimizer": "Adam",
-    "epochs": 50,
-    "patience": 10,
-    "early_stopping": True,
-}
-
-# Model Initialization
-model = BiLSTM_CRF(num_tags=len(LABEL2ID), embedding_dim=hyperparameters["embedding_dim"], hidden_dim=hyperparameters["hidden_dim"], dropout=hyperparameters["dropout"],)
-
-# Enable GPU Training
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model.to(device)
-
-# Optimizer
-optimizer = torch.optim.Adam(model.parameters(), lr=hyperparameters["learning_rate"])
-
-def train_model(model, optimizer, train_data, val_data, hyperparameters):
+def train_model(model, optimizer, train_data, val_data, hyperparameters, device):
     start_time_tracking = time.time()
 
     history = {
@@ -144,27 +123,27 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters):
         "epoch_train_time": [],
     }
 
-    training_info = {
-        "hidden_dim": hyperparameters["hidden_dim"],
-        "dropout": hyperparameters["dropout"],
-        "learning_rate": hyperparameters["learning_rate"],
-        "optimizer": hyperparameters["optimizer"],
-        "epochs": hyperparameters["epochs"],
-        "batch_size": hyperparameters["batch_size"],
-        "patience": hyperparameters["patience"],
-    }
-
     # Early stopping
-    best_val_span_f1 = 0.0
+    best_val_span_f1 = -1.0
     patience = hyperparameters["patience"]
     min_delta = 0.001
 
     counter = 0
+    best_epoch = 0
+    best_state = None
     stopped_epoch = hyperparameters["epochs"]
+
+    training_info = {
+        "best_epoch": best_epoch,
+        "best_val_span_f1": best_val_span_f1,
+        "stopped_epoch": stopped_epoch,
+        "early_stopped": stopped_epoch < hyperparameters["epochs"],
+        **hyperparameters,
+    }
 
     for epoch in range(hyperparameters["epochs"]):
         model.train()
-        epoch_loss = 0
+        epoch_loss = 0.0
         start_train_time = time.time()
 
         for batch in train_data:
@@ -187,7 +166,7 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters):
         # Validation
         true_tags, predictions, true_spans, pred_spans = test_model(model=model, test_data=val_data)
         # val_f1 for training metric
-        val_precision, val_recall, val_f1, _ = precision_recall_fscore_support(true_tags, predictions, average='macro')
+        val_precision, val_recall, val_f1, _ = precision_recall_fscore_support(true_tags, predictions, average='macro', zero_division=0)
         # val_span_f1 for early stopping
         span_precision, span_recall, val_span_f1 = span_metrics(true_spans, pred_spans)
 
@@ -205,7 +184,7 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters):
         history["epoch_train_time"].append(epoch_train_time)
 
         print(
-            f"Epoch {epoch+1}/{hyperparameters["epochs"]} "
+            f"Epoch {epoch + 1}/{hyperparameters['epochs']} "
             f"Loss={epoch_loss:.4f} "
             f"Token-F1={val_f1:.5f} "
             f"Span-F1={val_span_f1:.5f}"
@@ -214,9 +193,10 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters):
         # Early Stopping with span-level f1
         if val_span_f1 > best_val_span_f1 + min_delta:
             best_val_span_f1 = val_span_f1
+            best_state = {k: v.cpu().clone() for k, v in model.state_dict().items()}
             best_epoch = epoch + 1
             counter = 0
-            torch.save(model.state_dict(), "bilstm_models/bilstm_best_2.9.26.pt")
+
         else:
             counter += 1
         if counter >= patience:
@@ -224,8 +204,10 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters):
             print("Early stopping.")
             break
 
-
-    model.load_state_dict(torch.load("bilstm_models/bilstm_best_2.9.26.pt", map_location=device))
+    if best_state is not None:
+        model.load_state_dict(best_state)
+    # save best model for later use
+    torch.save(model.state_dict(), "bilstm_models/bilstm_best_1.10.26.pt")
 
     history["early_stopped"] = stopped_epoch < hyperparameters["epochs"]
     history["patience"] = patience
@@ -263,15 +245,42 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters):
     return model, history
 
 
-fuzzy_bilstm, history = train_model(model=model, optimizer=optimizer, train_data=train_dataloader, val_data=val_dataloader, hyperparameters=hyperparameters)
-true_tags, predictions, true_spans, pred_spans = test_model(model=fuzzy_bilstm, test_data=test_dataloader)
-span_precision, span_recall, span_f1 = span_metrics(true_spans, pred_spans)
-save_test_report(true_tags, predictions, true_spans, pred_spans, hyperparameters)
+if __name__ == "__main__":
+    sentence_documents, train_dataloader, val_dataloader, test_dataloader = prepare_data()
 
-# Token Level
-print(classification_report(true_tags, predictions, target_names=LABEL2ID.keys()))
-# Span-level
-print("\nSpan-Level (Exact Match)")
-print(f"Precision: {span_precision:.2f}")
-print(f"Recall:    {span_recall:.2f}")
-print(f"F1:        {span_f1:.2f}")
+    # Hyperparamter
+    hyperparameters = {
+        "embedding_dim": sentence_documents[0].embeddings.size(1),
+        "hidden_dim": 128,
+        "dropout": 0.2,
+        "learning_rate": 0.0001,
+        "batch_size": 8,
+        "optimizer": "Adam",
+        "epochs": 50,
+        "patience": 10,
+        "early_stopping": True,
+    }
+
+    # Model Initialization
+    model = BiLSTM_CRF(num_tags=len(LABEL2ID), embedding_dim=hyperparameters["embedding_dim"],
+                       hidden_dim=hyperparameters["hidden_dim"], dropout=hyperparameters["dropout"], )
+
+    # Enable GPU Training
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model.to(device)
+
+    # Optimizer
+    optimizer = torch.optim.Adam(model.parameters(), lr=hyperparameters["learning_rate"])
+
+    fuzzy_bilstm, history = train_model(model=model, optimizer=optimizer, train_data=train_dataloader, val_data=val_dataloader, hyperparameters=hyperparameters, device=device)
+    true_tags, predictions, true_spans, pred_spans = test_model(model=fuzzy_bilstm, test_data=test_dataloader)
+    span_precision, span_recall, span_f1 = span_metrics(true_spans, pred_spans)
+    save_test_report(true_tags, predictions, true_spans, pred_spans, hyperparameters)
+
+    # Token Level
+    print(classification_report(true_tags, predictions, target_names=LABEL2ID.keys()))
+    # Span-level
+    print("\nSpan-Level (Exact Match)")
+    print(f"Precision: {span_precision:.2f}")
+    print(f"Recall:    {span_recall:.2f}")
+    print(f"F1:        {span_f1:.2f}")
