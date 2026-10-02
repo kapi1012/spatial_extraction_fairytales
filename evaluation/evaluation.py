@@ -229,33 +229,75 @@ def transformer_bio_predictions_to_spans(predicted_ids, offset_mapping, ):
 
     return spans
 
+# no more needed; function assumed that overlapping sequence is exactly same lenght (-> uses set)
+# def pred_spans_to_fairytale(test_dataset, predicted_ids):
+#     """
+#     Takes BIO-predictions -> Character-Spans per Chunk.
+#     Takes all chunks of one fairytale.
+#     Only keeps single Prediction (because of set) if the same prediction is in overlapping chunks.
+#
+#     :param test_dataset: RoBERTaSequenceTaggingDataset
+#     :param predicted_ids: output of trainer.predict, as labels (not probabilities)
+#     :return: predicted_spans_by_fairytale for all fairytales in testset
+#     """
+#     predicted_spans_by_fairytale = defaultdict(set)
+#
+#     for i in range(len(test_dataset)):
+#         chunk = test_dataset[i]
+#
+#         # add metadata to predictions for span eval
+#         fairytale_id = chunk["fairytale_id"]
+#         offset_mapping = chunk["offset_mapping"]
+#
+#         # Remove batch padding added by the data collator
+#         # Keep only the positions belonging to this original chunk
+#         chunk_predictions = predicted_ids[i][:len(offset_mapping)]
+#
+#         chunk_spans = transformer_bio_predictions_to_spans(
+#             predicted_ids=chunk_predictions,
+#             offset_mapping=offset_mapping,
+#         )
+#
+#         predicted_spans_by_fairytale[fairytale_id].update(chunk_spans)
+#
+#     return predicted_spans_by_fairytale
 
-def pred_spans_to_fairytale(test_dataset, predicted_ids):
+def resolved_tokens_to_spans(resolved_tokens):
     """
-    Takes BIO-predictions -> Character-Spans per Chunk.
-    Takes all chunks of one fairytale.
-    Only keeps single Prediction (because of set) if the same prediction is in overlapping chunks.
+    Reconstructs predicted spans from resolved tokens.
 
-    :param test_dataset: RoBERTaSequenceTaggingDataset
-    :param predicted_ids: output of trainer.predict, as labels (not probabilities)
-    :return: predicted_spans_by_fairytale for all fairytales in testset
+    Tokens were sorted by characteroffset per fairytale.
+    Span recontruction after resolving overlap.
     """
+
+    labels_by_fairytale = defaultdict(list)
+
+    for (fairytale_id, start, end), observation in resolved_tokens.items():
+        labels_by_fairytale[fairytale_id].append({
+            "start": start,
+            "end": end,
+            "pred_label": observation["pred_label"],
+        })
+
     predicted_spans_by_fairytale = defaultdict(set)
 
-    for i in range(len(test_dataset)):
-        chunk = test_dataset[i]
+    for fairytale_id, tokens in labels_by_fairytale.items():
+        tokens.sort(key=lambda token: (token["start"], token["end"]))
 
-        # add metadata to predictions for span eval
-        fairytale_id = chunk["fairytale_id"]
-        offset_mapping = chunk["offset_mapping"]
+        offsets = [
+            (token["start"], token["end"])
+            for token in tokens
+        ]
 
-        # Remove batch padding added by the data collator
-        # Keep only the positions belonging to this original chunk
-        chunk_predictions = predicted_ids[i][:len(offset_mapping)]
+        predicted_ids = [
+            token["pred_label"]
+            for token in tokens
+        ]
 
         chunk_spans = transformer_bio_predictions_to_spans(
-            predicted_ids=chunk_predictions,
-            offset_mapping=offset_mapping,
+            predicted_ids=predicted_ids,
+            offset_mapping=offsets,
+            id2label=ID2LABEL,
         )
 
         predicted_spans_by_fairytale[fairytale_id].update(chunk_spans)
@@ -303,7 +345,7 @@ def collect_token_labels(test_dataset, predicted_ids, predictions):
                 continue
 
             # Prediction on same token position
-            pred_label = predicted_ids[chunk_idx][token_position]
+            pred_label = int(predicted_ids[chunk_idx][token_position])
 
             # Gold label
             true_label = true_labels[token_position]
@@ -311,6 +353,10 @@ def collect_token_labels(test_dataset, predicted_ids, predictions):
             # skip padding
             if true_label == -100:
                 continue
+
+            # Softmax probabilities
+            probs = torch.softmax( torch.tensor( logits[chunk_idx, token_position], dtype=torch.float32 ), dim=-1 )
+            confidence = probs[pred_label].item()
 
             token_key = (fairytale_id, start, end)
 
@@ -324,6 +370,7 @@ def collect_token_labels(test_dataset, predicted_ids, predictions):
                     token_position,
                     pred_label
                 ],
+                "confidence": confidence,
             })
 
     return dict(sorted(token_observations.items()))
@@ -335,7 +382,7 @@ def resolve_overlap_predictions(token_observations):
     3 Cases:
     1. Token only appears in one chunk -> keep.
     2. Token appears in two chunks, but have same label -> keep.
-    3. Token appears in two chunks, but have different label -> keep token with higher logit.
+    3. Token appears in two chunks, but have different label -> keep token with higher softmax confidence.
         -> predictions contain logits (predicted_ids contain label)
     """
     resolved_tokens = {}
@@ -374,7 +421,14 @@ def resolve_overlap_predictions(token_observations):
                 #print("Obs 1:", obs1)
                 #print("Obs 2:", obs2)
 
-                if obs1["logit"] >= obs2["logit"]:
+                # compare logits
+                #if obs1["logit"] >= obs2["logit"]:
+                #    resolved_tokens[token_key] = obs1
+                #else:
+                #    resolved_tokens[token_key] = obs2
+
+                #compare softmax
+                if obs1["confidence"] >= obs2["confidence"]:
                     resolved_tokens[token_key] = obs1
                 else:
                     resolved_tokens[token_key] = obs2

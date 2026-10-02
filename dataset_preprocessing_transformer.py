@@ -1,11 +1,9 @@
 import torch
 from torch.utils.data import Dataset
-from torch.nn.utils.rnn import pad_sequence
 
-from dataset_preprocessing import Span, Fairytale
+from dataset_preprocessing import Fairytale
 from constants import *
-from dataclasses import dataclass
-from transformers import DataCollatorForTokenClassification, PreTrainedTokenizerBase
+
 
 """
 - Tokenizer:
@@ -99,51 +97,6 @@ def tokenize_fairytale(fairytale: Fairytale, tokenizer, max_length: int = 512, s
 
     return chunks
 
-#todo check if still needed
-def collate_fn_transformer(batch, tokenizer):
-
-    input_ids = [item["input_ids"] for item in batch]
-    attention_masks = [item["attention_mask"] for item in batch]
-    labels = [item["labels"] for item in batch]
-
-    input_ids = pad_sequence(
-        input_ids,
-        batch_first=True,
-        padding_value=tokenizer.pad_token_id
-    )
-
-    attention_masks = pad_sequence(
-        attention_masks,
-        batch_first=True,
-        padding_value=0
-    )
-
-    labels = pad_sequence(
-        labels,
-        batch_first=True,
-        padding_value=-100
-    )
-
-    return {
-        "input_ids": input_ids,
-        "attention_mask": attention_masks,
-        "labels": labels,
-
-        # for Evaluation
-        "offset_mapping": [
-            item["offset_mapping"] for item in batch
-        ],
-        "fairytale_id": [
-            item["fairytale_id"] for item in batch
-        ],
-        "chunk_idx": [
-            item["chunk_idx"] for item in batch
-        ],
-        "overflow_to_sample_mapping": [
-            item["overflow_to_sample_mapping"]
-            for item in batch
-        ],
-    }
 
 # Label Alignment https://huggingface.co/docs/transformers/tasks/token_classification?utm_.com
 # Span to BIO-Label
