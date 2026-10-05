@@ -7,7 +7,7 @@ import os
 import json
 
 from sklearn.metrics import classification_report, precision_recall_fscore_support
-from constants import LABEL2ID, ID2LABEL
+from constants import LABEL2ID, ID2LABEL, LABEL_MAP
 from collections import defaultdict
 
 
@@ -517,3 +517,64 @@ def save_transformer_test_results(test_results, training_args, results_dir, curr
     with open(test_results_filename, 'w') as f:
         json.dump(test_data, f, indent=2)
     print(f"Test results saved to {test_results_filename}")
+
+
+# Local LLM
+# mapping from old to new labels
+def normalize_label(label):
+    return LABEL_MAP.get(label, label)
+
+def extract_test_spans(test_fairytales, annotated_fairytales):
+    all_true_spans = []
+    all_pred_spans = []
+    evaluation_errors = []
+
+    # sort preds with khm
+    predicted_by_khm = {
+        fairytale.khm: {
+            (span.start, span.end, normalize_label(span.label))
+            for span in fairytale.spans
+        }
+        for fairytale in annotated_fairytales
+    }
+
+    for fairytale in test_fairytales:
+
+        gold_spans = {
+            (span.start, span.end, normalize_label(span.label))
+            for span in fairytale.resolve_nested_spans()
+        }
+
+        if fairytale.khm not in predicted_by_khm:
+            evaluation_errors.append(
+                {"khm": fairytale.khm,
+                "reason": "prediction_missing",
+             })
+
+            pred_spans = set()
+        else:
+        # pred-spans for same fairytale
+            pred_spans = predicted_by_khm[fairytale.khm]
+
+        all_true_spans.append(gold_spans)
+        all_pred_spans.append(pred_spans)
+
+    return all_true_spans, all_pred_spans, evaluation_errors
+
+def save_local_llm_test_results(precision, recall, f1, evaluation_errors, results_dir, model_name):
+    """Save test metrics to JSON file."""
+    current_date = datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
+
+    os.makedirs(results_dir, exist_ok=True)
+    test_results_filename = os.path.join(results_dir, f"test_results_{current_date}.json")
+
+    test_data = {
+        "span_precision": precision,
+        "span_recall": recall,
+        "span_f1": f1,
+        "model": model_name,
+        "khm_without_preds": evaluation_errors,
+    }
+
+    with open(test_results_filename, "w", encoding="utf-8") as f:
+        json.dump(test_data, f, ensure_ascii=False, indent=2)

@@ -27,3 +27,8 @@ ANNOTATOR2IDX = {
     8 : 5,
     9 : 6,
 }
+
+LABEL_MAP = {
+    "FUZZY_LOC": "VAGUE_LOC",
+    "METAPHORIC_LOC": "CONCEPTUAL_LOC",
+}
