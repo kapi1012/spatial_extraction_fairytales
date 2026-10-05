@@ -53,7 +53,7 @@ def validate_chunk_spans(chunk: FairytaleChunk, original_fairytale: Fairytale) -
 
         extracted_text = full_text[span.start:span.end]
 
-        if extracted_text != span.text:
+        if extracted_text.lower() != span.text.lower(): # handle case-insensitive
             errors.append({
                 "khm": chunk.khm,
                 "chunk_id": chunk.chunk_id,

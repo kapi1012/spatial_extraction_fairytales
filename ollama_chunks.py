@@ -74,11 +74,14 @@ def find_label_offsets(annotation: LLMFairytaleAnnotation, chunk: FairytaleChunk
         absolute_start = chunk_start + local_start
         absolute_end = chunk_start + local_end
 
+        # take original text from chunk to avoid lowercase mismatch later on
+        extracted_text = chunk_text[local_start:local_end]
+
         annotated_spans.append(
             Span(
                 start=absolute_start,
                 end=absolute_end,
-                text=span.text,
+                text=extracted_text,
                 label=span.label,
             )
         )
