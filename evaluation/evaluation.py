@@ -297,7 +297,6 @@ def resolved_tokens_to_spans(resolved_tokens):
         chunk_spans = transformer_bio_predictions_to_spans(
             predicted_ids=predicted_ids,
             offset_mapping=offsets,
-            id2label=ID2LABEL,
         )
 
         predicted_spans_by_fairytale[fairytale_id].update(chunk_spans)
