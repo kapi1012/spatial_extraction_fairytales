@@ -561,7 +561,7 @@ def extract_test_spans(test_fairytales, annotated_fairytales):
 
     return all_true_spans, all_pred_spans, evaluation_errors
 
-def save_local_llm_test_results(precision, recall, f1, evaluation_errors, results_dir, model_name):
+def save_local_llm_test_results(precision, recall, f1, evaluation_errors, results_dir, model_name, annotation_time, number_sentences):
     """Save test metrics to JSON file."""
     current_date = datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
 
@@ -569,12 +569,15 @@ def save_local_llm_test_results(precision, recall, f1, evaluation_errors, result
     test_results_filename = os.path.join(results_dir, f"test_results_{current_date}.json")
 
     test_data = {
-        "span_precision": precision,
-        "span_recall": recall,
-        "span_f1": f1,
+        "span_precision": round(precision, 3),
+        "span_recall": round(recall, 3),
+        "span_f1": round(f1, 3),
         "model": model_name,
         "khm_without_preds": evaluation_errors,
+        "annotation_time_min": round(annotation_time / 60, 3),
+        "number_sentences_chunks": number_sentences,
     }
+
 
     with open(test_results_filename, "w", encoding="utf-8") as f:
         json.dump(test_data, f, ensure_ascii=False, indent=2)

@@ -1,7 +1,9 @@
 import json
+import time
 
+from pydantic import ValidationError
 from datetime import datetime
-from ollama import chat
+from ollama import chat, ResponseError
 from data_split import data_split_on_khm, split_dataset_by_khm
 from ollama_validation import *
 from ollama_chunks import *
@@ -66,30 +68,70 @@ def llm_annotate_fairytale(fairytale_chunks, fairytale, model_name):
             },
             ensure_ascii=False)
 
-        response = chat(
-            model=model_name,
-            messages=[
-                {
-                    'role': 'system',
-                    'content': systemprompt,
-                },
+        annotation = None
+        max_retries = 3
+        for attempt in range(1, max_retries + 1):
+            try:
+                print(
+                    f"KHM={chunk.khm}, "
+                    f"chunk={chunk.chunk_id}, "
+                    f"chars={len(chunk.text)}, "
+                    f"words={len(chunk.text.split())}"
+                )
+                response = chat(
+                    model=model_name,
+                    messages=[
+                        {
+                            'role': 'system',
+                            'content': systemprompt,
+                        },
 
 
-                {
-                    'role': 'user',
-                    'content': chunked_fairytale_json,
-                }
-            ],
-            format=LLMFairytaleAnnotation.model_json_schema(),
-            options={
-                "temperature": 0,
-            }
-        )
+                        {
+                            'role': 'user',
+                            'content': chunked_fairytale_json,
+                        }
+                    ],
+                    format=LLMFairytaleAnnotation.model_json_schema(),
+                    options={
+                        "temperature": 0,
+                    }
+                )
 
-        annotation = LLMFairytaleAnnotation.model_validate_json(response.message.content)
+                annotation = LLMFairytaleAnnotation.model_validate_json(response.message.content)
+
+                raw_response = response.message.content
+
+                print(
+                    f"Output chars={len(raw_response)}"
+                )
+
+                # Parsing successful
+                break
+
+            except ValidationError as e:
+                print(
+                    f"[{model_name}] JSON parsing failed " f"for KHM {chunk.khm}, chunk {chunk.chunk_id} " f"(attempt {attempt}/{max_retries})")
+                print(e)
+                if attempt < max_retries:
+                    time.sleep(1)
+
+            except ResponseError as e:
+                print(
+                    f"[{model_name}] Ollama error for " f"KHM {chunk.khm}, chunk {chunk.chunk_id} " f"(attempt {attempt}/{max_retries})")
+                print(e)
+                if attempt < max_retries:
+                    time.sleep(5)
+
+
+        if annotation is None:
+            all_span_errors.append(
+            {"khm": chunk.khm, "chunk_id": chunk.chunk_id, "reason": "llm_json_validation_failed", })
+            #skip chunk
+            continue
+
 
         annotated_chunk, spans_not_found = find_label_offsets(annotation, chunk)
-        # print(annotated_chunk)
 
         span_errors = validate_chunk_spans(annotated_chunk, fairytale)
 
@@ -117,7 +159,7 @@ def combine_chunks_to_fairytale(annotated_chunks):
     for span in all_spans:
         # combination of span-attributes as key
         key = (span.start, span.end, span.text, span.label)
-        # same keay -> overwrites duplicate
+        # same key -> overwrites duplicate
         unique_spans[key] = span
 
     # convert back to list
@@ -153,6 +195,7 @@ def save_results_and_errors(annotated_fairytales, all_span_errors, output_dir):
 OUTPUT_DIR = "./ollama_files/"
 ANALYSIS_PATH = "data/analysis_dataset/analysis_dataset.csv"
 DATA_PATH = "data/grimm_fairytales_annotated/vague_loc_after_iaa_29-9-26.json"
+NUMBER_SENTENCES = 2
 
 if __name__ == "__main__":
     train_khm, val_khm, test_khm = data_split_on_khm(ANALYSIS_PATH, 42)
@@ -169,7 +212,7 @@ if __name__ == "__main__":
     with open("./ollama_files/fairytales.json", "r", encoding="utf-8") as ft:
         fairytales = json.load(ft)
 
-    model_name = "gemma3:4b"
+    model_name = "mistral-medium-3.5:128b"
     # load all test fairytales by khm; json not the dataclass
     fairytales_data = [
         item for item in fairytales
@@ -179,16 +222,20 @@ if __name__ == "__main__":
     all_annotated_fairytales = []
     all_span_errors = []
 
+    start_time_tracking = time.time()
     for data in fairytales_data:
         fairytale = Fairytale.model_validate(data)
-        chunked_fairytale = split_fairytale_to_chunks(fairytale, 3)
+        chunked_fairytale = split_fairytale_to_chunks(fairytale, NUMBER_SENTENCES)
         annotated_chunks, span_errors = llm_annotate_fairytale(chunked_fairytale, fairytale, model_name)
         annotated_fairytale = combine_chunks_to_fairytale(annotated_chunks)
 
         all_annotated_fairytales.append(annotated_fairytale)
         all_span_errors.extend(span_errors)
 
+    end_annotation_time = time.time()
+    annotation_time = end_annotation_time - start_time_tracking
+
     save_results_and_errors(all_annotated_fairytales, all_span_errors, OUTPUT_DIR)
     all_true_spans, all_pred_spans, evaluation_errors = extract_test_spans(test_fairytales, all_annotated_fairytales)
     span_precision, span_recall, span_f1 = span_metrics(all_true_spans, all_pred_spans)
-    save_local_llm_test_results(span_precision, span_recall, span_f1, evaluation_errors, OUTPUT_DIR, model_name)
+    save_local_llm_test_results(span_precision, span_recall, span_f1, evaluation_errors, OUTPUT_DIR, model_name, annotation_time, NUMBER_SENTENCES)
