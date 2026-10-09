@@ -7,6 +7,7 @@ dependencies = [
     "datasets>=5.0.1",
     "evaluate>=0.4.6",
     "flair[word-embeddings]>=0.15.1",
+    "hvplot>=0.12.2",
     "ipykernel>=7.3.0",
     "label-studio<=1.23",
     "markdown>=3.10.3",
