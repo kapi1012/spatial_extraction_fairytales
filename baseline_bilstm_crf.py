@@ -126,7 +126,7 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters, device)
     # Early stopping
     best_val_span_f1 = -1.0
     patience = hyperparameters["patience"]
-    min_delta = 0.001
+    min_delta = hyperparameters["min_delta"]
 
     counter = 0
     best_epoch = 0
@@ -211,7 +211,10 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters, device)
 
     history["early_stopped"] = stopped_epoch < hyperparameters["epochs"]
     history["patience"] = patience
+    history["min_delta"] = min_delta
 
+    training_info["stopped_epoch"] = stopped_epoch
+    training_info["early_stopped"] = stopped_epoch < hyperparameters["epochs"]
     training_info["best_epoch"] = best_epoch
     training_info["best_val_span_f1"] = best_val_span_f1
 
@@ -251,13 +254,14 @@ if __name__ == "__main__":
     # Hyperparamter
     hyperparameters = {
         "embedding_dim": sentence_documents[0].embeddings.size(1),
-        "hidden_dim": 128,
-        "dropout": 0.2,
-        "learning_rate": 0.0001,
+        "hidden_dim": 256,
+        "dropout": 0.1,
+        "learning_rate": 0.001,
         "batch_size": 8,
         "optimizer": "Adam",
         "epochs": 50,
-        "patience": 10,
+        "patience": 15,
+        "min_delta": 0.0005,
         "early_stopping": True,
     }
 

@@ -49,7 +49,8 @@ SpaCyPreprocessor                           HuggingFace RoBERTa Tokenizer
 BiLSTMBuilder                               TransformerBuilder
 - IO(B)-Labels                              - Character to Subword
 - Token Documents                                    │   
-- Flair Embeddings                                   ▼
+- Flair Embeddings                                   │
+- Sentence Documents                                 ▼
 - FairytaleSequenceTaggingDataset                 IOB-Labels 
 - Collate_fn for Sequence Padding + Masking          │
  │                                                   ▼
@@ -57,7 +58,8 @@ BiLSTMBuilder                               TransformerBuilder
  │                                                   │
  │                                                   │
  ▼                                                   ▼
-TorchDataset                                   DataCollatorForTokenClassification
+FairytaleSequenceTaggingDataset
+- TorchDataset                                   DataCollatorForTokenClassification
       
 """
 
