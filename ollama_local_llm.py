@@ -195,7 +195,7 @@ def save_results_and_errors(annotated_fairytales, all_span_errors, output_dir):
 OUTPUT_DIR = "./ollama_files/"
 ANALYSIS_PATH = "data/analysis_dataset/analysis_dataset.csv"
 DATA_PATH = "data/grimm_fairytales_annotated/vague_loc_after_iaa_29-9-26.json"
-NUMBER_SENTENCES = 2
+NUMBER_SENTENCES = 3
 
 if __name__ == "__main__":
     train_khm, val_khm, test_khm = data_split_on_khm(ANALYSIS_PATH, 42)
@@ -212,7 +212,7 @@ if __name__ == "__main__":
     with open("./ollama_files/fairytales.json", "r", encoding="utf-8") as ft:
         fairytales = json.load(ft)
 
-    model_name = "mistral-medium-3.5:128b"
+    model_name = "mistral-small3.2:24b"
     # load all test fairytales by khm; json not the dataclass
     fairytales_data = [
         item for item in fairytales

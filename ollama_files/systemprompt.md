@@ -38,7 +38,7 @@ Die Tags fallen in den Bereich des Sequence Labelings, bei dem ein Span - besteh
   - "in den dunklen Wald"
 - Folgen mehrere Ortsreferenzen aufeinander, werden sie einzeln getaggt.
   - "Sie giengen den ganzen Tag über Wiesen, Felder und Steine" sind drei Tags
-  - "<auf der grünen Wiese> <unter einen Baum>" sind zwei einzelne Tags
+  - "auf der grünen Wiese unter einen Baum" sind zwei einzelne Tags
   - Grundsätzlich gilt: Kann eine Wendung allein stehen, gilt sie als ein Tag.
 - Genitivausdrücke sind ein Tag.
   - "am Rand des Brunnens" ("des Brunnens" kann nicht allein als Ort stehen)
