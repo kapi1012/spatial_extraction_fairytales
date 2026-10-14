@@ -1,4 +1,5 @@
 from collections import Counter
+import time
 from datetime import datetime
 from transformers import AutoTokenizer, AutoModelForTokenClassification, TrainingArguments, Trainer, DataCollatorForTokenClassification
 import torch.nn as nn
@@ -172,9 +173,13 @@ if __name__ == "__main__":
     test_results_dir = "transformer/test_results"
 
     # Training
+    start_time_tracking = time.time()
     trainer.train()
     trainer.model.save_pretrained(f"transformer/models/{current_time}_best_model")
     save_transformer_train_results(args, trainer, train_results_dir, current_time)
+    end_time_tracking = time.time()
+    total_time = end_time_tracking - start_time_tracking
+    print(f"Train time: {total_time / 60:.2f} min")
 
     # Testing
     test_results, _, _ = evaluate_model(trainer, test_dataset, test_fairytales)
