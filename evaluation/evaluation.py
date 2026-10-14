@@ -145,7 +145,10 @@ def save_test_report(true_tags, predictions, true_spans, pred_spans, hyperparame
     filename = f"data/test_reports/{current_time}.csv"
 
     # Token-level metrics
-    report = classification_report(true_tags, predictions, target_names=LABEL2ID.keys(), output_dict=True)
+    report = classification_report(true_tags, predictions, labels=list(LABEL2ID.keys()),
+    target_names=list(LABEL2ID.keys()),
+    output_dict=True,
+    zero_division=0,)
     df_report = pd.DataFrame(report).T
 
     # Span-level metrics
@@ -229,38 +232,6 @@ def transformer_bio_predictions_to_spans(predicted_ids, offset_mapping, ):
 
     return spans
 
-# no more needed; function assumed that overlapping sequence is exactly same lenght (-> uses set)
-# def pred_spans_to_fairytale(test_dataset, predicted_ids):
-#     """
-#     Takes BIO-predictions -> Character-Spans per Chunk.
-#     Takes all chunks of one fairytale.
-#     Only keeps single Prediction (because of set) if the same prediction is in overlapping chunks.
-#
-#     :param test_dataset: RoBERTaSequenceTaggingDataset
-#     :param predicted_ids: output of trainer.predict, as labels (not probabilities)
-#     :return: predicted_spans_by_fairytale for all fairytales in testset
-#     """
-#     predicted_spans_by_fairytale = defaultdict(set)
-#
-#     for i in range(len(test_dataset)):
-#         chunk = test_dataset[i]
-#
-#         # add metadata to predictions for span eval
-#         fairytale_id = chunk["fairytale_id"]
-#         offset_mapping = chunk["offset_mapping"]
-#
-#         # Remove batch padding added by the data collator
-#         # Keep only the positions belonging to this original chunk
-#         chunk_predictions = predicted_ids[i][:len(offset_mapping)]
-#
-#         chunk_spans = transformer_bio_predictions_to_spans(
-#             predicted_ids=chunk_predictions,
-#             offset_mapping=offset_mapping,
-#         )
-#
-#         predicted_spans_by_fairytale[fairytale_id].update(chunk_spans)
-#
-#     return predicted_spans_by_fairytale
 
 def resolved_tokens_to_spans(resolved_tokens):
     """
@@ -413,19 +384,6 @@ def resolve_overlap_predictions(token_observations):
             else:
                 different_prediction += 1
 
-                #print(
-                #    "\nOverlap conflict:"
-                #)
-                #print("Token:", token_key)
-                #print("Obs 1:", obs1)
-                #print("Obs 2:", obs2)
-
-                # compare logits
-                #if obs1["logit"] >= obs2["logit"]:
-                #    resolved_tokens[token_key] = obs1
-                #else:
-                #    resolved_tokens[token_key] = obs2
-
                 #compare softmax
                 if obs1["confidence"] >= obs2["confidence"]:
                     resolved_tokens[token_key] = obs1
@@ -465,22 +423,28 @@ def calculate_test_metrics(all_true_spans, all_pred_spans, all_true_labels, all_
     :return:
     """
     span_precision, span_recall, span_f1 = span_metrics(all_true_spans, all_pred_spans,)
-    token_precision, token_recall, token_f1, _ = (
-        precision_recall_fscore_support(
-            all_true_labels,
-            all_pred_labels,
-            average="macro",
-            zero_division=0,
-        )
+
+    # Token-level classification report
+    label_ids = list(range(len(LABEL2ID)))
+    target_names = [ID2LABEL[label_id] for label_id in label_ids]
+
+    token_report = classification_report(
+        all_true_labels,
+        all_pred_labels,
+        labels=label_ids,
+        target_names=target_names,
+        output_dict=True,
+        zero_division=0,
     )
 
+    # Combined metrics
     metrics = {
-        "span_precision": span_precision,
-        "span_recall": span_recall,
-        "span_f1": span_f1,
-        "token_precision": token_precision,
-        "token_recall": token_recall,
-        "token_f1": token_f1,
+        "span_metrics": {
+            "precision": float(span_precision),
+            "recall": float(span_recall),
+            "f1": float(span_f1),
+        },
+        "token_metrics": token_report,
     }
 
     return metrics
@@ -496,7 +460,7 @@ def save_transformer_train_results(training_args, trainer, results_dir, current_
         'log_history': trainer.state.log_history if hasattr(trainer.state, 'log_history') else []
     }
 
-    with open(train_results_filename, 'w') as f:
+    with open(train_results_filename, 'w', encoding="utf-8") as f:
         json.dump(train_data, f, indent=2)
     print(f"Training results saved to {train_results_filename}")
 
@@ -514,7 +478,7 @@ def save_transformer_test_results(test_results, training_args, results_dir, curr
         ),
     }
 
-    with open(test_results_filename, 'w') as f:
+    with open(test_results_filename, 'w', encoding="utf-8") as f:
         json.dump(test_data, f, indent=2)
     print(f"Test results saved to {test_results_filename}")
 

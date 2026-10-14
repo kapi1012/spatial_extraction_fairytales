@@ -1,4 +1,5 @@
 import time
+from collections import Counter
 from pathlib import Path
 from torch.utils.data import DataLoader
 from torchcrf import CRF
@@ -71,9 +72,9 @@ def prepare_data():
     token_documents = create_token_documents(docs)
 
     # load preprocessed embeddings
-    EMBEDDINGS_PATH = Path("data/flair_embeddings/embeddings_1.10.26.pt")
+    EMBEDDINGS_PATH = Path("data/flair_embeddings/embeddings_hamburger_anzeiger_12.10.26.pt")
     if EMBEDDINGS_PATH.exists():
-        sentence_documents = torch.load("data/flair_embeddings/embeddings_1.10.26.pt", weights_only=False)
+        sentence_documents = torch.load("data/flair_embeddings/embeddings_hamburger_anzeiger_12.10.26.pt", weights_only=False)
     else:
         sentence_documents = flair_embedding(token_documents)
 
@@ -257,7 +258,7 @@ if __name__ == "__main__":
         "hidden_dim": 256,
         "dropout": 0.1,
         "learning_rate": 0.001,
-        "batch_size": 8,
+        "batch_size": 16,
         "optimizer": "Adam",
         "epochs": 50,
         "patience": 15,
@@ -282,7 +283,13 @@ if __name__ == "__main__":
     save_test_report(true_tags, predictions, true_spans, pred_spans, hyperparameters)
 
     # Token Level
-    print(classification_report(true_tags, predictions, target_names=LABEL2ID.keys()))
+    print(classification_report(
+        true_tags,
+        predictions,
+        labels=list(LABEL2ID.keys()),
+        target_names=list(LABEL2ID.keys()),
+        zero_division=0,
+    ))
     # Span-level
     print("\nSpan-Level (Exact Match)")
     print(f"Precision: {span_precision:.2f}")
