@@ -1,0 +1,26 @@
+[
+  {
+    "model": "gemma3:4b",
+    "span_precision": 0.12,
+    "span_recall": 0.24,
+    "span_f1": 0.16
+  },
+  {
+    "model": "gemma3:12b",
+    "span_precision": 0.43,
+    "span_recall": 0.28,
+    "span_f1": 0.34
+  },
+  {
+    "model": "gemma3:27b",
+    "span_precision": 0.51,
+    "span_recall": 0.59,
+    "span_f1": 0.55
+  },
+  {
+    "model": "mistral-small3.2:24b",
+    "span_precision": 0.35,
+    "span_recall": 0.35,
+    "span_f1": 0.35
+  }
+]

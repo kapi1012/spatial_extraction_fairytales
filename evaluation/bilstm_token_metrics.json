@@ -1,0 +1,72 @@
+[
+  {
+    "model": "Bi-LSTM Redewiedergabe Embedding",
+    "token_metrics": {
+      "B-FUZZY_LOC": {
+        "precision": 0.85,
+        "recall": 0.79,
+        "f1-score": 0.82
+      },
+      "B-METAPHORIC_LOC": {
+        "precision": 0.63,
+        "recall": 0.56,
+        "f1-score": 0.59
+      },
+      "I-FUZZY_LOC": {
+        "precision": 0.85,
+        "recall": 0.82,
+        "f1-score": 0.84
+      },
+      "I-METAPHORIC_LOC": {
+        "precision": 0.66,
+        "recall": 0.54,
+        "f1-score": 0.59
+      },
+      "O": {
+        "precision": 0.99,
+        "recall": 0.99,
+        "f1-score": 0.99
+      },
+      "macro avg": {
+        "precision": 0.8,
+        "recall": 0.74,
+        "f1-score": 0.77
+      }
+    }
+  },
+  {
+    "model": "Bi-LSTM Hamburger Anzeiger Embedding",
+    "token_metrics": {
+      "B-FUZZY_LOC": {
+        "precision": 0.81,
+        "recall": 0.8,
+        "f1-score": 0.81
+      },
+      "B-METAPHORIC_LOC": {
+        "precision": 0.77,
+        "recall": 0.57,
+        "f1-score": 0.66
+      },
+      "I-FUZZY_LOC": {
+        "precision": 0.82,
+        "recall": 0.83,
+        "f1-score": 0.83
+      },
+      "I-METAPHORIC_LOC": {
+        "precision": 0.81,
+        "recall": 0.55,
+        "f1-score": 0.65
+      },
+      "O": {
+        "precision": 0.99,
+        "recall": 0.99,
+        "f1-score": 0.99
+      },
+      "macro avg": {
+        "precision": 0.84,
+        "recall": 0.75,
+        "f1-score": 0.79
+      }
+    }
+  }
+]
