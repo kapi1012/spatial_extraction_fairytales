@@ -188,6 +188,7 @@ class FairytaleSequenceTaggingDataset(Dataset):
             "khm": document.khm,
             "id": document.id,
             "annotator_id": document.annotator_id,
+            "tokens": document.tokens,
         }
 
 
@@ -322,7 +323,7 @@ def flair_embedding(token_documents: list[TokenDocument]) -> list[SentenceDocume
                 )
             )
 
-    torch.save(sentence_documents, "data/flair_embeddings/embeddings_1.10.26.pt")
+    torch.save(sentence_documents, "data/flair_embeddings/embeddings_redewiedergabe_1.10.26.pt")
     return sentence_documents
 
 
@@ -336,6 +337,8 @@ def collate_fn_bilstm(batch: list[dict[str, Tensor]]):
     embeddings = [sample["embeddings"] for sample in batch]
     tags = [sample["tags"] for sample in batch]
     khms = [sample["khm"] for sample in batch]
+    ids = [sample["id"] for sample in batch]
+    tokens = [sample["tokens"] for sample in batch]
 
     # Padding for a batch
     lengths = [e.size(0) for e in embeddings]
@@ -355,4 +358,6 @@ def collate_fn_bilstm(batch: list[dict[str, Tensor]]):
         "tags": tags,
         "mask": mask,
         "khm": khms,
+        "id": ids,
+        "tokens": tokens,
     }

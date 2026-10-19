@@ -126,6 +126,7 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters, device)
 
     # Early stopping
     best_val_span_f1 = -1.0
+    best_early_stopping_span_f1 = -1.0
     patience = hyperparameters["patience"]
     min_delta = hyperparameters["min_delta"]
 
@@ -165,7 +166,7 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters, device)
         epoch_loss /= len(train_data)
 
         # Validation
-        true_tags, predictions, true_spans, pred_spans = test_model(model=model, test_data=val_data)
+        true_tags, predictions, true_spans, pred_spans, prediction_documents = test_model(model=model, test_data=val_data)
         # val_f1 for training metric
         val_precision, val_recall, val_f1, _ = precision_recall_fscore_support(true_tags, predictions, average='macro', zero_division=0)
         # val_span_f1 for early stopping
@@ -191,15 +192,22 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters, device)
             f"Span-F1={val_span_f1:.5f}"
         )
 
-        # Early Stopping with span-level f1
-        if val_span_f1 > best_val_span_f1 + min_delta:
+        # Always save the model with the highest observed validation Span-F1
+        if val_span_f1 > best_val_span_f1:
             best_val_span_f1 = val_span_f1
-            best_state = {k: v.cpu().clone() for k, v in model.state_dict().items()}
+            best_state = {
+                k: v.detach().cpu().clone()
+                for k, v in model.state_dict().items()
+            }
             best_epoch = epoch + 1
-            counter = 0
 
+        # Early stopping uses min_delta separately
+        if val_span_f1 > best_early_stopping_span_f1 + min_delta:
+            best_early_stopping_span_f1 = val_span_f1
+            counter = 0
         else:
             counter += 1
+
         if counter >= patience:
             stopped_epoch = epoch + 1
             print("Early stopping.")
@@ -278,9 +286,10 @@ if __name__ == "__main__":
     optimizer = torch.optim.Adam(model.parameters(), lr=hyperparameters["learning_rate"])
 
     fuzzy_bilstm, history = train_model(model=model, optimizer=optimizer, train_data=train_dataloader, val_data=val_dataloader, hyperparameters=hyperparameters, device=device)
-    true_tags, predictions, true_spans, pred_spans = test_model(model=fuzzy_bilstm, test_data=test_dataloader)
+    true_tags, predictions, true_spans, pred_spans, prediction_documents = test_model(model=fuzzy_bilstm, test_data=test_dataloader)
     span_precision, span_recall, span_f1 = span_metrics(true_spans, pred_spans)
     save_test_report(true_tags, predictions, true_spans, pred_spans, hyperparameters)
+    save_bilstm_predictions_by_khm(prediction_documents)
 
     # Token Level
     print(classification_report(

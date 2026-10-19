@@ -3,6 +3,7 @@ import torch.nn as nn
 import numpy as np
 import pandas as pd
 from datetime import datetime
+from pathlib import Path
 import os
 import json
 
@@ -68,6 +69,8 @@ def test_model(model, test_data):
     all_pred_spans = []
     all_true_spans = []
 
+    prediction_documents = []
+
     with torch.no_grad():
 
         for batch in test_data:
@@ -77,7 +80,7 @@ def test_model(model, test_data):
 
             predictions = model.decode(embeddings, mask)
 
-            for pred, gold, valid in zip(predictions, tags, mask):
+            for i, (pred, gold, valid) in enumerate(zip(predictions, tags, mask)):
 
                 length = valid.sum().item()
 
@@ -92,6 +95,7 @@ def test_model(model, test_data):
                 # Convert gold IDs to labels
                 gold_labels = [
                     ID2LABEL[tag_id] for tag_id in gold]
+                tokens = batch["tokens"][i][:length]
 
                 # Token-level evaluation
                 all_predictions.extend(pred_labels)
@@ -104,7 +108,16 @@ def test_model(model, test_data):
                 all_pred_spans.append(pred_spans)
                 all_true_spans.append(gold_spans)
 
-    return all_true_tags, all_predictions, all_true_spans, all_pred_spans
+
+                prediction_documents.append({
+                    "khm": int(batch["khm"][i]),
+                    "id": int(batch["id"][i]),
+                    "tokens": list(tokens),
+                    "true_tags": gold_labels,
+                    "predicted_tags": pred_labels,
+                })
+
+    return all_true_tags, all_predictions, all_true_spans, all_pred_spans, prediction_documents
 
 def span_metrics(all_true_spans, all_pred_spans):
 
@@ -144,11 +157,19 @@ def save_test_report(true_tags, predictions, true_spans, pred_spans, hyperparame
     current_time = datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
     filename = f"data/test_reports/{current_time}.csv"
 
+    # exclude O-Label from report
+    entity_labels = [
+        label for label in LABEL2ID.keys()
+        if label != "O"
+    ]
+
     # Token-level metrics
-    report = classification_report(true_tags, predictions, labels=list(LABEL2ID.keys()),
-    target_names=list(LABEL2ID.keys()),
-    output_dict=True,
-    zero_division=0,)
+    report = classification_report(
+        true_tags, predictions,
+        labels=entity_labels,
+        target_names=entity_labels,
+        output_dict=True,
+        zero_division=0,)
     df_report = pd.DataFrame(report).T
 
     # Span-level metrics
@@ -163,6 +184,75 @@ def save_test_report(true_tags, predictions, true_spans, pred_spans, hyperparame
     df_report = df_report.map(lambda x: f"{x:.4f}" if isinstance(x, float) else x)
 
     df_report.to_csv(filename)
+
+
+def save_bilstm_predictions_by_khm(
+    prediction_documents
+):
+    current_time = datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
+    filename = f"data/evaluation/bilstm_predictions_{current_time}.json"
+
+    grouped = defaultdict(list)
+
+    for doc in prediction_documents:
+        grouped[doc["khm"]].append(doc)
+
+    results = {}
+
+    for khm, sentences in sorted(grouped.items()):
+        sentence_results = []
+
+        for sentence_id, doc in enumerate(sentences):
+            tokens = doc["tokens"]
+            true_tags = doc["true_tags"]
+            predicted_tags = doc["predicted_tags"]
+
+            def serialize_spans(spans):
+                return [
+                    {
+                        "start": start,
+                        "end": end,
+                        "text": " ".join(tokens[start:end]),
+                        "label": label,
+                    }
+                    for start, end, label in sorted(spans)
+                ]
+
+            true_spans = tags_to_spans(true_tags)
+            predicted_spans = tags_to_spans(predicted_tags)
+
+            sentence_results.append({
+                "sentence_id": sentence_id,
+                "id": doc["id"],
+                "tokens": tokens,
+                "true_tags": true_tags,
+                "predicted_tags": predicted_tags,
+                "token_errors": [
+                    {
+                        "token_index": i,
+                        "token": token,
+                        "true_tag": true_tag,
+                        "predicted_tag": pred_tag,
+                    }
+                    for i, (token, true_tag, pred_tag) in enumerate(
+                        zip(tokens, true_tags, predicted_tags)
+                    )
+                    if true_tag != pred_tag
+                ],
+                "true_spans": serialize_spans(true_spans),
+                "predicted_spans": serialize_spans(predicted_spans),
+            })
+
+        results[str(khm)] = {
+            "khm": khm,
+            "sentences": sentence_results,
+        }
+
+    output_path = Path(filename)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    with output_path.open("w", encoding="utf-8") as f:
+        json.dump(results, f, ensure_ascii=False, indent=2)
 
 
 # Transformer
@@ -424,14 +514,22 @@ def calculate_test_metrics(all_true_spans, all_pred_spans, all_true_labels, all_
     """
     span_precision, span_recall, span_f1 = span_metrics(all_true_spans, all_pred_spans,)
 
-    # Token-level classification report
-    label_ids = list(range(len(LABEL2ID)))
-    target_names = [ID2LABEL[label_id] for label_id in label_ids]
+    # Exclude O from token-level classification report
+    entity_label_ids = [
+        label_id
+        for label, label_id in LABEL2ID.items()
+        if label != "O"
+    ]
+
+    target_names = [
+        ID2LABEL[label_id]
+        for label_id in entity_label_ids
+    ]
 
     token_report = classification_report(
         all_true_labels,
         all_pred_labels,
-        labels=label_ids,
+        labels=entity_label_ids,
         target_names=target_names,
         output_dict=True,
         zero_division=0,
