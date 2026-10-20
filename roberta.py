@@ -6,7 +6,7 @@ import torch.nn as nn
 
 from evaluation.evaluation import save_transformer_train_results, save_transformer_test_results, \
     prepare_test_spans, collect_token_labels, calculate_test_metrics, extract_token_labels, \
-    resolve_overlap_predictions, resolved_tokens_to_spans
+    resolve_overlap_predictions, resolved_tokens_to_spans, save_transformer_predictions_json
 from dataset_preprocessing_transformer import RoBERTaSequenceTaggingDataset, tokenize_fairytale
 from dataset_preprocessing import load_dataset
 from constants import LABEL2ID, ID2LABEL
@@ -134,6 +134,15 @@ def evaluate_model(trainer, test_dataset, test_fairytales):
     # reconstruct span predictions from resolved tokens
     predicted_spans_by_fairytale = resolved_tokens_to_spans(resolved_tokens)
 
+    print("Beispiel-IDs aus resolved_tokens:")
+    print(list({key[0] for key in resolved_tokens})[:10])
+
+    print("Beispiel-IDs aus predicted_spans_by_fairytale:")
+    print(list(predicted_spans_by_fairytale.keys())[:10])
+
+    print("Beispiel-IDs der Originalmärchen:")
+    print([(ft.id, ft.khm) for ft in test_fairytales[:10]])
+
     # labels for span-level evaluation
     all_true_spans, all_pred_spans = prepare_test_spans(test_fairytales, predicted_spans_by_fairytale)
 
@@ -158,7 +167,7 @@ def evaluate_model(trainer, test_dataset, test_fairytales):
 
     print(observation_counts)
 
-    return test_results, token_observations, resolved_tokens
+    return test_results, token_observations, resolved_tokens, predicted_spans_by_fairytale
 
 
 if __name__ == "__main__":
@@ -182,6 +191,7 @@ if __name__ == "__main__":
     print(f"Train time: {total_time / 60:.2f} min")
 
     # Testing
-    test_results, _, _ = evaluate_model(trainer, test_dataset, test_fairytales)
+    test_results, token_observations, resolved_tokens, predicted_spans_by_fairytale = evaluate_model(trainer, test_dataset, test_fairytales)
     save_transformer_test_results(test_results, args, test_results_dir, current_time)
+    save_transformer_predictions_json(resolved_tokens, predicted_spans_by_fairytale, test_fairytales)
 

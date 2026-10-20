@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 from datetime import datetime
 from pathlib import Path
+from collections import Counter
 import os
 import json
 
@@ -355,10 +356,20 @@ def resolved_tokens_to_spans(resolved_tokens):
             for token in tokens
         ]
 
+        print(f"\nMärchen-ID: {fairytale_id}")
+        print("Anzahl Tokens:", len(tokens))
+        print(
+            "Vorhergesagte Labels:",
+            Counter(ID2LABEL[label_id] for label_id in predicted_ids),
+        )
+
         chunk_spans = transformer_bio_predictions_to_spans(
             predicted_ids=predicted_ids,
             offset_mapping=offsets,
         )
+
+        print("Anzahl rekonstruierter Spans:", len(chunk_spans))
+        print("Beispiel-Spans:", chunk_spans[:5])
 
         predicted_spans_by_fairytale[fairytale_id].update(chunk_spans)
 
@@ -548,6 +559,32 @@ def calculate_test_metrics(all_true_spans, all_pred_spans, all_true_labels, all_
     return metrics
 
 
+def compute_metrics(val_fairytales, eval_pred):
+    logits, label_ids = eval_pred
+    predicted_ids = np.argmax(logits, axis=-1)
+
+    # Verarbeitung wie bei der Span-Auswertung:
+    # 1. Token-Vorhersagen sammeln
+    token_observations = collect_token_labels(val_fairytales, predicted_ids, predictions)
+    # 2. Overlaps auflösen
+    resolved_tokens =  resolve_overlap_predictions(token_observations)
+    # 3. Spans rekonstruieren
+    predicted_spans_by_fairytale = resolved_tokens_to_spans(resolved_tokens)
+    # 4. True und predicted spans vergleichen
+    all_true_spans, all_pred_spans = prepare_test_spans(val_fairytales, predicted_spans_by_fairytale)
+
+    span_precision, span_recall, span_f1 = span_metrics(
+        all_true_spans,
+        all_pred_spans,
+    )
+
+    return {
+        "span_precision": span_precision,
+        "span_recall": span_recall,
+        "span_f1": span_f1,
+    }
+
+
 def save_transformer_train_results(training_args, trainer, results_dir, current_date):
     """Save training arguments and log history to JSON file."""
     os.makedirs(results_dir, exist_ok=True)
@@ -579,6 +616,109 @@ def save_transformer_test_results(test_results, training_args, results_dir, curr
     with open(test_results_filename, 'w', encoding="utf-8") as f:
         json.dump(test_data, f, indent=2)
     print(f"Test results saved to {test_results_filename}")
+
+
+def save_transformer_predictions_json(
+        resolved_tokens,
+        predicted_spans_by_fairytale,
+        test_fairytales):
+    """
+    prediction_documents: Liste von Dictionaries mit:
+        khm, title, sentences
+
+    Jede Sentence enthält:
+        tokens, true_tags, predicted_tags
+    """
+    current_time = datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
+    filename = f"data/evaluation/roberta_predictions_{current_time}.json"
+
+    # Lookup der Originalmärchen.
+    fairytale_lookup = {
+        ft.khm: ft for ft in test_fairytales
+    }
+
+    # Tokens nach Märchen gruppieren.
+    tokens_by_fairytale = defaultdict(list)
+
+    print(
+        "Span-IDs:",
+        list(predicted_spans_by_fairytale.keys())[:10],
+    )
+
+    print(
+        "Märchen-IDs:",
+        [(ft.id, ft.khm) for ft in test_fairytales[:10]],
+    )
+
+    for (fairytale_id, start, end), observation in resolved_tokens.items():
+        tokens_by_fairytale[fairytale_id].append({
+            "start": start,
+            "end": end,
+            "text": (
+                fairytale_lookup[fairytale_id].text[start:end]
+                if fairytale_id in fairytale_lookup
+                else None
+            ),
+            "true_tag": ID2LABEL[observation["true_label"]],
+            "predicted_tag": ID2LABEL[observation["pred_label"]],
+            "confidence": observation["confidence"],
+        })
+
+    results = {}
+
+    for fairytale in test_fairytales:
+        fairytale_id = fairytale.khm
+        khm = fairytale.khm
+
+        tokens = sorted(
+            tokens_by_fairytale.get(fairytale_id, []),
+            key=lambda token: (token["start"], token["end"]),
+        )
+
+        token_errors = [
+            token for token in tokens
+            if token["true_tag"] != token["predicted_tag"]
+        ]
+
+        # Gold-Spans aus den Originalannotationen.
+        true_spans = [
+            {
+                "start": span.start,
+                "end": span.end,
+                "text": span.text,
+                "label": span.label,
+            }
+            for span in fairytale.spans
+        ]
+
+        # Vorhergesagte Spans aus deiner bestehenden Rekonstruktion.
+        predicted_spans = [
+            {
+                "start": start,
+                "end": end,
+                "text": fairytale.text[start:end],
+                "label": label,
+            }
+            for start, end, label
+            in sorted(predicted_spans_by_fairytale.get(fairytale_id, set()))
+        ]
+
+        results[str(fairytale.khm)] = {
+            "khm": fairytale.khm,
+            "fairytale_id": fairytale_id,
+            "title": fairytale.title,
+            "text": fairytale.text,
+            "tokens": tokens,
+            "token_errors": token_errors,
+            "true_spans": true_spans,
+            "predicted_spans": predicted_spans,
+        }
+
+    output_path = Path(filename)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    with output_path.open("w", encoding="utf-8") as f:
+        json.dump(results, f, ensure_ascii=False, indent=2)
 
 
 # Local LLM
