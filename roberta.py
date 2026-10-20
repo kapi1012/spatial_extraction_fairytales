@@ -6,7 +6,7 @@ import torch.nn as nn
 
 from evaluation.evaluation import save_transformer_train_results, save_transformer_test_results, \
     prepare_test_spans, collect_token_labels, calculate_test_metrics, extract_token_labels, \
-    resolve_overlap_predictions, resolved_tokens_to_spans, save_transformer_predictions_json
+    resolve_overlap_predictions, resolved_tokens_to_spans, save_transformer_predictions_json, make_compute_metrics
 from dataset_preprocessing_transformer import RoBERTaSequenceTaggingDataset, tokenize_fairytale
 from dataset_preprocessing import load_dataset
 from constants import LABEL2ID, ID2LABEL
@@ -67,9 +67,9 @@ def prepare_data(tokenizer):
     val_dataset = RoBERTaSequenceTaggingDataset(val_chunks, LABEL2ID)
     test_dataset = RoBERTaSequenceTaggingDataset(test_chunks, LABEL2ID)
 
-    return train_dataset, val_dataset, test_dataset, test_fairytales
+    return train_dataset, val_dataset, test_dataset, val_fairytales, test_fairytales
 
-def build_trainer(model, tokenizer, train_dataset, val_dataset):
+def build_trainer(model, tokenizer, train_dataset, val_dataset, val_fairytales):
     # DataCollator for padding of input_ids, attention_mask and -100 labels
     # added custom metadata
     data_collator = DataCollatorForTokenClassification(tokenizer)
@@ -93,8 +93,10 @@ def build_trainer(model, tokenizer, train_dataset, val_dataset):
 
         eval_strategy="epoch",
         save_strategy="epoch",
-        metric_for_best_model="eval_loss",
-        greater_is_better=False,
+        #metric_for_best_model="eval_loss",
+        #greater_is_better=False,
+        metric_for_best_model="span_f1",
+        greater_is_better=True,
 
         label_smoothing_factor=0.0, # controls how confident the model should be
         load_best_model_at_end=True, # for choosing the best model based on eval metrics -> save it at the end
@@ -111,13 +113,26 @@ def build_trainer(model, tokenizer, train_dataset, val_dataset):
         train_dataset=train_dataset,
         eval_dataset=val_dataset,
         data_collator=data_collator,
+        compute_metrics=make_compute_metrics(
+            val_dataset,
+            val_fairytales,
+        )
     )
 
     return trainer, args
 
 def evaluate_model(trainer, test_dataset, test_fairytales):
+    # compute_metrics während des Test-Predicts deaktivieren,
+    # da die Funktion auf den Validierungsdatensatz zugeschnitten ist.
 
-    predictions = trainer.predict(test_dataset)
+    original_compute_metrics = trainer.compute_metrics
+    trainer.compute_metrics = None
+
+    try:
+        predictions = trainer.predict(test_dataset)
+    finally:
+        # Ursprüngliche Funktion wiederherstellen
+        trainer.compute_metrics = original_compute_metrics
 
     # convert probability prediction to label
     predicted_ids = np.argmax(predictions.predictions, axis=-1,)
@@ -133,15 +148,6 @@ def evaluate_model(trainer, test_dataset, test_fairytales):
 
     # reconstruct span predictions from resolved tokens
     predicted_spans_by_fairytale = resolved_tokens_to_spans(resolved_tokens)
-
-    print("Beispiel-IDs aus resolved_tokens:")
-    print(list({key[0] for key in resolved_tokens})[:10])
-
-    print("Beispiel-IDs aus predicted_spans_by_fairytale:")
-    print(list(predicted_spans_by_fairytale.keys())[:10])
-
-    print("Beispiel-IDs der Originalmärchen:")
-    print([(ft.id, ft.khm) for ft in test_fairytales[:10]])
 
     # labels for span-level evaluation
     all_true_spans, all_pred_spans = prepare_test_spans(test_fairytales, predicted_spans_by_fairytale)
@@ -174,8 +180,8 @@ if __name__ == "__main__":
     tokenizer = load_tokenizer(TOKENIZER_NAME)
     model = load_model()
 
-    train_dataset, val_dataset, test_dataset, test_fairytales = prepare_data(tokenizer)
-    trainer, args = build_trainer(model, tokenizer, train_dataset, val_dataset)
+    train_dataset, val_dataset, test_dataset, val_fairytales, test_fairytales = prepare_data(tokenizer)
+    trainer, args = build_trainer(model, tokenizer, train_dataset, val_dataset, val_fairytales)
 
     current_time = datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
     train_results_dir = "transformer/train_log"

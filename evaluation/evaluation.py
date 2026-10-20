@@ -9,7 +9,7 @@ import os
 import json
 
 from sklearn.metrics import classification_report, precision_recall_fscore_support
-from constants import LABEL2ID, ID2LABEL, LABEL_MAP
+from constants import LABEL2ID, ID2LABEL, LABEL_MAP, ENTITY_TYPES
 from collections import defaultdict
 
 
@@ -120,7 +120,7 @@ def test_model(model, test_data):
 
     return all_true_tags, all_predictions, all_true_spans, all_pred_spans, prediction_documents
 
-def span_metrics(all_true_spans, all_pred_spans):
+def span_micro_metrics(all_true_spans, all_pred_spans):
 
     true_positive = 0
     false_positive = 0
@@ -153,6 +153,59 @@ def span_metrics(all_true_spans, all_pred_spans):
     return precision, recall, f1
 
 
+def span_metrics(all_true_spans, all_pred_spans, entity_types):
+    # calculates on macro span level without O-Label
+    counts = {
+        entity_type: {"tp": 0, "fp": 0, "fn": 0}
+        for entity_type in entity_types
+    }
+
+    for gold, pred in zip(all_true_spans, all_pred_spans):
+        tp_spans = gold & pred
+        fp_spans = pred - gold
+        fn_spans = gold - pred
+
+        for start, end, entity_type in tp_spans:
+            if entity_type in counts:
+                counts[entity_type]["tp"] += 1
+
+        for start, end, entity_type in fp_spans:
+            if entity_type in counts:
+                counts[entity_type]["fp"] += 1
+
+        for start, end, entity_type in fn_spans:
+            if entity_type in counts:
+                counts[entity_type]["fn"] += 1
+
+    precisions = []
+    recalls = []
+    f1_scores = []
+
+    for entity_type in entity_types:
+        tp = counts[entity_type]["tp"]
+        fp = counts[entity_type]["fp"]
+        fn = counts[entity_type]["fn"]
+
+        precision = tp / (tp + fp) if tp + fp > 0 else 0.0
+        recall = tp / (tp + fn) if tp + fn > 0 else 0.0
+
+        f1 = (
+            2 * precision * recall / (precision + recall)
+            if precision + recall > 0
+            else 0.0
+        )
+
+        precisions.append(precision)
+        recalls.append(recall)
+        f1_scores.append(f1)
+
+    macro_precision = sum(precisions) / len(precisions) if precisions else 0.0
+    macro_recall = sum(recalls) / len(recalls) if recalls else 0.0
+    macro_f1 = sum(f1_scores) / len(f1_scores) if f1_scores else 0.0
+
+    return macro_precision, macro_recall, macro_f1
+
+
 def save_test_report(true_tags, predictions, true_spans, pred_spans, hyperparameters):
 
     current_time = datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
@@ -174,7 +227,8 @@ def save_test_report(true_tags, predictions, true_spans, pred_spans, hyperparame
     df_report = pd.DataFrame(report).T
 
     # Span-level metrics
-    span_precision, span_recall, span_f1 = span_metrics(true_spans, pred_spans)
+    entity_types = sorted({label[2:] for label in ID2LABEL.values() if label.startswith(("B-", "I-"))})
+    span_precision, span_recall, span_f1 = span_metrics(true_spans, pred_spans, entity_types)
 
     df_report.loc["span_precision", "precision"] = span_precision
     df_report.loc["span_recall", "recall"] = span_recall
@@ -356,20 +410,20 @@ def resolved_tokens_to_spans(resolved_tokens):
             for token in tokens
         ]
 
-        print(f"\nMärchen-ID: {fairytale_id}")
-        print("Anzahl Tokens:", len(tokens))
-        print(
-            "Vorhergesagte Labels:",
-            Counter(ID2LABEL[label_id] for label_id in predicted_ids),
-        )
+        #print(f"\nMärchen-ID: {fairytale_id}")
+        #print("Anzahl Tokens:", len(tokens))
+        #print(
+        #    "Vorhergesagte Labels:",
+        #    Counter(ID2LABEL[label_id] for label_id in predicted_ids),
+        #)
 
         chunk_spans = transformer_bio_predictions_to_spans(
             predicted_ids=predicted_ids,
             offset_mapping=offsets,
         )
 
-        print("Anzahl rekonstruierter Spans:", len(chunk_spans))
-        print("Beispiel-Spans:", chunk_spans[:5])
+        #print("Anzahl rekonstruierter Spans:", len(chunk_spans))
+        #print("Beispiel-Spans:", chunk_spans[:5])
 
         predicted_spans_by_fairytale[fairytale_id].update(chunk_spans)
 
@@ -523,7 +577,7 @@ def calculate_test_metrics(all_true_spans, all_pred_spans, all_true_labels, all_
     :param all_pred_labels: token-level
     :return:
     """
-    span_precision, span_recall, span_f1 = span_metrics(all_true_spans, all_pred_spans,)
+    span_precision, span_recall, span_f1 = span_metrics(all_true_spans, all_pred_spans, ENTITY_TYPES)
 
     # Exclude O from token-level classification report
     entity_label_ids = [
@@ -558,31 +612,54 @@ def calculate_test_metrics(all_true_spans, all_pred_spans, all_true_labels, all_
 
     return metrics
 
+# compute metrics to validate on best span_f1 on training
+def make_compute_metrics(val_dataset, val_fairytales):
 
-def compute_metrics(val_fairytales, eval_pred):
-    logits, label_ids = eval_pred
-    predicted_ids = np.argmax(logits, axis=-1)
+    def compute_metrics(eval_pred):
+        logits = eval_pred.predictions
+        label_ids = eval_pred.label_ids
 
-    # Verarbeitung wie bei der Span-Auswertung:
-    # 1. Token-Vorhersagen sammeln
-    token_observations = collect_token_labels(val_fairytales, predicted_ids, predictions)
-    # 2. Overlaps auflösen
-    resolved_tokens =  resolve_overlap_predictions(token_observations)
-    # 3. Spans rekonstruieren
-    predicted_spans_by_fairytale = resolved_tokens_to_spans(resolved_tokens)
-    # 4. True und predicted spans vergleichen
-    all_true_spans, all_pred_spans = prepare_test_spans(val_fairytales, predicted_spans_by_fairytale)
+        if isinstance(logits, tuple):
+            logits = logits[0]
 
-    span_precision, span_recall, span_f1 = span_metrics(
-        all_true_spans,
-        all_pred_spans,
-    )
+        predicted_ids = np.argmax(logits, axis=-1)
 
-    return {
-        "span_precision": span_precision,
-        "span_recall": span_recall,
-        "span_f1": span_f1,
-    }
+        # 1. Token-Vorhersagen sammeln
+        token_observations = collect_token_labels(
+            val_dataset,
+            predicted_ids,
+            eval_pred,
+        )
+
+        # 2. Overlaps auflösen
+        resolved_tokens = resolve_overlap_predictions(
+            token_observations
+        )
+
+        # 3. Spans rekonstruieren
+        predicted_spans_by_fairytale = resolved_tokens_to_spans(
+            resolved_tokens
+        )
+
+        # 4. Gold- und vorhergesagte Spans vergleichen
+        all_true_spans, all_pred_spans = prepare_test_spans(
+            val_fairytales,
+            predicted_spans_by_fairytale,
+        )
+
+        span_precision, span_recall, span_f1 = span_metrics(
+            all_true_spans,
+            all_pred_spans,
+            ENTITY_TYPES,
+        )
+
+        return {
+            "span_precision": span_precision,
+            "span_recall": span_recall,
+            "span_f1": span_f1,
+        }
+
+    return compute_metrics
 
 
 def save_transformer_train_results(training_args, trainer, results_dir, current_date):
@@ -640,15 +717,6 @@ def save_transformer_predictions_json(
     # Tokens nach Märchen gruppieren.
     tokens_by_fairytale = defaultdict(list)
 
-    print(
-        "Span-IDs:",
-        list(predicted_spans_by_fairytale.keys())[:10],
-    )
-
-    print(
-        "Märchen-IDs:",
-        [(ft.id, ft.khm) for ft in test_fairytales[:10]],
-    )
 
     for (fairytale_id, start, end), observation in resolved_tokens.items():
         tokens_by_fairytale[fairytale_id].append({
