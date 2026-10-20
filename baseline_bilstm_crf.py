@@ -170,7 +170,13 @@ def train_model(model, optimizer, train_data, val_data, hyperparameters, device)
         # val_f1 for training metric
         val_precision, val_recall, val_f1, _ = precision_recall_fscore_support(true_tags, predictions, average='macro', zero_division=0)
         # val_span_f1 for early stopping
-        span_precision, span_recall, val_span_f1 = span_metrics(true_spans, pred_spans)
+        # exclude O-Label for span_metrics
+        entity_types = sorted({
+            label[2:]
+            for label in ID2LABEL.values()
+            if label.startswith(("B-", "I-"))
+        })
+        span_precision, span_recall, val_span_f1 = span_metrics(true_spans, pred_spans, entity_types)
 
         end_train_time = time.time()
         epoch_train_time = end_train_time - start_train_time
@@ -287,7 +293,10 @@ if __name__ == "__main__":
 
     fuzzy_bilstm, history = train_model(model=model, optimizer=optimizer, train_data=train_dataloader, val_data=val_dataloader, hyperparameters=hyperparameters, device=device)
     true_tags, predictions, true_spans, pred_spans, prediction_documents = test_model(model=fuzzy_bilstm, test_data=test_dataloader)
-    span_precision, span_recall, span_f1 = span_metrics(true_spans, pred_spans)
+    # exclude O-Label for span metrics
+    entity_types = sorted({label[2:]for label in ID2LABEL.values() if label.startswith(("B-", "I-"))})
+    span_precision, span_recall, span_f1 = span_metrics(true_spans, pred_spans, entity_types)
+
     save_test_report(true_tags, predictions, true_spans, pred_spans, hyperparameters)
     save_bilstm_predictions_by_khm(prediction_documents)
 

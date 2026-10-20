@@ -32,3 +32,10 @@ LABEL_MAP = {
     "FUZZY_LOC": "VAGUE_LOC",
     "METAPHORIC_LOC": "CONCEPTUAL_LOC",
 }
+
+# for eval without O-Label
+ENTITY_TYPES = sorted({
+    label.split("-", 1)[1]
+    for label in LABEL2ID
+    if label.startswith(("B-", "I-"))
+})
