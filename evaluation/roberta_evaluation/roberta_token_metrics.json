@@ -1,0 +1,35 @@
+{
+  "model": "RoBERTa FacebookAI/xlm-roberta-large-finetuned-conll03-german",
+  "token_metrics": {
+    "B-FUZZY_LOC": {
+      "precision": 0.87,
+      "recall": 0.8733,
+      "f1-score": 0.8716
+    },
+    "B-METAPHORIC_LOC": {
+      "precision": 0.6456,
+      "recall": 0.7083,
+      "f1-score": 0.6755
+    },
+    "I-FUZZY_LOC": {
+      "precision": 0.8784,
+      "recall": 0.8931,
+      "f1-score": 0.8857
+    },
+    "I-METAPHORIC_LOC": {
+      "precision": 0.6442,
+      "recall": 0.6688,
+      "f1-score": 0.6562
+    },
+    "macro avg": {
+      "precision": 0.7595,
+      "recall": 0.7859,
+      "f1-score": 0.7723
+    },
+    "micro avg": {
+      "precision": 0.8516,
+      "recall": 0.8668,
+      "f1-score": 0.8592
+    }
+  }
+}

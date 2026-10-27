@@ -4,11 +4,10 @@ import numpy as np
 import pandas as pd
 from datetime import datetime
 from pathlib import Path
-from collections import Counter
 import os
 import json
 
-from sklearn.metrics import classification_report, precision_recall_fscore_support
+from sklearn.metrics import classification_report
 from constants import LABEL2ID, ID2LABEL, LABEL_MAP, ENTITY_TYPES
 from collections import defaultdict
 

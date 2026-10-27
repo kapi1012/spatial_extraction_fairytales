@@ -1,0 +1,6 @@
+{
+  "model": "RoBERTa FacebookAI/xlm-roberta-large-finetuned-conll03-german",
+  "span_precision": 0.7301,
+  "span_recall": 0.7889,
+  "span_f1": 0.7575
+}

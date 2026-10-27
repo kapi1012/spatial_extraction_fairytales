@@ -1,0 +1,14 @@
+[
+  {
+    "model": "Bi-LSTM Redewiedergabe Embedding",
+    "span_precision": 0.7226,
+    "span_recall": 0.653,
+    "span_f1": 0.686
+  },
+  {
+    "model": "Bi-LSTM Hamburger Anzeiger Embedding",
+    "span_precision": 0.7268,
+    "span_recall": 0.7357,
+    "span_f1": 0.7302
+  }
+]
