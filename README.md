@@ -1,6 +1,17 @@
 # Spatial information extraction from German folk tales
 Computer Science Masterthesis 2026: "Extraction of vague spatial information from German folk tales" at HKA.
 
+## Abstract
+In the field of location extraction, descriptions of locations still pose a challenge, particularly longer sequences that do not include proper nouns. Descriptions of locations in folk tales, which refer almost exclusively to non-real locations, serve as an example of this. 
+
+Drawing on concepts of space and place from literary studies, two terms for vague location expressions are defined: Vague Spatial Expression and Conceptual Spatial Expression. Using the two resulting labels, Vague Location and Conceptual Location, 190 texts from the Brothers Grimm’s Children’s and Household Tales are annotated. 
+
+To extract vague location expressions using sequence tagging, this study compares three methods: two BiLSTM-CRF models, a fine-tuned RoBERTa Transformer, and four large language models using in-context learning. The RoBERTa model achieved the best results at the span and token levels, while the in-context learning models lagged behind the baseline defined by the BiLSTM. 
+
+An analysis of the metrics achieved at the token level and an examination of typical annotation errors lead to the conclusion that the size of the dataset is generally sufficient for model training and fine-tuning; however, the low frequency of the Conceptual Location label in absolute terms has a negative impact on the metrics.
+
+Future work could focus on expanding the fairy tale dataset or testing additional machine learning methods, particularly through extensions of in-context learning. Furthermore, the annotated dataset can be used from a literary studies perspective to analyze the occurrence of location expressions in fairy tales.
+
 # Project structure
 
 - Final dataset: in `data` 
