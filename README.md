@@ -1,6 +1,16 @@
 # Spatial information extraction from German folk tales
 Computer Science Masterthesis 2026: "Extraction of vague spatial information from German folk tales" at HKA.
 
+# Project structure
+
+- Final dataset: in `data` 
+- Prepare txt for Label Studio: `data-preparations`
+- Prepare dataset for modeltraining: `dataset_preprocessing`
+- BiLSTM-CRF, RoBERTa and local LLMs: `models`
+- Inter Annotator Agreement (Krippendorffs Alpha and Data): `inter_annotator_agreement`
+- Evaluation, model predictions as json and error analysis: `evaluation`
+- use `label-studio-data` for data upload for local Label Studio use
+
 # Project setup
 This project uses uv as virtual environment manager and Python 3.13.
 
@@ -63,11 +73,19 @@ To use local data in Label Studio, create a directory named `data` or `label-stu
 ### Labeling Interface
 
 ```
-<View>  
+<View>
+  
+  <Header value="$title"/>
+  
+  <Text name="meta" value="KHM: $khm"/>
+  
   <Labels name="label" toName="text">
-    <Label value="FUZZY_LOC" background="#FFA39E"/>
+    <Label value="VAGUE_LOC" background="RED"/>
+    <Label value="CONCEPTUAL_LOC" background="BLUE"/>
   </Labels>
+  
   <Text name="text" value="$text"/>
+
 </View>
 ```
 
@@ -78,13 +96,6 @@ To use local data in Label Studio, create a directory named `data` or `label-stu
   - 4 GB RAM
   - 40 GB
   - 4,75 € / month
-- Login to the server via SSH:
-
-``ssh root@62.238.6.54``
-
-``cd label-studio``
-
-``docker compose up -d``
 
 - using subdomain ``https://ortsreferenzen-annotation.lektorat-kasper.de/``
 
@@ -105,7 +116,7 @@ To use local data in Label Studio, create a directory named `data` or `label-stu
 - ``ollama run <model name>``
 - type ``/bye`` to leave
 - use curl for requests on local server: https://docs.ollama.com/quickstart#ollama-api-2
-- 
+
 
 - check installed models:
 - ``ollama list``
