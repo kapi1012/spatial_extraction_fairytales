@@ -1,0 +1,9 @@
+{
+  "span_precision": 0.434,
+  "span_recall": 0.283,
+  "span_f1": 0.343,
+  "model": "gemma3:12b",
+  "khm_without_preds": [],
+  "annotation_time_min": 3.443,
+  "number_sentences_chunks": 3
+}

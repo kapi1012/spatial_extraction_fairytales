@@ -1,0 +1,4 @@
+﻿model,n_true_spans,n_predicted_spans,correct_spans,missed_spans,extra_spans,wrong_label_spans,missed_fuzzy,missed_metaphoric,metaphoric_as_fuzzy,fuzzy_as_metaphoric,extra_metaphoric,extra_fuzzy
+bilstm_hamburger_anzeiger,593,631,486,80,118,27,67,13,14,13,9,109
+bilstm_redewiedergabe,593,532,431,131,70,31,113,18,14,17,9,61
+roberta,593,615,504,62,84,27,52,10,11,16,17,67

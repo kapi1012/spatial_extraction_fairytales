@@ -1,0 +1,9 @@
+{
+  "span_precision": 0.352,
+  "span_recall": 0.347,
+  "span_f1": 0.35,
+  "model": "mistral-small3.2:24b",
+  "khm_without_preds": [],
+  "annotation_time_min": 25.351,
+  "number_sentences_chunks": 3
+}

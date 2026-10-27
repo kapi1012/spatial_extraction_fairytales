@@ -1,0 +1,631 @@
+﻿khm,model,error_type,true_label,predicted_label,text_true,text_predicted,start,end
+4,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,aufs Gesicht,,26,28
+4,bilstm_hamburger_anzeiger,missed,METAPHORIC_LOC,O,aus den Augen,,17,20
+4,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,beim Feuer,,4,6
+4,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,vor seinen Augen,,19,22
+4,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,den Schornstein,,33,35
+4,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,auf seinem Platz,,24,27
+4,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,ans Gesicht,,3,5
+4,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,zu beiden Seiten,,21,24
+4,bilstm_hamburger_anzeiger,missed,METAPHORIC_LOC,O,ein Berg,,12,14
+4,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,der Baum,,45,47
+4,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,den Galgen,,29,31
+4,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,dem Schallloch gegenüber,,12,15
+4,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,zu dem andern Amboß,,12,16
+4,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,in der Ecke,7,10
+4,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,in die Drehbank,8,11
+4,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,zum Wirth,2,4
+4,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,das Schloß,7,9
+4,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,in den Bart,4,7
+4,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,den Weg,14,16
+4,bilstm_redewiedergabe,missed,METAPHORIC_LOC,O,aus den Augen,,17,20
+4,bilstm_redewiedergabe,missed,FUZZY_LOC,O,einen schaurigen Ort,,40,43
+4,bilstm_redewiedergabe,missed,FUZZY_LOC,O,vor seinen Augen,,19,22
+4,bilstm_redewiedergabe,missed,FUZZY_LOC,O,beim Feuer,,4,6
+4,bilstm_redewiedergabe,missed,FUZZY_LOC,O,ans Gesicht,,3,5
+4,bilstm_redewiedergabe,missed,METAPHORIC_LOC,O,ein Berg,,12,14
+4,bilstm_redewiedergabe,missed,FUZZY_LOC,O,aus allen Ecken,,20,23
+4,bilstm_redewiedergabe,missed,FUZZY_LOC,O,zu dem Galgen,,4,7
+4,bilstm_redewiedergabe,missed,FUZZY_LOC,O,der Baum,,45,47
+4,bilstm_redewiedergabe,missed,FUZZY_LOC,O,den Galgen,,29,31
+4,bilstm_redewiedergabe,missed,FUZZY_LOC,O,dem Schallloch gegenüber,,12,15
+4,bilstm_redewiedergabe,missed,FUZZY_LOC,O,zu dem andern Amboß,,12,16
+4,bilstm_redewiedergabe,missed,FUZZY_LOC,O,aus einer Ecke,,19,22
+4,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,das Bett,2,4
+4,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,in der Ecke,7,10
+4,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,in die Drehbank,8,11
+4,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,das Schloß,7,9
+4,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,die Leiter,8,10
+4,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,den Weg,14,16
+4,roberta,missed,FUZZY_LOC,O,zu beiden Seiten,,10577,10593
+4,roberta,missed,FUZZY_LOC,O,aufs Gesicht,,15754,15766
+4,roberta,missed,FUZZY_LOC,O,ans Gesicht,,15607,15618
+4,roberta,missed,FUZZY_LOC,O,zu dem andern Amboß,,17362,17381
+4,roberta,missed,METAPHORIC_LOC,O,ein Berg,,12391,12399
+4,roberta,missed,FUZZY_LOC,O,vor seinen Augen,,14758,14774
+4,roberta,missed,METAPHORIC_LOC,O,aus den Augen,,4818,4831
+4,roberta,missed,FUZZY_LOC,O,dem Schallloch gegenüber,,3769,3793
+4,roberta,missed,FUZZY_LOC,O,einen schaurigen Ort,,460,480
+4,roberta,extra,O,FUZZY_LOC,,Enden,11306,11311
+4,roberta,extra,O,FUZZY_LOC,,das Schloß,18541,18551
+4,roberta,extra,O,FUZZY_LOC,,einen,460,465
+4,roberta,extra,O,FUZZY_LOC,,in der Ecke,11982,11993
+4,roberta,extra,O,FUZZY_LOC,,in die Drehbank,14553,14568
+4,roberta,extra,O,FUZZY_LOC,,den Weg,18178,18185
+4,roberta,extra,O,FUZZY_LOC,,schaurigen Ort,466,480
+5,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,in seinem Bauch,,18,21
+5,bilstm_hamburger_anzeiger,missed,METAPHORIC_LOC,O,im Schlafe,,25,27
+5,bilstm_hamburger_anzeiger,missed,METAPHORIC_LOC,O,zum Müller,,13,15
+5,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,im Magen,,20,22
+5,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,in dem Uhrkasten,,25,28
+5,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,um den Brunnen,,7,10
+5,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,im Uhrkasten,,19,21
+5,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,den Bauch,,17,19
+5,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,auf meine Pfote,,22,25
+5,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,in seinen Rachen,,18,21
+5,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,aus dem Bett,24,27
+5,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,in ihrem Jammer,4,7
+5,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,vor dem Wolf,35,38
+5,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,in der Gier,58,61
+5,bilstm_hamburger_anzeiger,wrong_label,FUZZY_LOC,METAPHORIC_LOC,nach Haus,nach Haus,4,6
+5,bilstm_hamburger_anzeiger,wrong_label,METAPHORIC_LOC,FUZZY_LOC,zu einem Bäcker,zu einem Bäcker,4,7
+5,bilstm_hamburger_anzeiger,wrong_label,METAPHORIC_LOC,FUZZY_LOC,zu einem Krämer,zu einem Krämer,5,8
+5,bilstm_redewiedergabe,missed,FUZZY_LOC,O,in seinem Bauch,,18,21
+5,bilstm_redewiedergabe,missed,METAPHORIC_LOC,O,im Schlafe,,25,27
+5,bilstm_redewiedergabe,missed,METAPHORIC_LOC,O,zum Müller,,13,15
+5,bilstm_redewiedergabe,missed,FUZZY_LOC,O,im Magen,,20,22
+5,bilstm_redewiedergabe,missed,FUZZY_LOC,O,in dem Uhrkasten,,25,28
+5,bilstm_redewiedergabe,missed,METAPHORIC_LOC,O,zu einem Bäcker,,4,7
+5,bilstm_redewiedergabe,missed,FUZZY_LOC,O,in seinen Rachen,,18,21
+5,bilstm_redewiedergabe,missed,FUZZY_LOC,O,in seinem angefüllten Bauch,,10,14
+5,bilstm_redewiedergabe,missed,FUZZY_LOC,O,um den Brunnen,,7,10
+5,bilstm_redewiedergabe,missed,FUZZY_LOC,O,in den Bauch,,15,18
+5,bilstm_redewiedergabe,missed,FUZZY_LOC,O,den Bauch,,17,19
+5,bilstm_redewiedergabe,missed,FUZZY_LOC,O,auf meine Pfote,,22,25
+5,bilstm_redewiedergabe,missed,METAPHORIC_LOC,O,zu einem Krämer,,5,8
+5,bilstm_redewiedergabe,wrong_label,FUZZY_LOC,METAPHORIC_LOC,nach Haus,nach Haus,4,6
+5,roberta,missed,FUZZY_LOC,O,in seinem Bauch,,5248,5263
+5,roberta,missed,FUZZY_LOC,O,auf meine Pfote,,1711,1726
+5,roberta,missed,FUZZY_LOC,O,in seinen Rachen,,2795,2811
+5,roberta,missed,METAPHORIC_LOC,O,zu einem Bäcker,,1514,1529
+5,roberta,missed,FUZZY_LOC,O,in seinem angefüllten Bauch,,3884,3911
+5,roberta,missed,FUZZY_LOC,O,den Bauch,,4678,4687
+5,roberta,missed,METAPHORIC_LOC,O,zum Müller,,1666,1676
+5,roberta,extra,O,FUZZY_LOC,,aus dem Bett,3243,3255
+5,roberta,extra,O,FUZZY_LOC,,Bäcker,1523,1529
+5,roberta,wrong_label,METAPHORIC_LOC,FUZZY_LOC,zu einem Krämer,zu einem Krämer,1061,1076
+5,roberta,wrong_label,FUZZY_LOC,METAPHORIC_LOC,nach Haus,nach Haus,4082,4091
+12,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,auf dein Pferd,,32,35
+12,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,den Thurm,,14,16
+12,bilstm_hamburger_anzeiger,missed,METAPHORIC_LOC,O,um den Hals,,30,33
+12,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,die Mauer,,13,15
+12,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,nach einer Thüre des Thurms,9,14
+12,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,ein kleines Fenster,6,9
+12,bilstm_hamburger_anzeiger,extra,O,METAPHORIC_LOC,,von aller Welt,55,58
+12,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,von einer hohen Mauer,31,35
+12,bilstm_hamburger_anzeiger,extra,O,METAPHORIC_LOC,,in der Abenddämmerung,4,7
+12,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,In der Abenddämmerung,0,3
+12,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,ein Beet,18,20
+12,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,in ihrer Einsamkeit,5,8
+12,bilstm_hamburger_anzeiger,wrong_label,METAPHORIC_LOC,FUZZY_LOC,in sein Reich,in sein Reich,3,6
+12,bilstm_redewiedergabe,missed,FUZZY_LOC,O,am Fensterhaken,,19,21
+12,bilstm_redewiedergabe,missed,METAPHORIC_LOC,O,um den Hals,,30,33
+12,bilstm_redewiedergabe,missed,FUZZY_LOC,O,auf dein Pferd,,32,35
+12,bilstm_redewiedergabe,missed,METAPHORIC_LOC,O,zur Welt,,50,52
+12,bilstm_redewiedergabe,extra,O,METAPHORIC_LOC,,von aller Welt,55,58
+12,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,nach einer Thüre des Thurms,9,14
+12,bilstm_redewiedergabe,wrong_label,METAPHORIC_LOC,FUZZY_LOC,in sein Reich,in sein Reich,3,6
+12,roberta,missed,FUZZY_LOC,O,um einen Fensterhaken,,3200,3221
+12,roberta,missed,METAPHORIC_LOC,O,um den Hals,,7396,7407
+12,roberta,missed,FUZZY_LOC,O,auf dein Pferd,,5215,5229
+12,roberta,extra,O,FUZZY_LOC,,ein kleines Fensterchen,2890,2913
+12,roberta,extra,O,FUZZY_LOC,,ein kleines Fenster,209,228
+12,roberta,extra,O,FUZZY_LOC,,dein Pferd,5219,5229
+12,roberta,extra,O,METAPHORIC_LOC,,von aller Welt,467,481
+12,roberta,wrong_label,METAPHORIC_LOC,FUZZY_LOC,in sein Reich,in sein Reich,7549,7562
+21,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,ist im Schuck,,26,29
+21,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,in die Messe,,10,13
+21,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,zu der Stiefmutter,,6,9
+21,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,im Schuck,,32,34
+21,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,auf die Schultern,,18,21
+21,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,an dem Haselbäumchen,,2,5
+21,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,auf dem Haselbäumchen,,33,36
+21,bilstm_hamburger_anzeiger,missed,METAPHORIC_LOC,O,auf dem Rückweg,,15,18
+21,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,an dem Haselbäumchen,,2,5
+21,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,zur linken Seite,,16,19
+21,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,im Schuck,,26,28
+21,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,auf ihren Fuß,4,7
+21,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,in die Schüsseln,38,41
+21,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,auf ihren Fuß,4,7
+21,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,ins Kröpfchen,53,55
+21,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,in kein Bett,11,14
+21,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,aus der Asche,18,21
+21,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,ins Töpfchen,35,37
+21,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,aufs Pferd,7,9
+21,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,im Schornstein,22,24
+21,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,an den Hut,11,14
+21,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,ein schöner großer Baum,2,6
+21,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,in die Schüssel,38,41
+21,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,ins Kröpfchen,41,43
+21,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,ins Töpfchen,47,49
+21,bilstm_hamburger_anzeiger,wrong_label,METAPHORIC_LOC,FUZZY_LOC,unter dem Himmel,unter dem Himmel,21,24
+21,bilstm_hamburger_anzeiger,wrong_label,METAPHORIC_LOC,FUZZY_LOC,unter dem Himmel,unter dem Himmel,22,25
+21,bilstm_hamburger_anzeiger,wrong_label,METAPHORIC_LOC,FUZZY_LOC,unter dem Himmel,unter dem Himmel,22,25
+21,bilstm_hamburger_anzeiger,wrong_label,FUZZY_LOC,METAPHORIC_LOC,auf eurem Heimweg,auf eurem Heimweg,8,11
+21,bilstm_hamburger_anzeiger,wrong_label,FUZZY_LOC,METAPHORIC_LOC,vom Himmel,vom Himmel,51,53
+21,bilstm_hamburger_anzeiger,wrong_label,METAPHORIC_LOC,FUZZY_LOC,unter dem Himmel,unter dem Himmel,34,37
+21,bilstm_redewiedergabe,missed,FUZZY_LOC,O,ist im Schuck,,26,29
+21,bilstm_redewiedergabe,missed,FUZZY_LOC,O,in den Schuh,,12,15
+21,bilstm_redewiedergabe,missed,FUZZY_LOC,O,auf dem Haselbäumchen,,33,36
+21,bilstm_redewiedergabe,missed,FUZZY_LOC,O,in den Schuh,,10,13
+21,bilstm_redewiedergabe,missed,FUZZY_LOC,O,auf die Schultern,,18,21
+21,bilstm_redewiedergabe,missed,FUZZY_LOC,O,zu dem Haselbäumchen,,38,41
+21,bilstm_redewiedergabe,missed,METAPHORIC_LOC,O,auf dem Rückweg,,15,18
+21,bilstm_redewiedergabe,missed,FUZZY_LOC,O,um die Asche,,30,33
+21,bilstm_redewiedergabe,missed,FUZZY_LOC,O,in die Messe,,10,13
+21,bilstm_redewiedergabe,missed,FUZZY_LOC,O,zu der Stiefmutter,,6,9
+21,bilstm_redewiedergabe,missed,FUZZY_LOC,O,im Schuck,,32,34
+21,bilstm_redewiedergabe,missed,FUZZY_LOC,O,auf den Birnbaum,,24,27
+21,bilstm_redewiedergabe,missed,FUZZY_LOC,O,in den Pantoffel,,18,21
+21,bilstm_redewiedergabe,missed,FUZZY_LOC,O,in den Schuh,,13,16
+21,bilstm_redewiedergabe,missed,FUZZY_LOC,O,aus dem Schuh,,13,16
+21,bilstm_redewiedergabe,missed,FUZZY_LOC,O,auf das Grab,,11,14
+21,bilstm_redewiedergabe,missed,FUZZY_LOC,O,im Schuck,,26,28
+21,bilstm_redewiedergabe,missed,FUZZY_LOC,O,um die Asche,,29,32
+21,bilstm_redewiedergabe,missed,FUZZY_LOC,O,in die Asche,,19,22
+21,bilstm_redewiedergabe,missed,FUZZY_LOC,O,zu seiner Mutter Grab,,10,14
+21,bilstm_redewiedergabe,missed,FUZZY_LOC,O,an dem Grabe,,3,6
+21,bilstm_redewiedergabe,missed,FUZZY_LOC,O,vom Baum,,26,28
+21,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,den Baum,17,19
+21,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,ins Töpfchen,35,37
+21,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,im Schornstein,22,24
+21,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,ins Gesicht,12,14
+21,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,ein schöner großer Baum,2,6
+21,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,ins Töpfchen,47,49
+21,bilstm_redewiedergabe,wrong_label,METAPHORIC_LOC,FUZZY_LOC,unter dem Himmel,unter dem Himmel,21,24
+21,bilstm_redewiedergabe,wrong_label,METAPHORIC_LOC,FUZZY_LOC,unter dem Himmel,unter dem Himmel,22,25
+21,bilstm_redewiedergabe,wrong_label,METAPHORIC_LOC,FUZZY_LOC,unter dem Himmel,unter dem Himmel,22,25
+21,bilstm_redewiedergabe,wrong_label,FUZZY_LOC,METAPHORIC_LOC,auf eurem Heimweg,auf eurem Heimweg,8,11
+21,bilstm_redewiedergabe,wrong_label,FUZZY_LOC,METAPHORIC_LOC,vom Himmel,vom Himmel,51,53
+21,bilstm_redewiedergabe,wrong_label,METAPHORIC_LOC,FUZZY_LOC,unter dem Himmel,unter dem Himmel,34,37
+21,bilstm_redewiedergabe,wrong_label,METAPHORIC_LOC,FUZZY_LOC,im Lande,im Lande,24,26
+21,roberta,missed,FUZZY_LOC,O,ist im Schuck,,11959,11972
+21,roberta,missed,FUZZY_LOC,O,zu der Stiefmutter,,5635,5653
+21,roberta,missed,FUZZY_LOC,O,im Schuck,,11094,11103
+21,roberta,missed,FUZZY_LOC,O,zu seiner Mutter Grab,,6009,6030
+21,roberta,missed,FUZZY_LOC,O,vom Baum,,9106,9114
+21,roberta,missed,FUZZY_LOC,O,um die Asche,,4139,4151
+21,roberta,missed,FUZZY_LOC,O,zur linken Seite,,13892,13908
+21,roberta,missed,FUZZY_LOC,O,im Schuck,,13397,13406
+21,roberta,missed,FUZZY_LOC,O,in die Messe,,1709,1721
+21,roberta,missed,FUZZY_LOC,O,in die Asche,,3623,3635
+21,roberta,extra,O,FUZZY_LOC,,dem Haselbusch,2384,2398
+21,roberta,extra,O,FUZZY_LOC,,aufs Pferd,11801,11811
+21,roberta,extra,O,FUZZY_LOC,,s,10920,10921
+21,roberta,extra,O,FUZZY_LOC,,im Schmutz,6532,6542
+21,roberta,extra,O,FUZZY_LOC,,auf der andern Seite vom Baum,9085,9114
+21,roberta,extra,O,FUZZY_LOC,,zum Königssohn,10870,10884
+21,roberta,extra,O,FUZZY_LOC,,auf ihren Fuß,12059,12072
+21,roberta,extra,O,FUZZY_LOC,,im Schornstein,7448,7462
+21,roberta,extra,O,FUZZY_LOC,,aus der Asche,4740,4753
+21,roberta,wrong_label,FUZZY_LOC,METAPHORIC_LOC,auf eurem Heimweg,auf eurem Heimweg,1967,1984
+21,roberta,wrong_label,FUZZY_LOC,METAPHORIC_LOC,vom Himmel,vom Himmel,245,255
+21,roberta,wrong_label,METAPHORIC_LOC,FUZZY_LOC,unter dem Himmel,unter dem Himmel,4098,4114
+21,roberta,wrong_label,METAPHORIC_LOC,FUZZY_LOC,unter dem Himmel,unter dem Himmel,5025,5041
+21,roberta,wrong_label,METAPHORIC_LOC,FUZZY_LOC,unter dem Himmel,unter dem Himmel,3854,3870
+21,roberta,wrong_label,METAPHORIC_LOC,FUZZY_LOC,unter dem Himmel,unter dem Himmel,5268,5284
+33,bilstm_hamburger_anzeiger,missed,METAPHORIC_LOC,O,dem Lande,,33,35
+33,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,auf seinen Schultern,,18,21
+33,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,auf der Stelle,10,13
+33,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,unter den Kardinälen,15,18
+33,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,In der Schweiz,0,3
+33,bilstm_hamburger_anzeiger,wrong_label,METAPHORIC_LOC,FUZZY_LOC,Auf dem Weg,Auf dem Weg,0,3
+33,bilstm_hamburger_anzeiger,wrong_label,METAPHORIC_LOC,FUZZY_LOC,Die ganze Gegend,Die ganze Gegend,0,3
+33,bilstm_redewiedergabe,missed,METAPHORIC_LOC,O,dem Lande,,33,35
+33,bilstm_redewiedergabe,missed,FUZZY_LOC,O,auf seinen Schultern,,18,21
+33,bilstm_redewiedergabe,missed,FUZZY_LOC,O,unten im Thurme,,11,14
+33,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,im Thurme,12,14
+33,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,In der Schweiz,0,3
+33,bilstm_redewiedergabe,wrong_label,METAPHORIC_LOC,FUZZY_LOC,das Land,das Land,18,20
+33,bilstm_redewiedergabe,wrong_label,METAPHORIC_LOC,FUZZY_LOC,Auf dem Weg,Auf dem Weg,0,3
+33,bilstm_redewiedergabe,wrong_label,METAPHORIC_LOC,FUZZY_LOC,Die ganze Gegend,Die ganze Gegend,0,3
+33,roberta,missed,METAPHORIC_LOC,O,Die ganze Gegend,,2333,2349
+33,roberta,missed,FUZZY_LOC,O,unten im Thurme,,3161,3176
+33,roberta,extra,O,METAPHORIC_LOC,,der Schweiz,3,14
+33,roberta,extra,O,FUZZY_LOC,,im Thurme,3167,3176
+33,roberta,wrong_label,METAPHORIC_LOC,FUZZY_LOC,Auf dem Weg,Auf dem Weg,3779,3790
+55,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,vor das Rädchen,,8,11
+55,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,um das Feuer,,58,61
+55,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,ein kleines Haus,,45,48
+55,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,an den Leib,36,39
+55,bilstm_hamburger_anzeiger,extra,O,METAPHORIC_LOC,,über Land,24,26
+55,bilstm_redewiedergabe,missed,FUZZY_LOC,O,um das Feuer,,58,61
+55,bilstm_redewiedergabe,missed,METAPHORIC_LOC,O,zur Welt,,9,11
+55,bilstm_redewiedergabe,extra,O,METAPHORIC_LOC,,über Land,24,26
+55,bilstm_redewiedergabe,wrong_label,METAPHORIC_LOC,FUZZY_LOC,in der Nachbarschaft,in der Nachbarschaft,5,8
+55,roberta,missed,METAPHORIC_LOC,O,in der Nachbarschaft,,4412,4432
+55,roberta,extra,O,METAPHORIC_LOC,,Königreich,3627,3637
+55,roberta,extra,O,METAPHORIC_LOC,,der Welt,3758,3766
+55,roberta,extra,O,METAPHORIC_LOC,,über Land,4108,4117
+73,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,Wege,,13,14
+73,bilstm_hamburger_anzeiger,wrong_label,FUZZY_LOC,METAPHORIC_LOC,seiner Wege,seiner Wege,13,15
+73,bilstm_redewiedergabe,missed,FUZZY_LOC,O,Wege,,13,14
+73,bilstm_redewiedergabe,wrong_label,FUZZY_LOC,METAPHORIC_LOC,seiner Wege,seiner Wege,13,15
+73,roberta,missed,FUZZY_LOC,O,zum Loch,,3521,3529
+73,roberta,missed,FUZZY_LOC,O,in einem Faß,,2556,2568
+73,roberta,extra,O,METAPHORIC_LOC,,Schliche,2750,2758
+73,roberta,wrong_label,FUZZY_LOC,METAPHORIC_LOC,Wege,Wege,2763,2767
+73,roberta,wrong_label,FUZZY_LOC,METAPHORIC_LOC,seiner Wege,seiner Wege,1663,1674
+76,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,der Thurm,,15,17
+76,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,zum Hals,,25,27
+76,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,von ihrem Schooß,,54,57
+76,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,in sein Vaterland,,15,18
+76,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,aus dem Hals,,35,38
+76,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,vom Schooß,,15,17
+76,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,an die königliche Tafel,,22,26
+76,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,in der Tasche,,11,14
+76,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,Gegend,,28,29
+76,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,um den Hals,10,13
+76,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,in einen Pudelhund,12,15
+76,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,in die Tasche,2,5
+76,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,um den Hals,22,25
+76,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,mit einem Garten,35,38
+76,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,vom Himmel,5,7
+76,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,auf einen Teller,28,31
+76,bilstm_hamburger_anzeiger,wrong_label,FUZZY_LOC,METAPHORIC_LOC,auf der ganzen Gränze,auf der ganzen Gränze,23,27
+76,bilstm_hamburger_anzeiger,wrong_label,FUZZY_LOC,METAPHORIC_LOC,in einem fremden Lande,in einem fremden Lande,17,21
+76,bilstm_hamburger_anzeiger,wrong_label,METAPHORIC_LOC,FUZZY_LOC,der Weg,der Weg,7,9
+76,bilstm_hamburger_anzeiger,wrong_label,FUZZY_LOC,METAPHORIC_LOC,in den tiefsten Kerker,in den tiefsten Kerker,15,19
+76,bilstm_redewiedergabe,missed,FUZZY_LOC,O,aus dem Hals,,43,46
+76,bilstm_redewiedergabe,missed,FUZZY_LOC,O,der Thurm,,15,17
+76,bilstm_redewiedergabe,missed,FUZZY_LOC,O,zum Hals,,25,27
+76,bilstm_redewiedergabe,missed,FUZZY_LOC,O,von ihrem Schooß,,54,57
+76,bilstm_redewiedergabe,missed,FUZZY_LOC,O,in sein Vaterland,,15,18
+76,bilstm_redewiedergabe,missed,FUZZY_LOC,O,aus dem Hals,,35,38
+76,bilstm_redewiedergabe,missed,FUZZY_LOC,O,vom Schooß,,15,17
+76,bilstm_redewiedergabe,missed,FUZZY_LOC,O,an die königliche Tafel,,22,26
+76,bilstm_redewiedergabe,missed,FUZZY_LOC,O,in der Tasche,,11,14
+76,bilstm_redewiedergabe,missed,FUZZY_LOC,O,in den Kreiß,,7,10
+76,bilstm_redewiedergabe,missed,FUZZY_LOC,O,Gegend,,28,29
+76,bilstm_redewiedergabe,extra,O,METAPHORIC_LOC,,vom Himmel,5,7
+76,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,auf einen Teller,28,31
+76,bilstm_redewiedergabe,wrong_label,METAPHORIC_LOC,FUZZY_LOC,der Weg,der Weg,7,9
+76,bilstm_redewiedergabe,wrong_label,FUZZY_LOC,METAPHORIC_LOC,vom Himmel,vom Himmel,4,6
+76,bilstm_redewiedergabe,wrong_label,FUZZY_LOC,METAPHORIC_LOC,im Himmel,im Himmel,12,14
+76,bilstm_redewiedergabe,wrong_label,FUZZY_LOC,METAPHORIC_LOC,vom Himmel,vom Himmel,38,40
+76,roberta,missed,FUZZY_LOC,O,aus dem Hals,,3944,3956
+76,roberta,missed,FUZZY_LOC,O,zum Hals,,3703,3711
+76,roberta,missed,FUZZY_LOC,O,in der Tasche,,9312,9325
+76,roberta,missed,FUZZY_LOC,O,aus dem Hals,,7575,7587
+76,roberta,missed,FUZZY_LOC,O,Gegend,,5346,5352
+76,roberta,missed,FUZZY_LOC,O,in den Thurm,,8677,8689
+76,roberta,extra,O,FUZZY_LOC,,auf einen Teller,3179,3195
+76,roberta,extra,O,FUZZY_LOC,,einem Garten,1884,1896
+76,roberta,extra,O,FUZZY_LOC,,in den Thur,8677,8688
+76,roberta,extra,O,METAPHORIC_LOC,,vom Himmel,1448,1458
+76,roberta,extra,O,FUZZY_LOC,,zu dem Knaben,1769,1782
+76,roberta,wrong_label,FUZZY_LOC,METAPHORIC_LOC,vom Himmel,vom Himmel,225,235
+76,roberta,wrong_label,FUZZY_LOC,METAPHORIC_LOC,vom Himmel,vom Himmel,9092,9102
+76,roberta,wrong_label,FUZZY_LOC,METAPHORIC_LOC,in mein Vaterland,in mein Vaterland,4128,4145
+76,roberta,wrong_label,FUZZY_LOC,METAPHORIC_LOC,vom Schooß,vom Schooß,4983,4993
+76,roberta,wrong_label,FUZZY_LOC,METAPHORIC_LOC,im Himmel,im Himmel,144,153
+76,roberta,wrong_label,FUZZY_LOC,METAPHORIC_LOC,auf der ganzen Gränze,auf der ganzen Gränze,5320,5341
+87,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,ein schönes neues Haus,,13,17
+87,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,durchs Fensterlein,,4,6
+87,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,meine Kammern,,49,51
+87,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,ein schönes neues Haus,,56,60
+87,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,sein Fenster,2,4
+87,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,eine Streu,35,37
+87,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,zur Hausthüre,25,27
+87,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,"ein neues , reinliches Haus",8,13
+87,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,auf dein Pferd,12,15
+87,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,zu den Füßen,8,11
+87,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,auf seinen Rücken,21,24
+87,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,zwei Häuser,7,9
+87,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,an meine Thüre,65,68
+87,bilstm_hamburger_anzeiger,extra,O,METAPHORIC_LOC,,der Welt,8,10
+87,bilstm_redewiedergabe,missed,FUZZY_LOC,O,auf dem Sattel,,14,17
+87,bilstm_redewiedergabe,missed,FUZZY_LOC,O,auf dem Sattel,,19,22
+87,bilstm_redewiedergabe,missed,FUZZY_LOC,O,ihr altes Haus,,8,11
+87,bilstm_redewiedergabe,missed,FUZZY_LOC,O,ein neues Haus,,9,12
+87,bilstm_redewiedergabe,missed,FUZZY_LOC,O,unserer alten Hütte,,53,56
+87,bilstm_redewiedergabe,missed,FUZZY_LOC,O,in ihr Bett,,32,35
+87,bilstm_redewiedergabe,missed,FUZZY_LOC,O,durchs Fensterlein,,4,6
+87,bilstm_redewiedergabe,missed,FUZZY_LOC,O,auf dem Sattel,,21,24
+87,bilstm_redewiedergabe,missed,FUZZY_LOC,O,eine alte Hütte,,19,22
+87,bilstm_redewiedergabe,missed,FUZZY_LOC,O,meine Kammern,,49,51
+87,bilstm_redewiedergabe,missed,FUZZY_LOC,O,ein schönes neues Haus,,56,60
+87,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,aus seinem Munde,5,8
+87,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,an meine Thüre,65,68
+87,bilstm_redewiedergabe,extra,O,METAPHORIC_LOC,,der Welt,13,15
+87,roberta,missed,FUZZY_LOC,O,auf dem Sattel,,8333,8347
+87,roberta,missed,FUZZY_LOC,O,auf dem Sattel,,8060,8074
+87,roberta,missed,FUZZY_LOC,O,auf dem Sattel,,7557,7571
+87,roberta,missed,FUZZY_LOC,O,an seine Thüre,,526,540
+87,roberta,extra,O,METAPHORIC_LOC,,ein Nachtlager,652,666
+87,roberta,extra,O,FUZZY_LOC,,von seinem Rücken,7714,7731
+87,roberta,extra,O,METAPHORIC_LOC,,alle Reiche,6749,6760
+87,roberta,extra,O,FUZZY_LOC,,in der Tasche,823,836
+87,roberta,extra,O,METAPHORIC_LOC,,unter den Menschen,59,77
+87,roberta,extra,O,FUZZY_LOC,,zwei Häuser,236,247
+87,roberta,extra,O,METAPHORIC_LOC,,der Welt,6773,6781
+87,roberta,extra,O,FUZZY_LOC,,"ein neues, reinliches Haus",3696,3722
+88,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,auf seinen Rücken,,24,27
+88,bilstm_hamburger_anzeiger,missed,METAPHORIC_LOC,O,lange lange Wege,,4,7
+88,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,ein großer Nußbaum,,2,5
+88,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,einen kleinen Ritz,13,16
+88,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,zum rothen Meer,25,28
+88,bilstm_hamburger_anzeiger,extra,O,METAPHORIC_LOC,,über alle Spitzen,30,33
+88,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,auf den Vogel,27,30
+88,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,an den Bäumen,22,25
+88,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,zum rothen Meer,14,17
+88,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,in alle Ritzen,26,29
+88,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,ins Meer,74,76
+88,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,am rothen Meer,14,17
+88,bilstm_hamburger_anzeiger,extra,O,METAPHORIC_LOC,,nach Haus,28,30
+88,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,ans Bett,4,6
+88,bilstm_hamburger_anzeiger,wrong_label,FUZZY_LOC,METAPHORIC_LOC,den Weg,den Weg,34,36
+88,bilstm_hamburger_anzeiger,wrong_label,FUZZY_LOC,METAPHORIC_LOC,zu Bett,zu Bett,4,6
+88,bilstm_redewiedergabe,missed,FUZZY_LOC,O,unter allen Blättern,,32,35
+88,bilstm_redewiedergabe,missed,FUZZY_LOC,O,auf seinen Rücken,,24,27
+88,bilstm_redewiedergabe,missed,FUZZY_LOC,O,über alle Bäume,,28,31
+88,bilstm_redewiedergabe,missed,FUZZY_LOC,O,ein großer Nußbaum,,2,5
+88,bilstm_redewiedergabe,missed,FUZZY_LOC,O,zur Thür,,5,7
+88,bilstm_redewiedergabe,missed,FUZZY_LOC,O,unter die Flügel,,48,51
+88,bilstm_redewiedergabe,missed,METAPHORIC_LOC,O,lange lange Wege,,4,7
+88,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,zum rothen Meer,25,28
+88,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,auf den Vogel,27,30
+88,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,auf den Vogel,30,33
+88,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,zum rothen Meer,14,17
+88,bilstm_redewiedergabe,extra,O,METAPHORIC_LOC,,in alle Ritzen,26,29
+88,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,ins Meer,74,76
+88,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,am rothen Meer,14,17
+88,bilstm_redewiedergabe,extra,O,METAPHORIC_LOC,,nach Haus,28,30
+88,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,ans Bett,4,6
+88,bilstm_redewiedergabe,wrong_label,FUZZY_LOC,METAPHORIC_LOC,den Weg,den Weg,34,36
+88,bilstm_redewiedergabe,wrong_label,FUZZY_LOC,METAPHORIC_LOC,zu Bett,zu Bett,4,6
+88,bilstm_redewiedergabe,wrong_label,FUZZY_LOC,METAPHORIC_LOC,den Weg,den Weg,6,8
+88,roberta,missed,FUZZY_LOC,O,auf seinen Rücken,,7735,7752
+88,roberta,missed,FUZZY_LOC,O,ein großer Nußbaum,,12183,12201
+88,roberta,extra,O,FUZZY_LOC,,ans Bett,9871,9879
+88,roberta,extra,O,FUZZY_LOC,,an den Bäumen,1111,1124
+88,roberta,extra,O,FUZZY_LOC,,zum rothen Meer,7397,7412
+88,roberta,extra,O,FUZZY_LOC,,ein Baum,781,789
+88,roberta,extra,O,METAPHORIC_LOC,,nach Haus,1757,1766
+88,roberta,extra,O,FUZZY_LOC,,ins Meer,8146,8154
+88,roberta,extra,O,FUZZY_LOC,,am rothen Meer,7680,7694
+88,roberta,extra,O,METAPHORIC_LOC,,den vier Winden,9960,9975
+88,roberta,extra,O,FUZZY_LOC,,zum rothen Meer,7132,7147
+88,roberta,extra,O,FUZZY_LOC,,auf den Vogel,12057,12070
+88,roberta,wrong_label,FUZZY_LOC,METAPHORIC_LOC,den Weg,den Weg,5620,5627
+88,roberta,wrong_label,FUZZY_LOC,METAPHORIC_LOC,den Weg,den Weg,2953,2960
+88,roberta,wrong_label,FUZZY_LOC,METAPHORIC_LOC,den Weg,den Weg,5385,5392
+115,bilstm_hamburger_anzeiger,missed,METAPHORIC_LOC,O,auf der Wanderschaft,,10,13
+115,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,zu ihrer Gevatterin,,11,14
+115,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,an der Wand,,14,17
+115,bilstm_hamburger_anzeiger,missed,METAPHORIC_LOC,O,aus seinem Herzen,,24,27
+115,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,auf sein Handwerk,6,9
+115,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,in die Unterschale,25,28
+115,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,auf sein Handwerk,14,17
+115,bilstm_hamburger_anzeiger,wrong_label,FUZZY_LOC,METAPHORIC_LOC,auf dem Weg,auf dem Weg,5,8
+115,bilstm_redewiedergabe,missed,METAPHORIC_LOC,O,auf der Wanderschaft,,10,13
+115,bilstm_redewiedergabe,missed,FUZZY_LOC,O,zu ihrer Gevatterin,,11,14
+115,bilstm_redewiedergabe,missed,FUZZY_LOC,O,in die Tasche,,4,7
+115,bilstm_redewiedergabe,missed,METAPHORIC_LOC,O,aus seinem Herzen,,24,27
+115,bilstm_redewiedergabe,wrong_label,FUZZY_LOC,METAPHORIC_LOC,auf dem Weg,auf dem Weg,5,8
+115,roberta,missed,FUZZY_LOC,O,in die Tasche,,775,788
+115,roberta,missed,FUZZY_LOC,O,zu ihrer Gevatterin,,2520,2539
+115,roberta,missed,METAPHORIC_LOC,O,aus seinem Herzen,,287,304
+115,roberta,missed,METAPHORIC_LOC,O,auf der Wanderschaft,,2013,2033
+123,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,den Baum,19,21
+123,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,den Baum,17,19
+123,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,ein kleines Schloß,20,23
+123,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,ein schönes weiches Bettchen,6,10
+123,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,den großen Baum,14,17
+123,bilstm_hamburger_anzeiger,wrong_label,FUZZY_LOC,METAPHORIC_LOC,einen Weg,einen Weg,5,7
+123,bilstm_redewiedergabe,missed,FUZZY_LOC,O,auf die Thüre,,8,11
+123,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,den Baum,17,19
+123,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,im Schnabel,34,36
+123,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,ein kleines Schloß,20,23
+123,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,in Bäume,15,17
+123,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,den Baum,19,21
+123,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,ein schönes weiches Bettchen,6,10
+123,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,den großen Baum,14,17
+123,bilstm_redewiedergabe,wrong_label,FUZZY_LOC,METAPHORIC_LOC,einen Weg,einen Weg,5,7
+123,bilstm_redewiedergabe,wrong_label,FUZZY_LOC,METAPHORIC_LOC,in sein Reich,in sein Reich,4,7
+123,roberta,missed,FUZZY_LOC,O,in einen Baum,,4397,4410
+123,roberta,missed,FUZZY_LOC,O,auf die Thüre,,3095,3108
+123,roberta,extra,O,FUZZY_LOC,,den großen Baum,1036,1051
+123,roberta,extra,O,FUZZY_LOC,,ein kleines Schloß,1063,1081
+128,bilstm_redewiedergabe,missed,FUZZY_LOC,O,im Kessel,,32,34
+128,bilstm_redewiedergabe,missed,FUZZY_LOC,O,den Baum,,17,19
+128,bilstm_redewiedergabe,missed,FUZZY_LOC,O,überm Feuer,,34,36
+128,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,im Kessel überm Feuer,32,36
+128,roberta,missed,FUZZY_LOC,O,überm Feuer,,3184,3195
+128,roberta,missed,FUZZY_LOC,O,im Kessel,,3174,3183
+129,bilstm_hamburger_anzeiger,missed,METAPHORIC_LOC,O,nach vier verschiedenen Gegenden,,15,19
+129,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,durch sein Fernrohr,14,17
+129,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,im Gipfel dieses Baums,12,16
+129,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,um die Ecke,7,10
+129,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,das Schiff,12,14
+129,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,über den grünen Klee,16,20
+129,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,unter dem Leib,23,26
+129,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,durch die Luft,36,39
+129,bilstm_hamburger_anzeiger,wrong_label,METAPHORIC_LOC,FUZZY_LOC,vor dem Galgen,vor dem Galgen,8,11
+129,bilstm_redewiedergabe,missed,FUZZY_LOC,O,über dem Schiff,,3,6
+129,bilstm_redewiedergabe,missed,FUZZY_LOC,O,in die Mitte,,15,18
+129,bilstm_redewiedergabe,missed,METAPHORIC_LOC,O,vor dem Galgen,,8,11
+129,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,unter dem Drachen,14,17
+129,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,im Gipfel dieses Baums,12,16
+129,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,unter dem Leib,23,26
+129,bilstm_redewiedergabe,extra,O,METAPHORIC_LOC,,durch die Luft,36,39
+129,bilstm_redewiedergabe,wrong_label,METAPHORIC_LOC,FUZZY_LOC,nach vier verschiedenen Gegenden,nach vier verschiedenen Gegenden,15,19
+129,roberta,extra,O,FUZZY_LOC,,unter dem Leib,3954,3968
+129,roberta,extra,O,FUZZY_LOC,,unter dem Drachen,7694,7711
+129,roberta,extra,O,FUZZY_LOC,,im,3533,3535
+129,roberta,extra,O,FUZZY_LOC,,durch die Luft,6536,6550
+129,roberta,extra,O,FUZZY_LOC,,Gipfel dieses Baums,3536,3555
+129,roberta,wrong_label,FUZZY_LOC,METAPHORIC_LOC,am Himmel,am Himmel,1858,1867
+129,roberta,wrong_label,METAPHORIC_LOC,FUZZY_LOC,nach vier verschiedenen Gegenden,nach vier verschiedenen Gegenden,470,502
+129,roberta,wrong_label,METAPHORIC_LOC,FUZZY_LOC,vor dem Galgen,vor dem Galgen,1083,1097
+153,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,auf dem Leib,44,47
+153,bilstm_redewiedergabe,wrong_label,FUZZY_LOC,METAPHORIC_LOC,vom Himmel,vom Himmel,16,18
+183,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,von allen Seiten,,18,21
+183,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,einen himmelhohen Thurm,,18,21
+183,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,auf eine von den Weidenruthen,,12,17
+183,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,seine Werkstatt,,7,9
+183,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,in die Tasche,,19,22
+183,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,in den Bart,12,15
+183,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,den ganzen Wald,1,4
+183,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,den Brunnen,2,4
+183,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,nach seiner Decke,16,19
+183,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,den ganzen Wald,3,6
+183,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,der Quelle,3,5
+183,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,in den Bart,4,7
+183,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,den ganzen Wald,11,14
+183,bilstm_hamburger_anzeiger,wrong_label,FUZZY_LOC,METAPHORIC_LOC,seinen Weg,seinen Weg,12,14
+183,bilstm_redewiedergabe,missed,FUZZY_LOC,O,von allen Seiten,,18,21
+183,bilstm_redewiedergabe,missed,FUZZY_LOC,O,einen himmelhohen Thurm,,18,21
+183,bilstm_redewiedergabe,missed,FUZZY_LOC,O,Steg,,18,19
+183,bilstm_redewiedergabe,missed,FUZZY_LOC,O,in der blauen Ferne,,9,13
+183,bilstm_redewiedergabe,missed,FUZZY_LOC,O,in die Höhe,,33,36
+183,bilstm_redewiedergabe,missed,FUZZY_LOC,O,auf eine von den Weidenruthen,,12,17
+183,bilstm_redewiedergabe,missed,FUZZY_LOC,O,seine Werkstatt,,7,9
+183,bilstm_redewiedergabe,missed,FUZZY_LOC,O,aus einem wilden und finstern Wald,,23,29
+183,bilstm_redewiedergabe,missed,FUZZY_LOC,O,in die Tasche,,19,22
+183,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,finstern Wald,27,29
+183,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,dahinter einen himmelhohen Thurm,17,21
+183,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,den ganzen Wald,1,4
+183,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,der Thurm,17,19
+183,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,den Brunnen,2,4
+183,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,den Brunnen,4,6
+183,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,den ganzen Wald,3,6
+183,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,den ganzen Wald,11,14
+183,bilstm_redewiedergabe,wrong_label,FUZZY_LOC,METAPHORIC_LOC,seinen Weg,seinen Weg,12,14
+183,roberta,missed,FUZZY_LOC,O,zu dem Wasser,,1681,1694
+183,roberta,missed,FUZZY_LOC,O,zu einem Sumpf,,3296,3310
+183,roberta,missed,FUZZY_LOC,O,in die Tasche,,3742,3755
+183,roberta,missed,FUZZY_LOC,O,Steg,,237,241
+183,roberta,missed,FUZZY_LOC,O,von allen Seiten,,854,870
+183,roberta,missed,FUZZY_LOC,O,in der blauen Ferne,,326,345
+183,roberta,extra,O,FUZZY_LOC,,den ganzen Wald,2164,2179
+183,roberta,extra,O,FUZZY_LOC,,in die Nähe,625,636
+183,roberta,extra,O,METAPHORIC_LOC,,nach seiner Decke,1426,1443
+183,roberta,extra,O,FUZZY_LOC,,den ganzen Wald,2311,2326
+183,roberta,extra,O,FUZZY_LOC,,den Brunnen,2397,2408
+183,roberta,extra,O,FUZZY_LOC,,den ganzen Wald,2126,2141
+183,roberta,extra,O,FUZZY_LOC,,in den Bart,2465,2476
+183,roberta,extra,O,FUZZY_LOC,,in den Bart,1796,1807
+183,roberta,wrong_label,FUZZY_LOC,METAPHORIC_LOC,seinen Weg,seinen Weg,209,219
+185,bilstm_hamburger_anzeiger,missed,METAPHORIC_LOC,O,In der Nähe,,0,3
+185,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,in seinem Kleiderkasten,,18,21
+185,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,im Paradies,23,25
+185,bilstm_hamburger_anzeiger,extra,O,METAPHORIC_LOC,,nach Haus,4,6
+185,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,aus dem Korb,6,9
+185,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,ein paar Bund Stroh,2,6
+185,bilstm_hamburger_anzeiger,wrong_label,METAPHORIC_LOC,FUZZY_LOC,auf den Jahrmarkt,auf den Jahrmarkt,11,14
+185,bilstm_hamburger_anzeiger,wrong_label,METAPHORIC_LOC,FUZZY_LOC,in das Haus,in das Haus,23,26
+185,bilstm_redewiedergabe,missed,FUZZY_LOC,O,vor das Gericht,,17,20
+185,bilstm_redewiedergabe,missed,FUZZY_LOC,O,auf das Stroh,,14,17
+185,bilstm_redewiedergabe,missed,METAPHORIC_LOC,O,auf den Jahrmarkt,,11,14
+185,bilstm_redewiedergabe,missed,FUZZY_LOC,O,unter einen Stein,,12,15
+185,bilstm_redewiedergabe,missed,METAPHORIC_LOC,O,In der Nähe,,0,3
+185,bilstm_redewiedergabe,missed,FUZZY_LOC,O,in seinem Kleiderkasten,,18,21
+185,bilstm_redewiedergabe,missed,FUZZY_LOC,O,am Herde,,9,11
+185,bilstm_redewiedergabe,extra,O,METAPHORIC_LOC,,im Paradies,23,25
+185,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,nach Haus,4,6
+185,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,aus dem Korb,6,9
+185,bilstm_redewiedergabe,wrong_label,METAPHORIC_LOC,FUZZY_LOC,in das Haus,in das Haus,23,26
+185,roberta,missed,METAPHORIC_LOC,O,In der Nähe,,5642,5653
+185,roberta,extra,O,METAPHORIC_LOC,,nach Haus,1527,1536
+185,roberta,extra,O,METAPHORIC_LOC,,im Paradies,5755,5766
+185,roberta,wrong_label,METAPHORIC_LOC,FUZZY_LOC,auf den Jahrmarkt,auf den Jahrmarkt,3704,3721
+186,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,Küche,,18,19
+186,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,an den Wänden,,22,25
+186,bilstm_hamburger_anzeiger,missed,METAPHORIC_LOC,O,aller Orten,,2,4
+186,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,in die Höhe,,18,21
+186,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,Der Weg,,0,2
+186,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,Keller,,20,21
+186,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,nach der Stadt,,2,5
+186,bilstm_hamburger_anzeiger,missed,FUZZY_LOC,O,in die Höhe,,9,12
+186,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,bei die Federn,7,10
+186,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,auf den Tisch,6,9
+186,bilstm_hamburger_anzeiger,extra,O,METAPHORIC_LOC,,zu Rand,6,8
+186,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,bei einem Bauer,4,7
+186,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,unter einem Tuch,5,8
+186,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,in dem glatten Boden,44,48
+186,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,den Teich,25,27
+186,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,das Gebäude,21,23
+186,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,das Schloß,31,33
+186,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,Der Weg nach der Stadt,0,5
+186,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,der ganze Hof,22,25
+186,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,Innere des Schlosses,1,4
+186,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,auf den linken Backen,9,13
+186,bilstm_hamburger_anzeiger,extra,O,METAPHORIC_LOC,,in der Dunkelheit,8,11
+186,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,ein Schloß,25,27
+186,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,auf den linken Backen,4,8
+186,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,die Wände,11,13
+186,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,das Schloß,8,10
+186,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,über die Wangen,16,19
+186,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,den Teich,9,11
+186,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,das prächtige Schloß,3,6
+186,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,auf dem Fest,2,5
+186,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,in den Schatten,21,24
+186,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,ein schönes Schloß,17,20
+186,bilstm_hamburger_anzeiger,extra,O,FUZZY_LOC,,der Zimmer,4,6
+186,bilstm_hamburger_anzeiger,wrong_label,METAPHORIC_LOC,FUZZY_LOC,an dem Hofe,an dem Hofe,4,7
+186,bilstm_hamburger_anzeiger,wrong_label,FUZZY_LOC,METAPHORIC_LOC,des Wegs,des Wegs,7,9
+186,bilstm_redewiedergabe,missed,FUZZY_LOC,O,Küche,,18,19
+186,bilstm_redewiedergabe,missed,FUZZY_LOC,O,an den Wänden,,22,25
+186,bilstm_redewiedergabe,missed,METAPHORIC_LOC,O,aller Orten,,2,4
+186,bilstm_redewiedergabe,missed,FUZZY_LOC,O,in die Höhe,,18,21
+186,bilstm_redewiedergabe,missed,FUZZY_LOC,O,auf dem Herd,,4,7
+186,bilstm_redewiedergabe,missed,FUZZY_LOC,O,in den Töpfen,,8,11
+186,bilstm_redewiedergabe,missed,FUZZY_LOC,O,Der Weg,,0,2
+186,bilstm_redewiedergabe,missed,FUZZY_LOC,O,auf der Spitze des Thurms,,28,33
+186,bilstm_redewiedergabe,missed,FUZZY_LOC,O,Keller,,20,21
+186,bilstm_redewiedergabe,missed,FUZZY_LOC,O,aus dem Zimmer,,7,10
+186,bilstm_redewiedergabe,missed,FUZZY_LOC,O,in dem Schlamm,,25,28
+186,bilstm_redewiedergabe,missed,FUZZY_LOC,O,nach der Stadt,,2,5
+186,bilstm_redewiedergabe,missed,FUZZY_LOC,O,in den Schränken,,18,21
+186,bilstm_redewiedergabe,missed,FUZZY_LOC,O,unter einem Stein,,16,19
+186,bilstm_redewiedergabe,missed,FUZZY_LOC,O,unter dieser Linde,,41,44
+186,bilstm_redewiedergabe,missed,FUZZY_LOC,O,Keller,,19,20
+186,bilstm_redewiedergabe,missed,FUZZY_LOC,O,in allen Ecken,,7,10
+186,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,ein schönes Schloß,17,20
+186,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,bei die Federn,7,10
+186,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,das Schloß,8,10
+186,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,den Teich,9,11
+186,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,unter einem Tuch,5,8
+186,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,in dem glatten Boden,44,48
+186,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,Der Weg nach der Stadt,0,5
+186,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,das prächtige Schloß,3,6
+186,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,in den Schatten,21,24
+186,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,der ganze Hof,22,25
+186,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,auf dem Fest,2,5
+186,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,Innere des Schlosses,1,4
+186,bilstm_redewiedergabe,extra,O,METAPHORIC_LOC,,in der Dunkelheit,8,11
+186,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,von den Kielen,3,6
+186,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,das Gebäude,21,23
+186,bilstm_redewiedergabe,extra,O,FUZZY_LOC,,von ihrem Sitz,10,13
+186,bilstm_redewiedergabe,wrong_label,METAPHORIC_LOC,FUZZY_LOC,an dem Hofe,an dem Hofe,4,7
+186,bilstm_redewiedergabe,wrong_label,FUZZY_LOC,METAPHORIC_LOC,in den Schooß,in den Schooß,8,11
+186,bilstm_redewiedergabe,wrong_label,FUZZY_LOC,METAPHORIC_LOC,des Wegs,des Wegs,7,9
+186,roberta,missed,FUZZY_LOC,O,in die Höhe,,5391,5402
+186,roberta,extra,O,FUZZY_LOC,,das Schloß,6758,6768
+186,roberta,extra,O,FUZZY_LOC,,bei die Federn,2214,2228
+186,roberta,extra,O,FUZZY_LOC,,auf den Tisch,1238,1251
+186,roberta,extra,O,FUZZY_LOC,,cht,6424,6427
+186,roberta,extra,O,FUZZY_LOC,,das prächtige Schloß,8112,8132
+186,roberta,extra,O,FUZZY_LOC,,die,6417,6420
+186,roberta,extra,O,FUZZY_LOC,,Die Treppe,6317,6327
+186,roberta,extra,O,FUZZY_LOC,,von der Bühne,5905,5918
+186,roberta,extra,O,METAPHORIC_LOC,,in den Schatten,4933,4948
+186,roberta,extra,O,FUZZY_LOC,,der Zimmer,6428,6438
+186,roberta,extra,O,FUZZY_LOC,,zu Rand,3104,3111
+186,roberta,extra,O,FUZZY_LOC,,in ihrer,11049,11057
+186,roberta,extra,O,FUZZY_LOC,,Das Innere des Schlosses,5632,5656
+186,roberta,extra,O,FUZZY_LOC,,das goldene Geländer,6359,6379
+186,roberta,extra,O,FUZZY_LOC,,diesen,9056,9062
+186,roberta,extra,O,FUZZY_LOC,,unter einem Tuch,11957,11973
+186,roberta,wrong_label,METAPHORIC_LOC,FUZZY_LOC,an dem Hofe,an dem Hofe,11576,11587

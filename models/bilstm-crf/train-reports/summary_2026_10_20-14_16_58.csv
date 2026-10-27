@@ -1,0 +1,2 @@
+best_epoch,best_val_span_f1,stopped_epoch,embedding_dim,hidden_dim,dropout,learning_rate,batch_size,optimizer,epochs,patience,min_delta,early_stopping
+7,0.7095238095238094,22,4396,256,0.1,0.001,16,Adam,50,15,0.0005,True

@@ -1,0 +1,11 @@
+,precision,recall,f1-score,support,embedding_dim,hidden_dim,dropout,learning_rate,batch_size,optimizer,epochs,patience,min_delta,early_stopping
+B-FUZZY_LOC,0.7851,0.8484,0.8155,521.0000,4396,256,0.1000,0.0010,16,Adam,50,15,0.0005,True
+I-FUZZY_LOC,0.7880,0.8665,0.8254,974.0000,4396,256,0.1000,0.0010,16,Adam,50,15,0.0005,True
+B-METAPHORIC_LOC,0.6716,0.6250,0.6475,72.0000,4396,256,0.1000,0.0010,16,Adam,50,15,0.0005,True
+I-METAPHORIC_LOC,0.6792,0.5950,0.6344,121.0000,4396,256,0.1000,0.0010,16,Adam,50,15,0.0005,True
+micro avg,0.7764,0.8312,0.8029,1688.0000,4396,256,0.1000,0.0010,16,Adam,50,15,0.0005,True
+macro avg,0.7310,0.7337,0.7307,1688.0000,4396,256,0.1000,0.0010,16,Adam,50,15,0.0005,True
+weighted avg,0.7744,0.8312,0.8011,1688.0000,4396,256,0.1000,0.0010,16,Adam,50,15,0.0005,True
+span_precision,0.7268,nan,nan,nan,4396,256,0.1000,0.0010,16,Adam,50,15,0.0005,True
+span_recall,nan,0.7357,nan,nan,4396,256,0.1000,0.0010,16,Adam,50,15,0.0005,True
+span_f1,nan,nan,0.7302,nan,4396,256,0.1000,0.0010,16,Adam,50,15,0.0005,True

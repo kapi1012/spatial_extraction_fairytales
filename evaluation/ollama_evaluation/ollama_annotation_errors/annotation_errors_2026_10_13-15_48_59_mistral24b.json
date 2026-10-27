@@ -1,0 +1,98 @@
+[
+    {
+        "khm": 4,
+        "chunk_id": 29,
+        "span": "der Drehbank",
+        "chunk_text": "Als es Nacht werden wollte, gieng der Junge hinauf, machte sich in einer Kammer ein helles Feuer an, stellte die Schnitzbank mit dem Messer daneben und setzte sich auf die Drehbank. „Ach, wenn mirs nur gruselte!“ sprach er, „aber hier werde ichs auch nicht lernen.“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 21,
+        "chunk_id": 8,
+        "span": "unterhalb",
+        "chunk_text": "Aschenputtel gieng alle Tage dreimal darunter, weinte und betete, und allemal kam ein weißes Vöglein auf den Baum, und wenn es einen Wunsch aussprach, so warf ihm das Vöglein herab was es sich gewünscht hatte.\n \n Es begab sich aber, daß der König ein Fest anstellte, das drei Tage dauern sollte, und wozu alle schönen Jungfrauen im Lande eingeladen wurden, damit sich sein Sohn eine Braut aussuchen möchte. Die zwei Stiefschwestern als sie hörten daß sie auch dabei erscheinen sollten, waren guter Dinge, riefen Aschenputtel, und sprachen „kämm uns die Haare, bürste uns die Schuhe und mache uns die Schnallen fest, wir gehen zur Hochzeit auf des Königs Schloß.“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 21,
+        "chunk_id": 27,
+        "span": "am Grabe",
+        "chunk_text": "Sie mußten aber an dem Grabe vorbei, da saßen die zwei Täubchen auf dem Haselbäumchen, und riefen\n \n „rucke di guck, rucke di guck,\n Blut ist im Schuck (Schuh):\n Der Schuck ist zu klein,\n die rechte Braut sitzt noch daheim.“\n \n Da blickte er auf ihren Fuß und sah wie das Blut herausquoll. Er wendete sein Pferd um, brachte die falsche Braut wieder nach Haus und sagte das wäre nicht die rechte, die andere Schwester sollte den Schuh anziehen.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 55,
+        "chunk_id": 1,
+        "span": "in einer Kammer",
+        "chunk_text": "Als nun das Mädchen zu ihm gebracht ward, führte er es in eine Kammer, die ganz voll Stroh lag, gab ihr Rad und Haspel und sprach „jetzt mache dich an die Arbeit, und wenn du diese Nacht durch bis morgen früh dieses Stroh nicht zu Gold versponnen hast, so mußt du sterben.“ Darauf schloß er die Kammer selbst zu, und sie blieb allein darin.\n \n Da saß nun die arme Müllerstochter und wußte um ihr Leben keinen Rath: sie verstand gar nichts davon, wie man Stroh zu Gold spinnen konnte, und ihre Angst ward immer größer, daß sie endlich zu weinen anfieng.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 73,
+        "chunk_id": 8,
+        "span": "hinein",
+        "chunk_text": "Sprach der Wolf „lieber Fuchs, sag mir warum rennst du so hin und her, und springst hinaus und herein?“ „Ich muß doch sehen, ob niemand kommt,“ antwortete der listige, „friß nur nicht zu viel.“ Da sagte der Wolf „ich gehe nicht eher fort, als bis das Faß leer ist.“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 73,
+        "chunk_id": 8,
+        "span": "hinaust",
+        "chunk_text": "Sprach der Wolf „lieber Fuchs, sag mir warum rennst du so hin und her, und springst hinaus und herein?“ „Ich muß doch sehen, ob niemand kommt,“ antwortete der listige, „friß nur nicht zu viel.“ Da sagte der Wolf „ich gehe nicht eher fort, als bis das Faß leer ist.“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 87,
+        "chunk_id": 0,
+        "span": "in einer Herberge",
+        "chunk_text": "Vor alten Zeiten, als der liebe Gott noch selber auf Erden unter den Menschen wandelte, trug es sich zu, daß er eines Abends müde war und ihn die Nacht überfiel, bevor er zu einer Herberge kommen konnte. Nun standen auf dem Weg vor ihm zwei Häuser einander gegenüber, das eine groß und schön, das andere klein und ärmlich anzusehen, und gehörte das große einem Reichen, das kleine einem armen Manne. Da dachte unser Herr Gott „dem Reichen werde ich nicht beschwerlich fallen: bei ihm will ich übernachten.“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 88,
+        "chunk_id": 2,
+        "span": "unter den Bäumen",
+        "chunk_text": "Wie er aber zu dem Baum trat, sprang ein Löwe darunter auf, schüttelte sich und brüllte, daß das Laub an den Bäumen zitterte. „Wer mir mein singendes springendes Löweneckerchen stehlen will,“ rief er, „den fresse ich auf.“ Da sagte der Mann „ich habe nicht gewußt, daß der Vogel dir gehört: ich will mein Unrecht wieder gut machen, und mich mit schwerem Golde loskaufen, laß mir nur das Leben.“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 88,
+        "chunk_id": 6,
+        "span": "im Schloß",
+        "chunk_text": "Bei ihrer Ankunft ward sie freundlich empfangen und in das Schloß geführt. Als die Nacht kam, war er ein schöner Mann und die Hochzeit ward mit Pracht gefeiert. Sie lebten vergnügt mit einander, wachten in der Nacht und schliefen am Tag.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 88,
+        "chunk_id": 14,
+        "reason": "llm_json_validation_failed"
+    },
+    {
+        "khm": 88,
+        "chunk_id": 16,
+        "span": "so weit als der Wind weht",
+        "chunk_text": "Aber wie die Königstochter, die vorher ein Lindwurm gewesen war, vom Zauber frei war, nahm sie den Jüngling in den Arm, setzte sich auf den Vogel Greif, und führte ihn mit sich fort. Da stand die arme weitgewanderte, und war wieder verlassen, und setzte sich nieder und weinte. Endlich aber ermuthigte sie sich und sprach „ich will noch so weit gehen als der Wind weht und so lange als der Hahn kräht, bis ich ihn finde.“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 123,
+        "chunk_id": 5,
+        "span": "an Herd",
+        "chunk_text": "Von Herzen gerne“ sagte das Mädchen. Da sprach das Täubchen „ich will dich zu einem kleinen Häuschen führen, da geh hinein, mittendrein am Herd wird eine alte Frau sitzen und „guten Tag“ sagen. Aber gieb ihr bei Leibe keine Antwort sie mag auch anfangen, was sie will, sondern geh zu ihrer rechten Hand weiter, da ist eine Thüre, die mach auf, so wirst du in eine Stube kommen, wo eine Menge von Ringen allerlei Art auf dem Tisch liegt, darunter sind prächtige mit glitzerigen Steinen, die laß aber liegen und suche einen schlichten heraus, der auch darunter sein muß, und bring ihn zu mir her, so geschwind du kannst.“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 129,
+        "chunk_id": 1,
+        "span": "diesen Weg",
+        "chunk_text": "Da sprach der älteste „hier müssen wir uns trennen, aber heut über vier Jahre wollen wir an dieser Stelle wieder zusammen treffen und in der Zeit unser Glück versuchen.“\n \n Nun gieng jeder seinen Weg, und dem ältesten begegnete ein Mann, der fragte ihn wo er hinaus wollte und was er vor hätte. „Ich will ein Handwerk lernen,“ antwortete er.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 186,
+        "chunk_id": 31,
+        "span": "unter dem Stein",
+        "chunk_text": "Ach,“ sagte sie, „er kennt mich nicht mehr,“ und ihre Trauer ward immer größer.\n \n Bald darauf sollte an dem Hofe des Königs drei Tage lang ein großes Fest gefeiert werden, und das ganze Land ward dazu eingeladen. „Nun will ich das Letzte versuchen“ dachte das Mädchen, und als der Abend kam, gieng es zu dem Stein, unter dem es seine Schätze vergraben hatte.",
+        "reason": "span_not_found_in_chunk"
+    }
+]

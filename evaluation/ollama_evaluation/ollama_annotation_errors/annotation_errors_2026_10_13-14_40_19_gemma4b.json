@@ -1,0 +1,756 @@
+[
+    {
+        "khm": 4,
+        "chunk_id": 19,
+        "reason": "llm_json_validation_failed"
+    },
+    {
+        "khm": 4,
+        "chunk_id": 25,
+        "span": "dazu hier wohl Gelegenheit sein",
+        "chunk_text": "Da sprach er beim Eintritt in die Stube wieder ganz laut „wenn mirs nur gruselte! wenn mirs nur gruselte!“ Der Wirth, der das hörte, lachte und sprach „wenn dich danach lüstet, dazu sollte hier wohl Gelegenheit sein.“ „",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 4,
+        "chunk_id": 31,
+        "span": "ans Feuer und wärmt euch“,",
+        "chunk_text": "wenn euch friert, kommt, setzt euch ans Feuer und wärmt euch.“ Und wie er das gesagt hatte, kamen zwei große schwarze Katzen in einem gewaltigen Sprunge herbei, setzten sich ihm zu beiden Seiten und sahen ihn mit ihren feurigen Augen ganz wild an. Über ein Weilchen, als sie sich gewärmt hatten, sprachen sie „Kamerad, wollen wir eins in der Karte spielen?“ „",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 4,
+        "chunk_id": 34,
+        "span": "auf die Finger gesehen“, sprach er",
+        "chunk_text": "Euch habe ich auf die Finger gesehen,“ sprach er, „da vergeht mir die Lust zum Kartenspiel,“ schlug sie todt und warf sie hinaus ins Wasser. Als er aber die zwei zur Ruhe gebracht hatte und sich wieder zu seinem Feuer setzen wollte, da kamen aus allen Ecken und Enden schwarze Katzen und schwarze Hunde an glühenden Ketten, immer mehr und mehr, daß er sich nicht mehr bergen konnte: die schrien gräulich, traten ihm auf sein Feuer, zerrten es auseinander und wollten es ausmachen. Das sah er ein Weilchen ruhig mit an, als es ihm aber zu arg ward, faßte er sein Schnitzmesser und rief „fort mit dir, du Gesindel,“ und haute auf sie los.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 4,
+        "chunk_id": 34,
+        "span": "da vergeht mir die Lust zum Kartenspiel“,",
+        "chunk_text": "Euch habe ich auf die Finger gesehen,“ sprach er, „da vergeht mir die Lust zum Kartenspiel,“ schlug sie todt und warf sie hinaus ins Wasser. Als er aber die zwei zur Ruhe gebracht hatte und sich wieder zu seinem Feuer setzen wollte, da kamen aus allen Ecken und Enden schwarze Katzen und schwarze Hunde an glühenden Ketten, immer mehr und mehr, daß er sich nicht mehr bergen konnte: die schrien gräulich, traten ihm auf sein Feuer, zerrten es auseinander und wollten es ausmachen. Das sah er ein Weilchen ruhig mit an, als es ihm aber zu arg ward, faßte er sein Schnitzmesser und rief „fort mit dir, du Gesindel,“ und haute auf sie los.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 4,
+        "chunk_id": 34,
+        "span": "fort mit dir, du Gesindel“,",
+        "chunk_text": "Euch habe ich auf die Finger gesehen,“ sprach er, „da vergeht mir die Lust zum Kartenspiel,“ schlug sie todt und warf sie hinaus ins Wasser. Als er aber die zwei zur Ruhe gebracht hatte und sich wieder zu seinem Feuer setzen wollte, da kamen aus allen Ecken und Enden schwarze Katzen und schwarze Hunde an glühenden Ketten, immer mehr und mehr, daß er sich nicht mehr bergen konnte: die schrien gräulich, traten ihm auf sein Feuer, zerrten es auseinander und wollten es ausmachen. Das sah er ein Weilchen ruhig mit an, als es ihm aber zu arg ward, faßte er sein Schnitzmesser und rief „fort mit dir, du Gesindel,“ und haute auf sie los.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 4,
+        "chunk_id": 35,
+        "span": "seine Augen nicht länger offen bleiben",
+        "chunk_text": "Ein Theil sprang weg, die andern schlug er todt und warf sie hinaus in den Teich. Als er wieder gekommen war, blies er aus den Funken sein Feuer frisch an und wärmte sich. Und als er so saß, wollten ihm die Augen nicht länger offen bleiben und er bekam Lust zu schlafen.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 4,
+        "chunk_id": 40,
+        "span": "ich dachte nicht“, sprach er",
+        "chunk_text": "Ich dachte nicht,“ sprach er, „daß ich dich wieder lebendig sehen würde; hast du nun gelernt was Gruseln ist?“ „Nein,“ sagte er, „es ist alles vergeblich: wenn mirs nur einer sagen könnte!“\n \n Die zweite Nacht gieng er abermals hinauf ins alte Schloß, setzte sich zum Feuer und fieng sein altes Lied wieder an, „wenn mirs nur gruselte!“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 4,
+        "chunk_id": 40,
+        "span": "haste du nun gelernt was Gruseln ist?",
+        "chunk_text": "Ich dachte nicht,“ sprach er, „daß ich dich wieder lebendig sehen würde; hast du nun gelernt was Gruseln ist?“ „Nein,“ sagte er, „es ist alles vergeblich: wenn mirs nur einer sagen könnte!“\n \n Die zweite Nacht gieng er abermals hinauf ins alte Schloß, setzte sich zum Feuer und fieng sein altes Lied wieder an, „wenn mirs nur gruselte!“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 4,
+        "chunk_id": 41,
+        "span": "vor ihm",
+        "chunk_text": "Wie Mitternacht herankam, ließ sich ein Lärm und Gepolter hören, erst sachte, dann immer stärker, dann wars ein bischen still, endlich kam mit lautem Geschrei ein halber Mensch den Schornstein herab und fiel vor ihn hin. „Heda!“ rief er, „noch ein halber gehört dazu, das ist zu wenig.“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 4,
+        "chunk_id": 43,
+        "span": "den Junge",
+        "chunk_text": "So haben wir nicht gewettet,“ sprach der Junge, „die Bank ist mein.“ Der Mann wollte ihn wegdrängen, aber der Junge ließ sichs nicht gefallen, schob ihn mit Gewalt weg und setzte sich wieder auf seinen Platz. Da fielen noch mehr Männer herab, einer nach dem andern, die holten neun Todtenbeine und zwei Todtenköpfe, setzten auf und spielten Kegel.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 4,
+        "chunk_id": 48,
+        "span": "Hat dir denn nicht gegruselt“, „Ei was“, sprach er",
+        "chunk_text": "Hat dir denn nicht gegruselt?“ „Ei was,“ sprach er, „lustig hab ich mich gemacht. Wenn ich nur wüßte was Gruseln wäre?“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 4,
+        "chunk_id": 50,
+        "span": "Wart“, sprach er",
+        "chunk_text": "Sie stellten den Sarg auf die Erde, er aber gieng hinzu und nahm den Deckel ab: da lag ein todter Mann darin. Er fühlte ihm ans Gesicht, aber es war kalt wie Eis. „Wart,“ sprach er, „ich will dich ein bischen wärmen,“ gieng ans Feuer, wärmte seine Hand und legte sie ihm aufs Gesicht, aber der Todte blieb kalt.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 4,
+        "chunk_id": 53,
+        "span": "in deinen Sarg“,",
+        "chunk_text": "gleich sollst du wieder in deinen Sarg,“ hub ihn auf, warf ihn hinein und machte den Deckel zu; da kamen die sechs Männer, und trugen ihn wieder fort. „Es will mir nicht gruseln,“ sagte er, „hier lerne ichs mein Lebtag nicht.“\n \n Da trat ein Mann herein, der war größer als alle andere, und sah fürchterlich aus; er war aber alt und hatte einen langen weißen Bart. „",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 4,
+        "chunk_id": 54,
+        "span": "Wicht“,",
+        "chunk_text": "O du Wicht,“ rief er, „nun sollst du bald lernen was Gruseln ist, denn du sollst sterben.“ „Nicht so schnell,“ antwortete der Junge, „soll ich sterben, so muß ich auch dabei sein.“ „Dich will ich schon packen“ sprach der Unhold. „",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 4,
+        "chunk_id": 54,
+        "span": "sterben“,",
+        "chunk_text": "O du Wicht,“ rief er, „nun sollst du bald lernen was Gruseln ist, denn du sollst sterben.“ „Nicht so schnell,“ antwortete der Junge, „soll ich sterben, so muß ich auch dabei sein.“ „Dich will ich schon packen“ sprach der Unhold. „",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 5,
+        "chunk_id": 2,
+        "span": "mit seiner Stimme fein",
+        "chunk_text": "Aber die Geiserchen hörten an der rauhen Stimme daß es der Wolf war, „wir machen nicht auf,“ riefen sie, „du bist unsere Mutter nicht, die hat eine feine und liebliche Stimme, aber deine Stimme ist rauh; du bist der Wolf.“ Da gieng der Wolf fort zu einem Krämer, und kaufte sich ein großes Stück Kreide: die aß er und machte damit seine Stimme fein. Dann kam er zurück, klopfte an die Hausthür und rief „macht auf, ihr lieben Kinder, eure Mutter ist da und hat jedem von Euch etwas mitgebracht.“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 5,
+        "chunk_id": 7,
+        "span": "den ganzen andern",
+        "chunk_text": "Aber der Wolf fand sie alle und machte nicht langes Federlesen: eins nach dem andern schluckte er in seinen Rachen; nur das jüngste in dem Uhrkasten das fand er nicht. Als der Wolf seine Lust gebüßt hatte, trollte er sich fort, legte sich draußen auf der grünen Wiese unter einen Baum und fieng an zu schlafen.\n \n Nicht lange danach kam die alte Geis aus dem Walde wieder heim.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 5,
+        "chunk_id": 13,
+        "span": "dem Bauch",
+        "chunk_text": "Die Alte aber sagte „jetzt geht und sucht Wackersteine, damit wollen wir dem gottlosen Thier den Bauch füllen, so lange es noch im Schlafe liegt.“ Da schleppten die sieben Geiserchen in aller Eile die Steine herbei und steckten sie ihm in den Bauch, so viel sie hinein bringen konnten. Dann nähte ihn die Alte in aller Geschwindigkeit wieder zu, daß er nichts merkte und sich nicht einmal regte.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 5,
+        "chunk_id": 14,
+        "span": "dem Wolf",
+        "chunk_text": "\n \n Als der Wolf endlich ausgeschlafen hatte, machte er sich auf die Beine, und weil ihm die Steine im Magen so großen Durst erregten, so wollte er zu einem Brunnen gehen und trinken. Als er aber anfieng zu gehen und sich hin und her zu bewegen, so stießen die Steine in seinem Bauch aneinander und rappelten. Da rief er\n \n „was rumpelt und pumpelt\n in meinem Bauch herum?",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 12,
+        "chunk_id": 2,
+        "span": "die Rapunzeln",
+        "chunk_text": "Der Mann, der sie lieb hatte, dachte „eh du deine Frau sterben lässest, holst du ihr von den Rapunzeln, es mag kosten was es will.“ In der Abenddämmerung stieg er also über die Mauer in den Garten der Zauberin, stach in aller Eile eine Hand voll Rapunzeln und brachte sie seiner Frau. Sie machte sich sogleich Salat daraus und aß sie in voller Begierde auf.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 12,
+        "chunk_id": 9,
+        "span": "lass dein Haar herunter.",
+        "chunk_text": "Er ritt heim, doch der Gesang hatte ihm so sehr das Herz gerührt, daß er jeden Tag hinaus in den Wald gieng und zuhörte. Als er einmal so hinter einem Baum stand, sah er daß eine Zauberin heran kam und hörte wie sie hinauf rief\n \n „Rapunzel, Rapunzel,\n laß dein Haar herunter.“\n \n Da ließ Rapunzel die Haarflechten herab, und die Zauberin stieg zu ihr hinauf. „",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 12,
+        "chunk_id": 10,
+        "span": "lass dein Haar herunter",
+        "chunk_text": "Ist das die Leiter, auf welcher man hinauf kommt, so will ich auch einmal mein Glück versuchen.“ Und den folgenden Tag, als es anfieng dunkel zu werden, gieng er zu dem Thurme und rief\n \n „Rapunzel, Rapunzel,\n laß dein Haar herunter.“\n \n Alsbald fielen die Haare herab und der Königssohn stieg hinauf.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 12,
+        "chunk_id": 11,
+        "span": "so dachte „der wird mich lieber haben als die alte Frau Gothel“,",
+        "chunk_text": "\n \n Anfangs erschrack Rapunzel gewaltig als ein Mann zu ihr herein kam, wie ihre Augen noch nie einen erblickt hatten, doch der Königssohn fing an ganz freundlich mit ihr zu reden und erzählte ihr daß von ihrem Gesang sein Herz so sehr sei bewegt worden, daß es ihm keine Ruhe gelassen, und er sie selbst habe sehen müssen. Da verlor Rapunzel ihre Angst, und als er sie fragte ob sie ihn zum Manne nehmen wollte, und sie sah daß er jung und schön war, so dachte sie „der wird mich lieber haben als die alte Frau Gothel,“ und sagte ja und legte ihre Hand in seine Hand. Sie sprach „ich will gerne mit dir gehen, aber ich weiß nicht wie ich herab kommen kann.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 12,
+        "chunk_id": 12,
+        "span": "aus der",
+        "chunk_text": "Wenn du kommst, so bring jedesmal einen Strang Seide mit, daraus will ich eine Leiter flechten und wenn die fertig ist, so steige ich herunter und du nimmst mich auf dein Pferd.“ Sie verabredeten daß er bis dahin alle Abend zu ihr kommen sollte, denn bei Tag kam die Alte. Die Zauberin merkte auch nichts davon, bis einmal Rapunzel anfieng und zu ihr sagte „sag sie mir doch, Frau Gothel, wie kommt es nur, sie wird mir viel schwerer heraufzuziehen, als der junge Königssohn, der ist in einem Augenblick bei mir.“ „",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 12,
+        "chunk_id": 13,
+        "span": "die Rapunzel",
+        "chunk_text": "Ach du gottloses Kind,“ rief die Zauberin, „was muß ich von dir hören, ich dachte ich hätte dich von aller Welt geschieden, und du hast mich doch betrogen!“ In ihrem Zorne packte sie die schönen Haare der Rapunzel, schlug sie ein paar mal um ihre linke Hand, griff eine Scheere mit der rechten, und ritsch, ratsch, waren sie abgeschnitten, und die schönen Flechten lagen auf der Erde. Und sie war so unbarmherzig daß sie die arme Rapunzel in eine Wüstenei brachte, wo sie in großem Jammer und Elend leben mußte.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 12,
+        "chunk_id": 14,
+        "span": "Rapunzel, Rapunzel, laß dein Haar herunter",
+        "chunk_text": "\n \n Denselben Tag aber, wo sie Rapunzel verstoßen hatte, machte Abends die Zauberin die abgeschnittenen Flechten oben am Fensterhaken fest, und als der Königssohn kam und rief\n \n „Rapunzel, Rapunzel,\n laß dein Haar herunter,“\n \n so ließ sie die Haare hinab. Der Königssohn stieg hinauf, aber er fand oben nicht seine liebste Rapunzel, sondern die Zauberin, die ihn mit bösen und giftigen Blicken ansah. „Aha,“ rief sie höhnisch, „du willst die Frau Liebste holen, aber der schöne Vogel sitzt nicht mehr im Nest und singt nicht mehr, die Katze hat ihn geholt und wird dir auch noch die Augen auskratzen.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 12,
+        "chunk_id": 14,
+        "span": "den Königssohn",
+        "chunk_text": "\n \n Denselben Tag aber, wo sie Rapunzel verstoßen hatte, machte Abends die Zauberin die abgeschnittenen Flechten oben am Fensterhaken fest, und als der Königssohn kam und rief\n \n „Rapunzel, Rapunzel,\n laß dein Haar herunter,“\n \n so ließ sie die Haare hinab. Der Königssohn stieg hinauf, aber er fand oben nicht seine liebste Rapunzel, sondern die Zauberin, die ihn mit bösen und giftigen Blicken ansah. „Aha,“ rief sie höhnisch, „du willst die Frau Liebste holen, aber der schöne Vogel sitzt nicht mehr im Nest und singt nicht mehr, die Katze hat ihn geholt und wird dir auch noch die Augen auskratzen.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 12,
+        "chunk_id": 15,
+        "span": "den Walde",
+        "chunk_text": "Für dich ist Rapunzel verloren, du wirst sie nie wieder erblicken.“ Der Königssohn gerieth außer sich vor Schmerz, und in der Verzweiflung sprang er den Thurm herab: das Leben brachte er davon, aber die Dornen, in die er fiel, zerstachen ihm die Augen. Da irrte er blind im Walde umher, aß nichts als Wurzeln und Beeren, und that nichts als jammern und weinen über den Verlust seiner liebsten Frau.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 21,
+        "chunk_id": 3,
+        "span": "wie sie geputzt ist“,",
+        "chunk_text": "Seht einmal die stolze Prinzessin, wie sie geputzt ist!“ riefen sie, lachten und führten es in die Küche. Da mußte es von Morgen bis Abend schwere Arbeit thun, früh vor Tag aufstehn, Wasser tragen, Feuer anmachen, kochen und waschen.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 21,
+        "chunk_id": 19,
+        "span": "Hase lbäumchen",
+        "chunk_text": "Und als sie ins Haus kamen, lag Aschenputtel in seinen schmutzigen Kleidern in der Asche, und ein trübes Öllämpchen brannte im Schornstein; denn Aschenputtel war geschwind aus dem Taubenhaus hinten herab gesprungen, und war zu dem Haselbäumchen gelaufen: da hatte es die schönen Kleider abgezogen und aufs Grab gelegt, und der Vogel hatte sie wieder weggenommen, und dann hatte es sich in seinem grauen Kittelchen in die Küche zur Asche gesetzt.\n \n Am andern Tag, als das Fest von neuem anhub, und die Eltern und Stiefschwestern wieder fort waren, gieng Aschenputtel zu dem Haselbaum und sprach\n \n „Bäumchen, rüttel dich und schüttel dich,\n wirf Gold und Silber über mich.“\n \n Da warf der Vogel ein noch viel stolzeres Kleid herab, als am vorigen Tag.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 21,
+        "chunk_id": 22,
+        "span": "Hase lbäumchen",
+        "chunk_text": "Der Vater dachte „sollte es Aschenputtel sein,“ ließ sich die Axt holen und hieb den Baum um, aber es war niemand darauf. Und als sie in die Küche kamen, lag Aschenputtel da in der Asche, wie sonst auch, denn es war auf der andern Seite vom Baum herabgesprungen, hatte dem Vogel auf dem Haselbäumchen die schönen Kleider wieder gebracht und sein graues Kittelchen angezogen.\n \n Am dritten Tag, als die Eltern und Schwestern fort waren, gieng Aschenputtel wieder zu seiner Mutter Grab und sprach zu dem Bäumchen\n \n „Bäumchen, rüttel dich und schüttel dich,\n wirf Gold und Silber über mich.“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 21,
+        "chunk_id": 23,
+        "span": "dem Vogel",
+        "chunk_text": "\n \n Nun warf ihm der Vogel ein Kleid herab, das war so prächtig und glänzend wie es noch keins gehabt hatte, und die Pantoffeln waren ganz golden. Als es in dem Kleid zu der Hochzeit kam, wußten sie alle nicht was sie vor Verwunderung sagen sollten. Der Königssohn tanzte ganz allein mit ihm, und wenn es einer aufforderte, sprach er „das ist meine Tänzerin.“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 21,
+        "chunk_id": 28,
+        "span": "Sie giengen diese",
+        "chunk_text": "Da gieng diese in die Kammer und kam mit den Zehen glücklich in den Schuh, aber die Ferse war zu groß. Da reichte ihr die Mutter ein Messer und sprach „hau ein Stück von der Ferse ab: wann du Königin bist, brauchst du nicht mehr zu Fuß zu gehen.“ Das Mädchen hieb ein Stück von der Ferse ab, zwängte den Fuß in den Schuh, verbiß den Schmerz und gieng heraus zum Königssohn.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 21,
+        "chunk_id": 32,
+        "span": "in den schweren Holzschuh",
+        "chunk_text": "Dann setzte es sich auf einen Schemel, zog den Fuß aus dem schweren Holzschuh und steckte ihn in den Pantoffel, der war wie angegossen. Und als es sich in die Höhe richtete und der König ihm ins Gesicht sah, so erkannte er das schöne Mädchen, das mit ihm getanzt hatte, und rief „das ist die rechte Braut!“ Die Stiefmutter und die beiden Schwestern erschraken und wurden bleich vor Ärger: er aber nahm Aschenputtel aufs Pferd und ritt mit ihm fort.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 21,
+        "chunk_id": 32,
+        "span": "dem König ihm ins Gesicht",
+        "chunk_text": "Dann setzte es sich auf einen Schemel, zog den Fuß aus dem schweren Holzschuh und steckte ihn in den Pantoffel, der war wie angegossen. Und als es sich in die Höhe richtete und der König ihm ins Gesicht sah, so erkannte er das schöne Mädchen, das mit ihm getanzt hatte, und rief „das ist die rechte Braut!“ Die Stiefmutter und die beiden Schwestern erschraken und wurden bleich vor Ärger: er aber nahm Aschenputtel aufs Pferd und ritt mit ihm fort.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 21,
+        "chunk_id": 34,
+        "span": "der rechten",
+        "chunk_text": "Als die Brautleute nun zur Kirche giengen, war die älteste zur rechten, die jüngste zur linken Seite: da pickten die Tauben einer jeden das eine Auge aus. Hernach als sie heraus giengen, war die älteste zur linken und die jüngste zur rechten: da pickten die Tauben einer jeden das andere Auge aus. Und waren sie also für ihre Bosheit und Falschheit mit Blindheit auf ihr Lebtag gestraft.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 21,
+        "chunk_id": 34,
+        "span": "der jüngste zur linken Seite",
+        "chunk_text": "Als die Brautleute nun zur Kirche giengen, war die älteste zur rechten, die jüngste zur linken Seite: da pickten die Tauben einer jeden das eine Auge aus. Hernach als sie heraus giengen, war die älteste zur linken und die jüngste zur rechten: da pickten die Tauben einer jeden das andere Auge aus. Und waren sie also für ihre Bosheit und Falschheit mit Blindheit auf ihr Lebtag gestraft.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 21,
+        "chunk_id": 34,
+        "span": "der älteste zur linken",
+        "chunk_text": "Als die Brautleute nun zur Kirche giengen, war die älteste zur rechten, die jüngste zur linken Seite: da pickten die Tauben einer jeden das eine Auge aus. Hernach als sie heraus giengen, war die älteste zur linken und die jüngste zur rechten: da pickten die Tauben einer jeden das andere Auge aus. Und waren sie also für ihre Bosheit und Falschheit mit Blindheit auf ihr Lebtag gestraft.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 33,
+        "chunk_id": 1,
+        "span": "nach Hause",
+        "chunk_text": "Der Junge ward in eine fremde Stadt geschickt, und blieb bei dem Meister ein ganzes Jahr. Nach Verlauf dieser Zeit kam er wieder heim, und der Vater fragte „nun, mein Sohn, was hast du gelernt?“ „Vater, ich habe gelernt was die Hunde bellen“ antwortete er. „",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 33,
+        "chunk_id": 2,
+        "span": "Daß Gott erbarm“,",
+        "chunk_text": "Daß Gott erbarm,“ rief der Vater aus, „ist das alles, was du gelernt hast? ich will dich in eine andere Stadt zu einem andern Meister thun.“ Der Junge ward hingebracht, und blieb bei diesem Meister auch ein Jahr.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 33,
+        "chunk_id": 5,
+        "span": "dass ihr ihn hinaus",
+        "chunk_text": "Da gerieth der Vater in den höchsten Zorn, sprang auf, rief seine Leute herbei und sprach „dieser Mensch ist mein Sohn nicht mehr, ich stoße ihn aus und gebiete euch daß ihr ihn hinaus in den Wald führt und ihm das Leben nehmt.“ Sie führten ihn hinaus, aber als sie ihn tödten sollten, konnten sie nicht vor Mitleiden und ließen ihn gehen. Sie schnitten einem Reh Augen und Zunge aus, damit sie dem Alten die Wahrzeichen bringen konnten.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 33,
+        "chunk_id": 7,
+        "span": "den Thurm",
+        "chunk_text": "Der Jüngling aber war ohne Furcht und sprach „laßt mich nur hinab zu den bellenden Hunden, und gebt mir etwas, das ich ihnen vorwerfen kann; mir sollen sie nichts thun.“ Weil er nun selber nicht anders wollte, so gaben sie ihm etwas Essen für die wilden Thiere und brachten ihn hinab zu dem Thurm. Als er hinein trat, bellten ihn die Hunde nicht an, wedelten mit den Schwänzen ganz freundlich um ihn herum, fraßen was er ihnen hinsetzte und krümmten ihm kein Härchen.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 33,
+        "chunk_id": 8,
+        "span": "der Thurme",
+        "chunk_text": "Am andern Morgen kam er zu jedermanns Erstaunen gesund und unversehrt wieder zum Vorschein und sagte zu dem Burgherrn „die Hunde haben mir in ihrer Sprache offenbart warum sie da hausen und dem Lande Schaden bringen. Sie sind verwünscht und müssen einen großen Schatz hüten, der unten im Thurme liegt und kommen nicht eher zur Ruhe als bis er gehoben ist, und wie dies geschehen muß, das habe ich ebenfalls aus ihren Reden vernommen.“ Da freuten sich alle die das hörten, und der Burgherr sagte er wollte ihn an Sohnes statt annehmen, wenn er es glücklich vollbrächte.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 33,
+        "chunk_id": 11,
+        "span": "einem göttlichen Wunderzeichen",
+        "chunk_text": "Sie wurden zuletzt einig derjenige sollte zum Pabst erwählt werden, an dem sich ein göttliches Wunderzeichen offenbaren würde. Und als das eben beschlossen war, in demselben Augenblick trat der junge Graf in die Kirche, und plötzlich flogen zwei schneeweiße Tauben auf seine beiden Schultern und blieben da sitzen. Die Geistlichkeit erkannte darin das Zeichen Gottes und fragte ihn auf der Stelle ob er Pabst werden wolle.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 55,
+        "chunk_id": 3,
+        "span": "Mein Halsband“, ",
+        "chunk_text": "Mein Halsband“ sagte das Mädchen. Das Männchen nahm das Halsband, setzte sich vor das Rädchen, und schnurr, schnurr, schnurr, dreimal gezogen, war die Spule voll. Dann steckte es eine andere auf, und schnurr, schnurr, schnurr, dreimal gezogen, war auch die zweite voll: und so giengs fort bis zum Morgen, da war alles Stroh versponnen, und alle Spulen waren voll Gold.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 55,
+        "chunk_id": 5,
+        "span": "Meinen Ring von dem Finger“, ",
+        "chunk_text": "Meinen Ring von dem Finger“ antwortete das Mädchen. Das Männchen nahm den Ring, fieng wieder an zu schnurren mit dem Rade und hatte bis zum Morgen alles Stroh zu glänzendem Gold gesponnen. Der König freute sich über die Maßen bei dem Anblick, war aber noch immer nicht Goldes satt, sondern ließ die Müllerstochter in eine noch größere Kammer voll Stroh bringen und sprach „die mußt du noch in dieser Nacht verspinnen: gelingt dirs aber, so sollst du meine Gemahlin werden.“ „",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 55,
+        "chunk_id": 7,
+        "span": "dein erstes Kind“, ",
+        "chunk_text": "So versprich mir, wenn du Königin wirst, dein erstes Kind.“ „Wer weiß wie das noch geht“ dachte die Müllerstochter und wußte sich auch in der Noth nicht anders zu helfen; sie versprach also dem Männchen was es verlangte, und das Männchen spann dafür noch einmal das Stroh zu Gold. Und als am Morgen der König kam und alles fand wie er gewünscht hatte, so hielt er Hochzeit mit ihr, und die schöne Müllerstochter ward eine Königin.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 55,
+        "chunk_id": 10,
+        "span": "an einem hohen Berg",
+        "chunk_text": "aber es antwortete immer „so heiß ich nicht.“ Den dritten Tag kam der Bote wieder zurück und erzählte „neue Namen habe ich keinen einzigen finden können, aber wie ich an einen hohen Berg um die Waldecke kam, wo Fuchs und Has sich gute Nacht sagen, so sah ich da ein kleines Haus, und vor dem Haus brannte ein Feuer, und um das Feuer sprang ein gar zu lächerliches Männchen, hüpfte auf einem Bein und schrie\n \n „heute back ich, morgen brau ich,\n übermorgen hol ich der Königin ihr Kind;\n ach, wie gut ist daß niemand weiß\n daß ich Rumpelstilzchen heiß!“\n \n Da könnt ihr denken wie die Königin froh war, als sie den Namen hörte, und als bald hernach das Männlein herein trat und fragte „nun, Frau Königin, wie heiß ich?“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 73,
+        "chunk_id": 3,
+        "span": "um das Haus herum",
+        "chunk_text": "\n \n Am andern Tag giengen sie wieder ins Feld, sprach der gierige Wolf abermals „Rothfuchs, schaff mir was zu fressen, oder ich fresse dich selber auf.“ Da antwortete der Fuchs „ich weiß ein Bauernhaus, da backt die Frau heut Abend Pfannkuchen, wir wollen uns davon holen.“ Sie giengen hin, und der Fuchs schlich ums Haus herum, guckte und schnupperte so lange, bis er ausfindig machte wo die Schüssel stand, zog dann sechs Pfannkuchen herab und brachte sie dem Wolf. „",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 73,
+        "chunk_id": 4,
+        "span": "zu fressen“, sprach er zu ihm",
+        "chunk_text": "Da hast du zu fressen,“ sprach er zu ihm und gieng seiner Wege. Der Wolf hatte die Pfannkuchen in einem Augenblick hinunter geschluckt und sprach „sie schmecken nach mehr,“ gieng hin und riß geradezu die ganze Schüssel herunter, daß sie in Stücke zersprang. Da gabs einen gewaltigen Lärm, daß die Frau herauskam, und als sie den Wolf sah, rief sie die Leute, die eilten herbei und schlugen ihn was Zeug wollte halten, daß er mit zwei lahmen Beinen laut heulend zum Fuchs in den Wald hinaus kam. „",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 73,
+        "chunk_id": 4,
+        "span": "Sie schmecken nach mehr“, gieng hin und riß geradezu die ganze Schüssel herunter, daß sie in Stücke zersprang",
+        "chunk_text": "Da hast du zu fressen,“ sprach er zu ihm und gieng seiner Wege. Der Wolf hatte die Pfannkuchen in einem Augenblick hinunter geschluckt und sprach „sie schmecken nach mehr,“ gieng hin und riß geradezu die ganze Schüssel herunter, daß sie in Stücke zersprang. Da gabs einen gewaltigen Lärm, daß die Frau herauskam, und als sie den Wolf sah, rief sie die Leute, die eilten herbei und schlugen ihn was Zeug wollte halten, daß er mit zwei lahmen Beinen laut heulend zum Fuchs in den Wald hinaus kam. „",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 73,
+        "chunk_id": 10,
+        "span": "der alten Nimmersatt",
+        "chunk_text": "Der Fuchs aber sprang in den Wald und war froh daß er den alten Nimmersatt los war.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 76,
+        "chunk_id": 0,
+        "span": "im Garten",
+        "chunk_text": "Es war eine Königin, die hatte unser Herr Gott verschlossen, daß sie keine Kinder gebar. Da gieng sie alle Morgen in den Garten und bat zu Gott im Himmel er möchte ihr einen Sohn oder eine Tochter bescheren. Da kam ein Engel vom Himmel und sprach „gib dich zufrieden, du sollst einen Sohn haben mit wünschlichen Gedanken, denn was er sich wünscht auf der Welt, das wird er erhalten.“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 76,
+        "chunk_id": 2,
+        "span": "in den Thurm",
+        "chunk_text": "Da kam der alte Koch, der wußte daß das Kind wünschliche Gedanken hatte, und raubte es, und nahm ein Huhn und zerriß es, und tropfte ihr das Blut auf die Schürze und das Kleid. Da trug er das Kind fort an einen verborgenen Ort, wo es eine Amme tränken mußte, und lief zum König und klagte die Königin an, sie habe ihr Kind von den wilden Thieren rauben lassen. Und als der König das Blut an der Schürze sah, glaubte er es und gerieth in einen solchen Zorn, daß er einen tiefen Thurm bauen ließ, in den weder Sonne noch Mond schien, und ließ seine Gemahlin hinein setzen und vermauern; da sollte sie sieben Jahre sitzen, ohne Essen und Trinken, und sollte verschmachten.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 76,
+        "chunk_id": 8,
+        "span": "dir die Lohe zum Hals heraus schlägt“, ",
+        "chunk_text": "Du sollst ein schwarzer Pudelhund werden und eine goldene Kette um den Hals haben, und sollst glühende Kohlen fressen, daß dir die Lohe zum Hals heraus schlägt.“ Und wie er die Worte ausgesprochen hatte, so war der alte in einen Pudelhund verwandelt, und hatte eine goldene Kette um den Hals, und die Köche mußten lebendige Kohlen herauf bringen, die fraß er, daß ihm die Lohe aus dem Hals heraus schlug. Nun blieb der Königssohn noch eine kleine Zeit da und dachte an seine Mutter und ob sie noch am Leben wäre.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 76,
+        "chunk_id": 13,
+        "span": "Sie giengen",
+        "chunk_text": "Da giengen sie mit, und draußen hieß er sie einen großen Kreiß schließen, der an einem Ende offen blieb, und dann stellte er sich hinein und fieng an zu wünschen. Alsbald kamen zweihundert und etliche Stück Wildpret in den Kreiß gelaufen, und die Jäger mußten es schießen. Da ward alles auf sechszig Bauerwagen geladen und dem König heimgefahren; da konnte er einmal seine Tafel mit Wildpret zieren, nachdem er lange Jahre keins gehabt hatte.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 76,
+        "chunk_id": 20,
+        "span": "der Thurm",
+        "chunk_text": "Als sie aber dahin geführt ward, aß sie nichts mehr und sagte „der gnädige barmherzige Gott, der mich im Thurm erhalten hat, wird mich bald erlösen.“ Da lebte sie noch drei Tage und starb dann selig; und als sie begraben ward, da folgten ihr die zwei weißen Tauben nach, die ihr das Essen in den Thurm gebracht hatten, und Engel vom Himmel waren, und setzten sich auf ihr Grab. Der alte König ließ den Koch in vier Stücke zerreißen, aber der Gram zehrte an seinem Herzen, und er starb bald.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 87,
+        "chunk_id": 1,
+        "span": "der Bettelstab",
+        "chunk_text": "Der Reiche, als er an seine Thüre klopfen hörte, machte das Fenster auf und fragte den Fremdling was er suche? Der Herr antwortete „ich bitte um ein Nachtlager.“ Der Reiche guckte den Wandersmann von Haupt bis zu den Füßen an, und weil der liebe Gott schlichte Kleider trug und nicht aussah wie einer, der viel Geld in der Tasche hat, schüttelte er mit dem Kopf und sprach „ich kann euch nicht aufnehmen, meine Kammern liegen voll Kräuter und Samen, und sollte ich einen jeden beherbergen, der an meine Thüre klopft, so könnte ich selber den Bettelstab in die Hand nehmen.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 87,
+        "chunk_id": 2,
+        "span": "Sie gieng hinüber",
+        "chunk_text": "Sucht euch anderswo ein Auskommen.“ Schlug damit sein Fenster zu und ließ den lieben Gott stehen. Also kehrte ihm der liebe Gott den Rücken und gieng hinüber zu dem kleinen Haus.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 87,
+        "chunk_id": 3,
+        "span": "der Wandersmann",
+        "chunk_text": "Kaum hatte er angeklopft, so klinkte der Arme schon sein Thürchen auf und bat den Wandersmann einzutreten. „Bleibt die Nacht über bei mir,“ sagte er „es ist schon finster, und heute könnt ihr doch nicht weiter kommen.“ Das gefiel dem lieben Gott und er trat zu ihm ein.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 87,
+        "chunk_id": 14,
+        "span": "sei ruhig, Liese“, ",
+        "chunk_text": "\n \n Nun hatte der Reiche was er verlangte, ritt heimwärts und fieng an nachzusinnen was er sich wünschen sollte. Wie er sich so bedachte und die Zügel fallen ließ, fieng das Pferd an zu springen, so daß er immerfort in seinen Gedanken gestört wurde und sie gar nicht zusammen bringen konnte. Er klopfte ihm an den Hals und sagte „sei ruhig, Liese,“ aber das Pferd machte aufs neue Männerchen.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 87,
+        "chunk_id": 18,
+        "span": "daheim in seine Kammer",
+        "chunk_text": "Das ärgerte ihn ordentlich, und ohne daß ers wußte, sprach er so hin „ich wollte die säße daheim auf dem Sattel, und könnte nicht herunter, statt daß ich ihn da auf meinem Rücken schleppe.“ Und wie das letzte Wort aus seinem Munde kam, so war der Sattel von seinem Rücken verschwunden, und er merkte daß sein zweiter Wunsch auch in Erfüllung gegangen war. Da ward ihm erst recht heiß, er fieng an zu laufen und wollte sich daheim ganz einsam in seine Kammer hinsetzen und auf etwas Großes für den letzten Wunsch sinnen.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 88,
+        "chunk_id": 8,
+        "span": "zur Hochzeit dauerte",
+        "chunk_text": "Sie erzählte aber was sie für einen schönen Mann hätte und wie gut es ihr gienge, und blieb bei ihnen so lang die Hochzeit dauerte, dann fuhr sie wieder zurück in den Wald. Wie die zweite Tochter heirathete und sie wieder zur Hochzeit eingeladen war, sprach sie zum Löwen „diesmal will ich nicht allein sein, du mußt mitgehen.“ Der Löwe aber sagte das wäre zu gefährlich für ihn, denn wenn dort der Strahl eines brennenden Lichts ihn berührte, so würde er in eine Taube verwandelt, und müßte sieben Jahre lang mit den Tauben fliegen. „",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 88,
+        "chunk_id": 9,
+        "span": "einem Saal mauern",
+        "chunk_text": "Ach,“ sagte sie, „geh nur mit mir: ich will dich schon hüten und vor allem Licht bewahren.“ Also zogen sie zusammen und nahmen auch ihr kleines Kind mit. Sie ließ dort einen Saal mauern, so stark und dick daß kein Strahl durchdringen konnte, darin sollt er sitzen, wann die Hochzeitslichter angesteckt würden.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 88,
+        "chunk_id": 13,
+        "span": "den Mond",
+        "chunk_text": "Nein,“ sagte der Mond, „ich habe keine gesehen, aber da schenk ich dir ein Ei, das zerbrich wenn du in großer Noth bist.“ Da dankte sie dem Mond, und gieng weiter, bis der Nachtwind heran kam und sie anblies: da sprach sie zu ihm „du wehst ja über alle Bäume und unter allen Blättern weg, hast du keine weiße Taube fliegen sehen?“ „Nein,“ sagte der Nachtwind, „ich habe keine gesehen, aber ich will die drei andern Winde fragen, die haben sie vielleicht gesehen.“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 88,
+        "chunk_id": 14,
+        "span": "der Vogel Greif",
+        "chunk_text": "Der Ostwind und der Westwind kamen und hatten nichts gesehen, der Südwind aber sprach „die weiße Taube habe ich gesehen, sie ist zum rothen Meer geflogen, da ist sie wieder ein Löwe geworden, denn die sieben Jahre sind herum, und der Löwe steht dort im Kampf mit einem Lindwurm, der Lindwurm ist aber eine verzauberte Königstochter.“ Da sagte der Nachtwind zu ihr „ich will dir Rath geben, geh zum rothen Meer, am rechten Ufer da stehen große Ruthen, die zähle, und die eilfte schneid dir ab, und schlag den Lindwurm damit, dann kann ihn der Löwe bezwingen, und beide bekommen auch ihren menschlichen Leib wieder. Hernach schau dich um, und du wirst den Vogel Greif sehen, der am rothen Meer sitzt, schwing dich mit deinem Liebsten auf seinen Rücken: der Vogel wird euch übers Meer nach Haus tragen.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 88,
+        "chunk_id": 14,
+        "span": "der roten Meer",
+        "chunk_text": "Der Ostwind und der Westwind kamen und hatten nichts gesehen, der Südwind aber sprach „die weiße Taube habe ich gesehen, sie ist zum rothen Meer geflogen, da ist sie wieder ein Löwe geworden, denn die sieben Jahre sind herum, und der Löwe steht dort im Kampf mit einem Lindwurm, der Lindwurm ist aber eine verzauberte Königstochter.“ Da sagte der Nachtwind zu ihr „ich will dir Rath geben, geh zum rothen Meer, am rechten Ufer da stehen große Ruthen, die zähle, und die eilfte schneid dir ab, und schlag den Lindwurm damit, dann kann ihn der Löwe bezwingen, und beide bekommen auch ihren menschlichen Leib wieder. Hernach schau dich um, und du wirst den Vogel Greif sehen, der am rothen Meer sitzt, schwing dich mit deinem Liebsten auf seinen Rücken: der Vogel wird euch übers Meer nach Haus tragen.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 88,
+        "chunk_id": 15,
+        "span": "dir hinüber zu tragen",
+        "chunk_text": "Da hast du auch eine Nuß, wenn du mitten über dem Meere bist, laß sie herab fallen, alsbald wird sie aufgehen, und ein großer Nußbaum wird aus dem Wasser hervor wachsen, auf dem sich der Greif ausruht: und könnte er nicht ruhen, so wäre er nicht stark genug euch hinüber zu tragen: und wenn du vergißt die Nuß herab zu werfen, so läßt er euch ins Meer fallen.“\n \n Da gieng sie hin und fand alles wie der Nachtwind gesagt hatte. Sie zählte die Ruthen am Meer und schnitt die eilfte ab, damit schlug sie den Lindwurm, und der Löwe bezwang ihn: alsbald hatten beide ihren menschlichen Leib wieder.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 88,
+        "chunk_id": 20,
+        "span": "im Tannenbäumen",
+        "chunk_text": "Der Königssohn aber schlief so hart, daß es ihm nur vorkam als rauschte der Wind draußen in den Tannenbäumen. Wie nun der Morgen anbrach, da ward sie wieder hinausgeführt und mußte das goldene Kleid hingeben. Und als auch das nichts geholfen hatte, ward sie traurig, gieng hinaus auf eine Wiese, setzte sich da hin und weinte.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 88,
+        "chunk_id": 20,
+        "span": "auf einer Wiese",
+        "chunk_text": "Der Königssohn aber schlief so hart, daß es ihm nur vorkam als rauschte der Wind draußen in den Tannenbäumen. Wie nun der Morgen anbrach, da ward sie wieder hinausgeführt und mußte das goldene Kleid hingeben. Und als auch das nichts geholfen hatte, ward sie traurig, gieng hinaus auf eine Wiese, setzte sich da hin und weinte.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 88,
+        "chunk_id": 21,
+        "span": "die Wiese",
+        "chunk_text": "Und wie sie so saß, da fiel ihr das Ei noch ein, das ihr der Mond gegeben hatte: sie schlug es auf, da kam eine Glucke heraus mit zwölf Küchlein ganz von Gold, die liefen herum und piepten und krochen der Alten wieder unter die Flügel, so daß nichts schöneres auf der Welt zu sehen war. Da stand sie auf, trieb sie auf der Wiese vor sich her, so lange bis die Braut aus dem Fenster sah, und da gefielen ihr die kleinen Küchlein so gut, daß sie gleich herab kam und fragte ob sie nicht feil wären? „Nicht für Geld und Gut, aber für Fleisch und Blut; laßt mich noch eine Nacht in der Kammer schlafen, wo der Bräutigam schläft.“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 115,
+        "chunk_id": 0,
+        "span": "auf seinem Handwerk",
+        "chunk_text": "Ein Schneidergesell reiste in der Welt auf sein Handwerk herum und konnte er einmal keine Arbeit finden, und war die Armuth bei ihm so groß, daß er keinen Heller Zehrgeld hatte. In der Zeit begegnete ihm auf dem Weg ein Jude, und da dachte er der hätte viel Geld bei sich und stieß Gott aus seinem Herzen, gieng auf ihn los, und sprach „gib mir dein Geld, oder ich schlag dich todt.“ Da sagte der Jude „schenkt mir doch das Leben, Geld hab ich keins und nicht mehr als acht Heller.“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 115,
+        "chunk_id": 4,
+        "span": "an den Tag",
+        "chunk_text": "Die Frau sprach „ei, lieber Mann, was ist denn das? was meinst du damit?“ Er antwortete „das darf ich dir nicht sagen.“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 115,
+        "chunk_id": 5,
+        "span": "die klare Sonne bringt an den Tag",
+        "chunk_text": "Sie aber sprach „wenn du mich lieb hast, mußt du mirs sagen“ und gab ihm die allerbesten Worte, es sollts kein Mensch wieder erfahren, und ließ ihm keine Ruhe. Da erzählte er, vor langen Jahren, wie er auf der Wanderschaft ganz abgerissen und ohne Geld gewesen, habe er einen Juden erschlagen, und der Jude habe in der letzten Todesangst die Worte gesprochen „die klare Sonne wirds an den Tag bringen!“ Nun hätts die Sonne eben gern an den Tag bringen wollen, und hätt an der Wand geblinkt und Kringel gemacht, sie hätts aber nicht gekonnt.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 115,
+        "chunk_id": 6,
+        "span": "in den dunklen Wald",
+        "chunk_text": "Danach bat er sie noch besonders, sie dürfte es niemand sagen, sonst käm er um sein Leben, das versprach sie auch. Als er sich aber zur Arbeit gesetzt hatte, gieng sie zu ihrer Gevatterin und vertraute ihr die Geschichte, sie dürfte sie aber keinem Menschen wieder sagen; ehe aber drei Tage vergiengen, wußte es die ganze Stadt, und der Schneider kam vor das Gericht und ward gerichtet. Da brachte es doch die klare Sonne an den Tag.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 123,
+        "chunk_id": 2,
+        "span": "dich auf und fand Milch",
+        "chunk_text": "Als es aber eine Weile da gesessen hatte, kam ein weiß Täubchen zu ihm geflogen und hatte ein kleines goldenes Schlüsselchen im Schnabel. Das Schlüsselchen legte es ihm in die Hand und sprach „siehst du dort den großen Baum, daran ist ein kleines Schloß, das schließ mit dem Schlüsselchen auf, so wirst du Speise genug finden und keinen Hunger mehr leiden.“ Da gieng es zu dem Baum und schloß ihn auf und fand Milch in einem kleinen Schüsselchen und Weißbrot zum Einbrocken dabei, daß es sich satt essen konnte.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 123,
+        "chunk_id": 5,
+        "span": "Von Herzen gerne“, ",
+        "chunk_text": "Von Herzen gerne“ sagte das Mädchen. Da sprach das Täubchen „ich will dich zu einem kleinen Häuschen führen, da geh hinein, mittendrein am Herd wird eine alte Frau sitzen und „guten Tag“ sagen. Aber gieb ihr bei Leibe keine Antwort sie mag auch anfangen, was sie will, sondern geh zu ihrer rechten Hand weiter, da ist eine Thüre, die mach auf, so wirst du in eine Stube kommen, wo eine Menge von Ringen allerlei Art auf dem Tisch liegt, darunter sind prächtige mit glitzerigen Steinen, die laß aber liegen und suche einen schlichten heraus, der auch darunter sein muß, und bring ihn zu mir her, so geschwind du kannst.“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 123,
+        "chunk_id": 5,
+        "span": "einem kleinen Häuschen“, ",
+        "chunk_text": "Von Herzen gerne“ sagte das Mädchen. Da sprach das Täubchen „ich will dich zu einem kleinen Häuschen führen, da geh hinein, mittendrein am Herd wird eine alte Frau sitzen und „guten Tag“ sagen. Aber gieb ihr bei Leibe keine Antwort sie mag auch anfangen, was sie will, sondern geh zu ihrer rechten Hand weiter, da ist eine Thüre, die mach auf, so wirst du in eine Stube kommen, wo eine Menge von Ringen allerlei Art auf dem Tisch liegt, darunter sind prächtige mit glitzerigen Steinen, die laß aber liegen und suche einen schlichten heraus, der auch darunter sein muß, und bring ihn zu mir her, so geschwind du kannst.“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 123,
+        "chunk_id": 5,
+        "span": "mittendrein am Herd“, ",
+        "chunk_text": "Von Herzen gerne“ sagte das Mädchen. Da sprach das Täubchen „ich will dich zu einem kleinen Häuschen führen, da geh hinein, mittendrein am Herd wird eine alte Frau sitzen und „guten Tag“ sagen. Aber gieb ihr bei Leibe keine Antwort sie mag auch anfangen, was sie will, sondern geh zu ihrer rechten Hand weiter, da ist eine Thüre, die mach auf, so wirst du in eine Stube kommen, wo eine Menge von Ringen allerlei Art auf dem Tisch liegt, darunter sind prächtige mit glitzerigen Steinen, die laß aber liegen und suche einen schlichten heraus, der auch darunter sein muß, und bring ihn zu mir her, so geschwind du kannst.“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 123,
+        "chunk_id": 5,
+        "span": "eine alte Frau“, ",
+        "chunk_text": "Von Herzen gerne“ sagte das Mädchen. Da sprach das Täubchen „ich will dich zu einem kleinen Häuschen führen, da geh hinein, mittendrein am Herd wird eine alte Frau sitzen und „guten Tag“ sagen. Aber gieb ihr bei Leibe keine Antwort sie mag auch anfangen, was sie will, sondern geh zu ihrer rechten Hand weiter, da ist eine Thüre, die mach auf, so wirst du in eine Stube kommen, wo eine Menge von Ringen allerlei Art auf dem Tisch liegt, darunter sind prächtige mit glitzerigen Steinen, die laß aber liegen und suche einen schlichten heraus, der auch darunter sein muß, und bring ihn zu mir her, so geschwind du kannst.“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 123,
+        "chunk_id": 5,
+        "span": "ihre rechte Hand“, ",
+        "chunk_text": "Von Herzen gerne“ sagte das Mädchen. Da sprach das Täubchen „ich will dich zu einem kleinen Häuschen führen, da geh hinein, mittendrein am Herd wird eine alte Frau sitzen und „guten Tag“ sagen. Aber gieb ihr bei Leibe keine Antwort sie mag auch anfangen, was sie will, sondern geh zu ihrer rechten Hand weiter, da ist eine Thüre, die mach auf, so wirst du in eine Stube kommen, wo eine Menge von Ringen allerlei Art auf dem Tisch liegt, darunter sind prächtige mit glitzerigen Steinen, die laß aber liegen und suche einen schlichten heraus, der auch darunter sein muß, und bring ihn zu mir her, so geschwind du kannst.“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 123,
+        "chunk_id": 5,
+        "span": "eine Stube“, ",
+        "chunk_text": "Von Herzen gerne“ sagte das Mädchen. Da sprach das Täubchen „ich will dich zu einem kleinen Häuschen führen, da geh hinein, mittendrein am Herd wird eine alte Frau sitzen und „guten Tag“ sagen. Aber gieb ihr bei Leibe keine Antwort sie mag auch anfangen, was sie will, sondern geh zu ihrer rechten Hand weiter, da ist eine Thüre, die mach auf, so wirst du in eine Stube kommen, wo eine Menge von Ringen allerlei Art auf dem Tisch liegt, darunter sind prächtige mit glitzerigen Steinen, die laß aber liegen und suche einen schlichten heraus, der auch darunter sein muß, und bring ihn zu mir her, so geschwind du kannst.“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 123,
+        "chunk_id": 5,
+        "span": "Ringen“, ",
+        "chunk_text": "Von Herzen gerne“ sagte das Mädchen. Da sprach das Täubchen „ich will dich zu einem kleinen Häuschen führen, da geh hinein, mittendrein am Herd wird eine alte Frau sitzen und „guten Tag“ sagen. Aber gieb ihr bei Leibe keine Antwort sie mag auch anfangen, was sie will, sondern geh zu ihrer rechten Hand weiter, da ist eine Thüre, die mach auf, so wirst du in eine Stube kommen, wo eine Menge von Ringen allerlei Art auf dem Tisch liegt, darunter sind prächtige mit glitzerigen Steinen, die laß aber liegen und suche einen schlichten heraus, der auch darunter sein muß, und bring ihn zu mir her, so geschwind du kannst.“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 123,
+        "chunk_id": 7,
+        "span": "in das Haus",
+        "chunk_text": "rief sie und faßte es beim Rock und wollte es festhalten, „das ist mein Haus, da darf niemand herein, wenn ichs nicht haben will.“ Aber das Mädchen schwieg still, machte sich von ihr los und gieng gerade in die Stube hinein. Da lag nun auf dem Tisch eine übergroße Menge von Ringen, die glitzten und glimmerten ihm vor den Augen: es warf sie herum und suchte nach dem schlichten, konnte ihn aber nicht finden.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 123,
+        "chunk_id": 8,
+        "span": "ihm den Käfig aus der Hand",
+        "chunk_text": "Wie es so suchte, sah es die Alte, wie sie daher schlich und einen Vogelkäfig in der Hand hatte und damit fort wollte. Da gieng es auf sie zu und nahm ihr den Käfig aus der Hand, und wie es ihn aufhob und hinein sah, saß ein Vogel darin, der hatte den schlichten Ring im Schnabel. Da nahm es den Ring und lief ganz froh damit zum Haus hinaus und dachte das weiße Täubchen würde kommen und den Ring holen, aber es kam nicht.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 128,
+        "chunk_id": 2,
+        "span": "sich keine unnöthige Furcht",
+        "chunk_text": "\n \n Der Mann horchte, legte die Axt eine Weile nieder und dachte nach was das wohl zu bedeuten hätte. „Ei was,“ sprach er endlich, „was wirds gewesen sein! es hat dir in den Ohren geklungen, mache dir keine unnöthige Furcht.“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 128,
+        "chunk_id": 8,
+        "span": "Sie giengen",
+        "chunk_text": "Darauf gieng sie zum Manne, der noch zu Bette lag, und sprach zu ihm „ich muß einmal ausgehen, steh derweil auf und sieh nach dem Garn, das im Kessel überm Feuer steht: aber du mußts bei Zeit thun, gib wohl Acht, denn wo der Hahn kräht, und du sähest nicht nach, wird das Garn zu Werg.“ Der Mann war bei der Hand und wollte nichts versäumen, stand eilends auf, so schnell er konnte, und gieng in die Küche. Wie er aber zum Kessel kam und hinein sah, so erblickte er mit Schrecken nichts als einen Klumpen Werg.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 128,
+        "chunk_id": 8,
+        "span": "dem Manne",
+        "chunk_text": "Darauf gieng sie zum Manne, der noch zu Bette lag, und sprach zu ihm „ich muß einmal ausgehen, steh derweil auf und sieh nach dem Garn, das im Kessel überm Feuer steht: aber du mußts bei Zeit thun, gib wohl Acht, denn wo der Hahn kräht, und du sähest nicht nach, wird das Garn zu Werg.“ Der Mann war bei der Hand und wollte nichts versäumen, stand eilends auf, so schnell er konnte, und gieng in die Küche. Wie er aber zum Kessel kam und hinein sah, so erblickte er mit Schrecken nichts als einen Klumpen Werg.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 128,
+        "chunk_id": 8,
+        "span": "das Garn zu Werg“, ",
+        "chunk_text": "Darauf gieng sie zum Manne, der noch zu Bette lag, und sprach zu ihm „ich muß einmal ausgehen, steh derweil auf und sieh nach dem Garn, das im Kessel überm Feuer steht: aber du mußts bei Zeit thun, gib wohl Acht, denn wo der Hahn kräht, und du sähest nicht nach, wird das Garn zu Werg.“ Der Mann war bei der Hand und wollte nichts versäumen, stand eilends auf, so schnell er konnte, und gieng in die Küche. Wie er aber zum Kessel kam und hinein sah, so erblickte er mit Schrecken nichts als einen Klumpen Werg.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 129,
+        "chunk_id": 4,
+        "span": "nichts besser als das, es bleibt einem nichts verborgen“, ",
+        "chunk_text": "So geh mit mir und werde ein Sterngucker: nichts besser als das, es bleibt einem nichts verborgen.“ Er ließ sich das gefallen und ward ein so geschickter Sterngucker, daß sein Meister, als er ausgelernt hatte und weiter ziehen wollte, ihm ein Fernrohr gab und zu ihm sprach „damit kannst du sehen was auf Erden und am Himmel vorgeht, und kann dir nichts verborgen bleiben.“ Den dritten Bruder nahm ein Jäger in die Lehre und gab ihm in allem, was zur Jägerei gehört, so guten Unterricht, daß er ein ausgelernter Jäger ward.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 129,
+        "chunk_id": 7,
+        "span": "zurück zu ihrem Vater",
+        "chunk_text": "Beim Abschied gab ihm dieser eine Nadel und sprach „damit kannst du zusammen nähen was dir vorkommt, es sei so weich wie ein Ei oder so hart als Stahl; und es wird ganz zu einem Stück, daß keine Naht mehr zu sehen ist.“\n \n Als die bestimmten vier Jahre herum waren, kamen die vier Brüder zu gleicher Zeit an dem Kreuzwege zusammen, herzten und küßten sich und kehrten heim zu ihrem Vater. „Nun,“ sprach dieser ganz vergnügt, „hat euch der Wind wieder zu mir geweht?“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 129,
+        "chunk_id": 11,
+        "span": "das Nest",
+        "chunk_text": "Nun kommt die Reihe an dich,“ sprach der Vater zu dem vierten Sohn, „du nähst die Eier wieder zusammen und auch die jungen Vöglein, die darin sind, und zwar so, daß ihnen der Schuß nichts schadet.“ Der Schneider holte seine Nadel und nähte wies der Vater verlangt hatte. Als er fertig war, mußte der Dieb die Eier wieder auf den Baum ins Nest tragen und dem Vogel, ohne daß er etwas merkte, wieder unter legen.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 183,
+        "chunk_id": 3,
+        "span": "zu Hause",
+        "chunk_text": "Wenns um die Zeit ist,“ sagte der Riese, „so kannst du ja bei mir im Dienst eintreten.“ „Wenns sein muß, warum das nicht? was krieg ich aber für einen Lohn?“ „",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 183,
+        "chunk_id": 7,
+        "span": "den Brunnen mitsammt der Quelle“, ",
+        "chunk_text": "Was? den Brunnen mitsammt der Quelle?“ brummte der Riese, der ein bischen tölpisch und albern war, in den Bart hinein und fieng an sich zu fürchten, „der Kerl kann mehr als Äpfel braten: der hat einen Alraun im Leib.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 183,
+        "chunk_id": 10,
+        "span": "den Brunnen mit sammt der Quelle“, ",
+        "chunk_text": "\n \n und den Brunnen mit sammt der Quelle?“ brummte der leichtgläubige Riese in den Bart und fürchtete sich noch mehr, „der Kerl kann mehr als Äpfel braten, der hat einen Alraun im Leib. Sei auf deiner Hut, alter Hans, das ist kein Diener für dich.“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 183,
+        "chunk_id": 11,
+        "span": "dem Riese",
+        "chunk_text": "Wie der Schneider das Holz gebracht hatte, befahl ihm der Riese zwei oder drei wilde Schweine zum Abendessen zu schießen. „Warum nicht lieber gleich tausend auf einen Schuß und die alle hierher?“ fragte der hoffärtige Schneider. „",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 183,
+        "chunk_id": 12,
+        "span": "hattig erschrocken",
+        "chunk_text": "Was?“ rief der Hasenfuß von einem Riesen und war heftig erschrocken, „laß es nur für heute gut sein und lege dich schlafen.“\n \n Der Riese fürchtete sich so gewaltig, daß er die ganze Nacht kein Auge zuthun konnte und hin und her dachte, wie ers anfangen sollte, um sich den verwünschten Hexenmeister von Diener je eher je lieber vom Hals zu schaffen.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 185,
+        "chunk_id": 18,
+        "span": "der Erde",
+        "chunk_text": "\n \n Als der Bauer die Nachricht von dem Tod des Jungen erhielt, erschrack er und fürchtete vor das Gericht geführt zu werden: ja die Angst faßte ihn so gewaltig, daß er ohnmächtig zur Erde sank. Die Frau, die mit einer Pfanne voll Schmalz am Herde stand, lief herzu um ihm Beistand zu leisten. Aber das Feuer schlug in die Pfanne, ergriff das ganze Haus, und nach wenigen Stunden lag es schon in Asche.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 186,
+        "chunk_id": 8,
+        "span": "da sitzest du und legst die Hände in den Schooß“,",
+        "chunk_text": "aber da sitzest du und legst die Hände in den Schooß.“ Als sie hinausgieng, sprach sie, „die Creatur kann mehr als Brot essen, ich muß ihr schwerere Arbeit auflegen.“\n \n Am andern Morgen rief sie das Mädchen und sprach „da hast du einen Löffel, damit schöpfe mir den großen Teich aus, der bei dem Garten liegt.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 186,
+        "chunk_id": 9,
+        "span": "der Teich",
+        "chunk_text": "Und wenn du damit Abends nicht zu Rand gekommen bist, so weißt du was erfolgt.“ Das Mädchen nahm den Löffel und sah daß er durchlöchert war, und wenn er es auch nicht gewesen wäre, es hätte nimmermehr damit den Teich ausgeschöpft. Es machte sich gleich an die Arbeit, kniete am Wasser, in das seine Thränen fielen, und schöpfte.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 186,
+        "chunk_id": 10,
+        "span": "vermischt sich mit den Wolken",
+        "chunk_text": "Aber die gute Alte erschien wieder, und als sie die Ursache von seinem Kummer erfuhr, sprach sie „sei getrost, mein Kind, geh in das Gebüsch und lege dich schlafen, ich will deine Arbeit schon thun.“ Als die Alte allein war, berührte sie nur den Teich: wie ein Dunst stieg das Wasser in die Höhe und vermischte sich mit den Wolken. Allmählig ward der Teich leer, und als das Mädchen vor Sonnenuntergang erwachte und herbeikam, so sah es nur noch die Fische, die in dem Schlamm zappelten.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 186,
+        "chunk_id": 11,
+        "span": "Sie gieng zu der Stiefmutter",
+        "chunk_text": "Es gieng zu der Stiefmutter und zeigte ihr an daß die Arbeit vollbracht wäre. „Du hättest längst fertig sein sollen,“ sagte sie und ward blaß vor Ärger, aber sie sann etwas Neues aus.\n \n Am dritten Morgen sprach sie zu dem Mädchen „dort in der Ebene mußt du mir ein schönes Schloß bauen und zum Abend muß es fertig sein.“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 186,
+        "chunk_id": 21,
+        "span": "Wo ist der Eingang zum Keller“,",
+        "chunk_text": "Wo ist der Eingang zum Keller?“ rief sie, „wo der nicht mit Weinfässern reichlich angefüllt ist, so wird dirs schlimm ergehen.“ Sie hob selbst die Fallthüre auf und stieg die Treppe hinab, aber kaum hatte sie zwei Schritte gethan, so stürzte die schwere Fallthüre, die nur angelehnt war, nieder.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 186,
+        "chunk_id": 21,
+        "span": "so wird dirs schlimm ergehen“",
+        "chunk_text": "Wo ist der Eingang zum Keller?“ rief sie, „wo der nicht mit Weinfässern reichlich angefüllt ist, so wird dirs schlimm ergehen.“ Sie hob selbst die Fallthüre auf und stieg die Treppe hinab, aber kaum hatte sie zwei Schritte gethan, so stürzte die schwere Fallthüre, die nur angelehnt war, nieder.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 186,
+        "chunk_id": 24,
+        "span": "im Schloßgarten",
+        "chunk_text": "In dem Schloßgarten stand eine grüne Linde, darunter saßen sie eines Tages vertraulich zusammen, da sagte er zu ihr „ich will heimziehen und die Einwilligung meines Vaters zu unserer Vermählung holen; ich bitte dich harre mein hier unter dieser Linde, in wenigen Stunden bin ich wieder zurück.“ Das Mädchen küßte ihn auf den linken Backen und sprach „bleib mir treu, und laß dich von keiner andern auf diesen Backen küssen. Ich will hier unter der Linde warten bis du wieder zurückkommst.“",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 186,
+        "chunk_id": 37,
+        "span": "wohin",
+        "chunk_text": "Komm,“ sagte er zu ihr, „hier ist meines Bleibens nicht länger,“ reichte ihr die Hand und führte sie hinab zu dem Wagen. Als wäre der Wind vorgespannt, so eilten die Pferde zu dem Wunderschloß. Schon von weitem glänzten die erleuchteten Fenster.",
+        "reason": "span_not_found_in_chunk"
+    },
+    {
+        "khm": 186,
+        "chunk_id": 37,
+        "span": "bereits von weitem",
+        "chunk_text": "Komm,“ sagte er zu ihr, „hier ist meines Bleibens nicht länger,“ reichte ihr die Hand und führte sie hinab zu dem Wagen. Als wäre der Wind vorgespannt, so eilten die Pferde zu dem Wunderschloß. Schon von weitem glänzten die erleuchteten Fenster.",
+        "reason": "span_not_found_in_chunk"
+    }
+]
