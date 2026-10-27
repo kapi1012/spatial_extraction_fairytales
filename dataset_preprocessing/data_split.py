@@ -1,6 +1,6 @@
 import pandas as pd
 import random
-from datast_preprocessing.dataset_preprocessing import FairytaleDataset, SentenceDocument
+from dataset_preprocessing.dataset_preprocessing import FairytaleDataset, SentenceDocument
 
 """
 Split data based on sentence count. -> Bi-LSTM is Sentence-based
