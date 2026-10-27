@@ -1,15 +1,16 @@
 import json
 import time
 
+from constants import *
 from pydantic import ValidationError
 from datetime import datetime
 from ollama import chat, ResponseError
-from datast_preprocessing.data_split import data_split_on_khm, split_dataset_by_khm
+from dataset_preprocessing.data_split import data_split_on_khm, split_dataset_by_khm
 from ollama_validation import *
-from datast_preprocessing.ollama_chunks import *
+from dataset_preprocessing.ollama_chunks import *
 from models.ollama_files.ollama_basemodels import *
 from evaluation.evaluation import span_metrics, extract_test_spans, save_local_llm_test_results
-from datast_preprocessing.dataset_preprocessing import load_dataset
+from dataset_preprocessing.dataset_preprocessing import load_dataset
 
 """"
 Ollama in Python: https://www.youtube.com/watch?v=AGAETsxjg0o 
@@ -237,5 +238,6 @@ if __name__ == "__main__":
 
     save_results_and_errors(all_annotated_fairytales, all_span_errors, OUTPUT_DIR)
     all_true_spans, all_pred_spans, evaluation_errors = extract_test_spans(test_fairytales, all_annotated_fairytales)
-    span_precision, span_recall, span_f1 = span_metrics(all_true_spans, all_pred_spans)
+    entity_types = sorted({label[2:] for label in ID2LABEL.values() if label.startswith(("B-", "I-"))})
+    span_precision, span_recall, span_f1 = span_metrics(all_true_spans, all_pred_spans, entity_types)
     save_local_llm_test_results(span_precision, span_recall, span_f1, evaluation_errors, OUTPUT_DIR, model_name, annotation_time, NUMBER_SENTENCES)

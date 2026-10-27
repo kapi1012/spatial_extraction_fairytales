@@ -3,8 +3,8 @@ from torch.utils.data import DataLoader
 from torchcrf import CRF
 
 from evaluation.evaluation import *
-from datast_preprocessing.data_split import *
-from datast_preprocessing.dataset_preprocessing import *
+from dataset_preprocessing.data_split import *
+from dataset_preprocessing.dataset_preprocessing import *
 
 from sklearn.metrics import precision_recall_fscore_support, classification_report
 

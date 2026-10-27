@@ -7,10 +7,10 @@ import torch.nn as nn
 from evaluation.evaluation import save_transformer_train_results, save_transformer_test_results, \
     prepare_test_spans, collect_token_labels, calculate_test_metrics, extract_token_labels, \
     resolve_overlap_predictions, resolved_tokens_to_spans, save_transformer_predictions_json, make_compute_metrics
-from datast_preprocessing.dataset_preprocessing_transformer import RoBERTaSequenceTaggingDataset, tokenize_fairytale
-from datast_preprocessing.dataset_preprocessing import load_dataset
+from dataset_preprocessing.dataset_preprocessing_transformer import RoBERTaSequenceTaggingDataset, tokenize_fairytale
+from dataset_preprocessing.dataset_preprocessing import load_dataset
 from constants import LABEL2ID, ID2LABEL
-from datast_preprocessing.data_split import data_split_on_khm, split_dataset_by_khm
+from dataset_preprocessing.data_split import data_split_on_khm, split_dataset_by_khm
 import numpy as np
 
 # https://huggingface.co/docs/transformers/v4.27.2/en/model_doc/xlm-roberta#transformers.XLMRobertaForTokenClassification

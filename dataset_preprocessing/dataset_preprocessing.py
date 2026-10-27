@@ -323,7 +323,7 @@ def flair_embedding(token_documents: list[TokenDocument]) -> list[SentenceDocume
                 )
             )
 
-    torch.save(sentence_documents, "../../models/bilstm-crf/flair_embeddings/embeddings_redewiedergabe_1.10.26.pt")
+    torch.save(sentence_documents, "../models/bilstm-crf/flair_embeddings/embeddings_redewiedergabe_1.10.26.pt")
     return sentence_documents
 
 
